@@ -37,6 +37,7 @@ public class FrmRegistro extends JFrame {
 	private JRadioButton rdbtnActualizar;
 	private JRadioButton rdbtnEliminar;
 	private JButton btnLimpiar;
+	private JButton btnNewButton;
 
 	/**
 	 * Launch the application.
@@ -134,5 +135,9 @@ public class FrmRegistro extends JFrame {
 		btnLimpiar = new JButton("Limpiar");
 		btnLimpiar.setBounds(356, 57, 89, 23);
 		contentPane.add(btnLimpiar);
+		
+		btnNewButton = new JButton("New button");
+		btnNewButton.setBounds(356, 100, 89, 23);
+		contentPane.add(btnNewButton);
 	}
 }
