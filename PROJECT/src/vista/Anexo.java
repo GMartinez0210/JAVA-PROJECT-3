@@ -69,6 +69,7 @@ public class Anexo extends JDialog {
 	
 	int anchoColumna(int porcentaje) {
 		return porcentaje * scrollPane.getWidth() / 100;
+		
 	}
 
 }
