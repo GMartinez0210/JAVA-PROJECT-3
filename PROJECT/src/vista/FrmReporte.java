@@ -18,13 +18,15 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class FrmReporte extends JFrame {
+public class FrmReporte extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
 	private JLabel lblCodigo;
 	private JLabel lblIdResponsable;
-	private JLabel lblDescripcion;
+	private JLabel lblAnexo;
 	private JLabel lblFecha;
 	private JLabel lblEstado;
 	private JTextField txtCodigo;
@@ -37,6 +39,8 @@ public class FrmReporte extends JFrame {
 	private JRadioButton rdbtnActualizar;
 	private JRadioButton rdbtnEliminar;
 	private JButton btnAceptar;
+	private JTextField txtAnexo;
+	private JButton btnMostrar;
 
 	/**
 	 * Launch the application.
@@ -76,9 +80,9 @@ public class FrmReporte extends JFrame {
 		lblIdResponsable.setBounds(10, 51, 81, 14);
 		contentPane.add(lblIdResponsable);
 		
-		lblDescripcion = new JLabel("Descripci\u00F3n");
-		lblDescripcion.setBounds(10, 76, 70, 14);
-		contentPane.add(lblDescripcion);
+		lblAnexo = new JLabel("Anexo");
+		lblAnexo.setBounds(10, 76, 70, 14);
+		contentPane.add(lblAnexo);
 		
 		lblFecha = new JLabel("Fecha");
 		lblFecha.setBounds(10, 101, 46, 14);
@@ -138,5 +142,26 @@ public class FrmReporte extends JFrame {
 		btnAceptar = new JButton("Aceptar");
 		btnAceptar.setBounds(460, 97, 89, 23);
 		contentPane.add(btnAceptar);
+		
+		txtAnexo = new JTextField();
+		txtAnexo.setBounds(100, 73, 150, 20);
+		contentPane.add(txtAnexo);
+		txtAnexo.setColumns(10);
+		
+		btnMostrar = new JButton("...");
+		btnMostrar.addActionListener(this);
+		btnMostrar.setBounds(260, 72, 29, 23);
+		contentPane.add(btnMostrar);
+	}
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnMostrar) {
+			actionPerformedBtnMostrar(e);
+		}
+	}
+	protected void actionPerformedBtnMostrar(ActionEvent e) {
+		Anexo ax = new Anexo();
+		ax.setLocationRelativeTo(this);
+		ax.setVisible(true);
+		
 	}
 }
