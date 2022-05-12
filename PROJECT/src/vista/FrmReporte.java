@@ -107,7 +107,7 @@ public class FrmReporte extends JFrame implements ActionListener {
 		contentPane.add(dateChooser);
 		
 		comboBox = new JComboBox();
-		comboBox.setBounds(100, 122, 150, 22);
+		comboBox.setBounds(100, 122, 150, 20);
 		contentPane.add(comboBox);
 		
 		scrollPane = new JScrollPane();
