@@ -17,11 +17,15 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
+import javax.swing.DefaultComboBoxModel;
 
-public class FrmReporte extends JFrame implements ActionListener {
+public class FrmReporte extends JFrame implements ActionListener, MouseListener {
 
 	private JPanel contentPane;
 	private JLabel lblCodigo;
@@ -31,8 +35,8 @@ public class FrmReporte extends JFrame implements ActionListener {
 	private JLabel lblEstado;
 	private JTextField txtCodigo;
 	private JTextField txtIdResponsable;
-	private JDateChooser dateChooser;
-	private JComboBox comboBox;
+	private JDateChooser dcFecha;
+	private JComboBox cboEstado;
 	private JTable table;
 	private JScrollPane scrollPane;
 	private JRadioButton rdbtnRegistrar;
@@ -41,6 +45,7 @@ public class FrmReporte extends JFrame implements ActionListener {
 	private JButton btnAceptar;
 	private JTextField txtAnexo;
 	private JButton btnMostrar;
+	ButtonGroup group = new ButtonGroup();
 
 	/**
 	 * Launch the application.
@@ -102,13 +107,14 @@ public class FrmReporte extends JFrame implements ActionListener {
 		txtIdResponsable.setBounds(100, 48, 150, 20);
 		contentPane.add(txtIdResponsable);
 		
-		dateChooser = new JDateChooser();
-		dateChooser.setBounds(100, 98, 150, 20);
-		contentPane.add(dateChooser);
+		dcFecha = new JDateChooser();
+		dcFecha.setBounds(100, 98, 150, 20);
+		contentPane.add(dcFecha);
 		
-		comboBox = new JComboBox();
-		comboBox.setBounds(100, 122, 150, 20);
-		contentPane.add(comboBox);
+		cboEstado = new JComboBox();
+		cboEstado.setModel(new DefaultComboBoxModel(new String[] {"Seleccionar estado", "1 2", "23", "233", "345"}));
+		cboEstado.setBounds(100, 122, 150, 20);
+		contentPane.add(cboEstado);
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 151, 559, 173);
@@ -125,6 +131,7 @@ public class FrmReporte extends JFrame implements ActionListener {
 		scrollPane.setViewportView(table);
 		
 		rdbtnRegistrar = new JRadioButton("Registrar");
+		rdbtnRegistrar.addMouseListener(this);
 		rdbtnRegistrar.setBackground(Color.LIGHT_GRAY);
 		rdbtnRegistrar.setBounds(460, 22, 109, 23);
 		contentPane.add(rdbtnRegistrar);
@@ -152,6 +159,11 @@ public class FrmReporte extends JFrame implements ActionListener {
 		btnMostrar.addActionListener(this);
 		btnMostrar.setBounds(260, 72, 29, 23);
 		contentPane.add(btnMostrar);
+		
+		group.add(rdbtnActualizar);
+		group.add(rdbtnEliminar);
+		group.add(rdbtnRegistrar);
+		
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnMostrar) {
@@ -162,6 +174,31 @@ public class FrmReporte extends JFrame implements ActionListener {
 		Anexo ax = new Anexo();
 		ax.setLocationRelativeTo(this);
 		ax.setVisible(true);
+		
+	}
+	public void mouseClicked(MouseEvent e) {
+		if (e.getSource() == rdbtnRegistrar) {
+			mouseClickedRdbtnRegistrar(e);
+		}
+	}
+	public void mouseEntered(MouseEvent e) {
+	}
+	public void mouseExited(MouseEvent e) {
+	}
+	public void mousePressed(MouseEvent e) {
+	}
+	public void mouseReleased(MouseEvent e) {
+	}
+	protected void mouseClickedRdbtnRegistrar(MouseEvent e) {
+		limpiarcampos();
+	}
+
+	private void limpiarcampos() {
+		txtCodigo.setText("");
+		txtIdResponsable.setText("");
+		txtAnexo.setText("");
+		dcFecha.setDate(null);
+		cboEstado.setSelectedIndex(0);
 		
 	}
 }

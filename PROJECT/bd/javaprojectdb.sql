@@ -42,6 +42,131 @@ INSERT INTO `anexos_1` VALUES (1,'Accesos no autorizados al correo electrónico,
 UNLOCK TABLES;
 
 --
+-- Table structure for table `anexos_2`
+--
+
+DROP TABLE IF EXISTS `anexos_2`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `anexos_2` (
+  `codigo` int NOT NULL,
+  `nivel` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`codigo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `anexos_2`
+--
+
+LOCK TABLES `anexos_2` WRITE;
+/*!40000 ALTER TABLE `anexos_2` DISABLE KEYS */;
+INSERT INTO `anexos_2` VALUES (1,'Alto'),(2,'Medio'),(3,'Bajo');
+/*!40000 ALTER TABLE `anexos_2` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_estado`
+--
+
+DROP TABLE IF EXISTS `tb_estado`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tb_estado` (
+  `cod` int NOT NULL,
+  `descripcion` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`cod`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_estado`
+--
+
+LOCK TABLES `tb_estado` WRITE;
+/*!40000 ALTER TABLE `tb_estado` DISABLE KEYS */;
+INSERT INTO `tb_estado` VALUES (1,'recibido'),(2,'anulado'),(3,'en espera');
+/*!40000 ALTER TABLE `tb_estado` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_reportes`
+--
+
+DROP TABLE IF EXISTS `tb_reportes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tb_reportes` (
+  `codigo` int NOT NULL,
+  `descripcion` varchar(45) DEFAULT NULL,
+  `fecha` date DEFAULT NULL,
+  `estado` int DEFAULT NULL,
+  PRIMARY KEY (`codigo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_reportes`
+--
+
+LOCK TABLES `tb_reportes` WRITE;
+/*!40000 ALTER TABLE `tb_reportes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_reportes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_tipo_usuario`
+--
+
+DROP TABLE IF EXISTS `tb_tipo_usuario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tb_tipo_usuario` (
+  `codigo` int NOT NULL,
+  `descripcion` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`codigo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_tipo_usuario`
+--
+
+LOCK TABLES `tb_tipo_usuario` WRITE;
+/*!40000 ALTER TABLE `tb_tipo_usuario` DISABLE KEYS */;
+INSERT INTO `tb_tipo_usuario` VALUES (1,'usuario'),(2,'OSI'),(3,'Responsable de monitoreo'),(4,'Mesa de Servicio'),(5,'Responsable de la atencion del incidente');
+/*!40000 ALTER TABLE `tb_tipo_usuario` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_usuario`
+--
+
+DROP TABLE IF EXISTS `tb_usuario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tb_usuario` (
+  `codigo` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) DEFAULT NULL,
+  `apellido` varchar(45) DEFAULT NULL,
+  `usuario` varchar(6) DEFAULT NULL,
+  `clave` varchar(10) DEFAULT NULL,
+  `fecnac` date DEFAULT NULL,
+  `tipo` int DEFAULT NULL,
+  PRIMARY KEY (`codigo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_usuario`
+--
+
+LOCK TABLES `tb_usuario` WRITE;
+/*!40000 ALTER TABLE `tb_usuario` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_usuario` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Dumping events for database 'javaprojectdb'
 --
 
@@ -58,4 +183,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-12 18:29:51
+-- Dump completed on 2022-05-20 19:28:53
