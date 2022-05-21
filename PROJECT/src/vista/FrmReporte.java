@@ -11,8 +11,13 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.Toolkit;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
+
+import entidad.Estado;
+import mantenimiento.GestionEstadoDAO;
+
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -22,6 +27,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.awt.event.MouseEvent;
 import javax.swing.DefaultComboBoxModel;
 
@@ -29,7 +35,7 @@ public class FrmReporte extends JFrame implements ActionListener, MouseListener 
 
 	private JPanel contentPane;
 	private JLabel lblCodigo;
-	private JLabel lblIdResponsable;
+	private JLabel lblUsuario;
 	private JLabel lblAnexo;
 	private JLabel lblFecha;
 	private JLabel lblEstado;
@@ -46,6 +52,8 @@ public class FrmReporte extends JFrame implements ActionListener, MouseListener 
 	private JTextField txtAnexo;
 	private JButton btnMostrar;
 	ButtonGroup group = new ButtonGroup();
+	
+	GestionEstadoDAO gEs = new GestionEstadoDAO();
 
 	/**
 	 * Launch the application.
@@ -81,9 +89,9 @@ public class FrmReporte extends JFrame implements ActionListener, MouseListener 
 		lblCodigo.setBounds(10, 26, 46, 14);
 		contentPane.add(lblCodigo);
 		
-		lblIdResponsable = new JLabel("Id Reponsable");
-		lblIdResponsable.setBounds(10, 51, 81, 14);
-		contentPane.add(lblIdResponsable);
+		lblUsuario = new JLabel("Usuario");
+		lblUsuario.setBounds(10, 51, 81, 14);
+		contentPane.add(lblUsuario);
 		
 		lblAnexo = new JLabel("Anexo");
 		lblAnexo.setBounds(10, 76, 70, 14);
@@ -99,21 +107,20 @@ public class FrmReporte extends JFrame implements ActionListener, MouseListener 
 		
 		txtCodigo = new JTextField();
 		txtCodigo.setColumns(10);
-		txtCodigo.setBounds(100, 23, 150, 20);
+		txtCodigo.setBounds(66, 22, 150, 20);
 		contentPane.add(txtCodigo);
 		
 		txtIdResponsable = new JTextField();
 		txtIdResponsable.setColumns(10);
-		txtIdResponsable.setBounds(100, 48, 150, 20);
+		txtIdResponsable.setBounds(66, 47, 150, 20);
 		contentPane.add(txtIdResponsable);
 		
 		dcFecha = new JDateChooser();
-		dcFecha.setBounds(100, 98, 150, 20);
+		dcFecha.setBounds(66, 97, 150, 20);
 		contentPane.add(dcFecha);
 		
 		cboEstado = new JComboBox();
-		cboEstado.setModel(new DefaultComboBoxModel(new String[] {"Seleccionar estado", "1 2", "23", "233", "345"}));
-		cboEstado.setBounds(100, 122, 150, 20);
+		cboEstado.setBounds(66, 121, 150, 20);
 		contentPane.add(cboEstado);
 		
 		scrollPane = new JScrollPane();
@@ -151,19 +158,20 @@ public class FrmReporte extends JFrame implements ActionListener, MouseListener 
 		contentPane.add(btnAceptar);
 		
 		txtAnexo = new JTextField();
-		txtAnexo.setBounds(100, 73, 150, 20);
+		txtAnexo.setBounds(66, 72, 150, 20);
 		contentPane.add(txtAnexo);
 		txtAnexo.setColumns(10);
 		
 		btnMostrar = new JButton("...");
 		btnMostrar.addActionListener(this);
-		btnMostrar.setBounds(260, 72, 29, 23);
+		btnMostrar.setBounds(226, 71, 29, 23);
 		contentPane.add(btnMostrar);
 		
 		group.add(rdbtnActualizar);
 		group.add(rdbtnEliminar);
 		group.add(rdbtnRegistrar);
 		
+		cargarCombo();
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnMostrar) {
@@ -200,5 +208,22 @@ public class FrmReporte extends JFrame implements ActionListener, MouseListener 
 		dcFecha.setDate(null);
 		cboEstado.setSelectedIndex(0);
 		
+	}
+	
+	private void cargarCombo() {
+		ArrayList<Estado> listaDistrito = gEs.listaEstado();
+		
+		if (listaDistrito.size() == 0) {
+			mensajeError("Lista Vacia");
+		}else {
+			cboEstado.addItem("Seleccione ...");
+			for(Estado distrito : listaDistrito) {
+				cboEstado.addItem(distrito.getCodigo() + " - " + distrito.getDescripcion());
+			}
+		}
+	}
+
+	private void mensajeError(String msj) {
+		JOptionPane.showMessageDialog(this, msj, "Error !!!", 0);
 	}
 }

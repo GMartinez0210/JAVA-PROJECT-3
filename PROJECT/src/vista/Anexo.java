@@ -31,6 +31,7 @@ public class Anexo extends JDialog {
 	private JTable txtS;
 	private JScrollPane scrollPane;
 	DefaultTableModel modelo = new DefaultTableModel();
+	private JButton btnSeleccionar;
 
 	/**
 	 * Launch the application.
@@ -51,7 +52,7 @@ public class Anexo extends JDialog {
 	public Anexo() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Anexo.class.getResource("/images/shield-16.png")));
 		setTitle("Formulario | Anexos");
-		setBounds(100, 100, 575, 332);
+		setBounds(100, 100, 575, 367);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(Color.LIGHT_GRAY);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -71,6 +72,10 @@ public class Anexo extends JDialog {
 		modelo.addColumn("N°");
 		modelo.addColumn("Descripción");
 		txtS.setModel(modelo);
+		
+		btnSeleccionar = new JButton("Selecionar");
+		btnSeleccionar.setBounds(228, 294, 107, 23);
+		contentPanel.add(btnSeleccionar);
 		
 		ajustarAnchoColumnas();
 		listar();
@@ -98,6 +103,4 @@ public class Anexo extends JDialog {
 			
 		}
 	}
-	
-
 }

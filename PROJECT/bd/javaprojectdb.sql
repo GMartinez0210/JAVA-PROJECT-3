@@ -97,12 +97,13 @@ DROP TABLE IF EXISTS `tb_reportes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tb_reportes` (
-  `codigo` int NOT NULL,
+  `codigo` int NOT NULL AUTO_INCREMENT,
+  `usuario` varchar(6) DEFAULT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
   `estado` int DEFAULT NULL,
   PRIMARY KEY (`codigo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,6 +112,7 @@ CREATE TABLE `tb_reportes` (
 
 LOCK TABLES `tb_reportes` WRITE;
 /*!40000 ALTER TABLE `tb_reportes` DISABLE KEYS */;
+INSERT INTO `tb_reportes` VALUES (1,'US0001','Alerta Interna','2022-04-12',2);
 /*!40000 ALTER TABLE `tb_reportes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -183,4 +185,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-20 19:28:53
+-- Dump completed on 2022-05-21  0:25:42
