@@ -22,8 +22,12 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.JPasswordField;
 
 import vista.PreLoader;
+
+import entidad.Ingresar;
+import mantenimiento.GestionIngresarDAO;
 
 public class Login extends JFrame {
 
@@ -32,11 +36,10 @@ public class Login extends JFrame {
 	private JLabel lblContrasea;
 	private JButton btnIngresar;
 	private JLabel lblNewLabel_1;
-	private JTextField txtContrasenia;
 	private JTextField txtUsuario;
-	private JLabel lblNewLabel_3;
+	private JPasswordField txtContrasenia;
 	
-	public static JProgressBar pbIngresar;
+	GestionIngresarDAO gIngresar = new GestionIngresarDAO();
 
 	/**
 	 * Launch the application.
@@ -58,10 +61,11 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() {
+		setResizable(false);
 		setTitle("Try Hacking me");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/images/shield.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 250);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -76,18 +80,6 @@ public class Login extends JFrame {
 		lblContrasea.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblContrasea.setBounds(32, 141, 88, 13);
 		contentPane.add(lblContrasea);
-		
-		txtContrasenia = new JTextField();
-		txtContrasenia.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				keyTypedTxtContrasenia(e);
-			}
-		});
-		txtContrasenia.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtContrasenia.setBounds(130, 141, 131, 19);
-		contentPane.add(txtContrasenia);
-		txtContrasenia.setColumns(10);
 		
 		txtUsuario = new JTextField();
 		txtUsuario.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -115,44 +107,44 @@ public class Login extends JFrame {
 		lblNewLabel_2.setBounds(80, 36, 146, 28);
 		contentPane.add(lblNewLabel_2);
 		
-		pbIngresar = new JProgressBar();
-		pbIngresar.setBounds(32, 224, 372, 11);
-		contentPane.add(pbIngresar);
-		
-		lblNewLabel_3 = new JLabel("LA VENTANA SE CERRAR\u00C1 AL CARGAR LA BARRA");
-		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel_3.setBounds(32, 196, 372, 17);
-		contentPane.add(lblNewLabel_3);
+		txtContrasenia = new JPasswordField();
+		txtContrasenia.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				keyTypedTxtContrasenia(e);
+			}
+		});
+		txtContrasenia.setBounds(130, 140, 131, 19);
+		contentPane.add(txtContrasenia);
 	}
 	
-	void Ingresar(String user, String password) {
-		String usuario = user;
-		String contrasenia = password;
+	boolean leerDatos(String user, String password) {
+		return gIngresar.login(user, password);
+	}
+	
+	void Ingresar() {
+		String user = txtUsuario.getText();
+		String password = new String(txtContrasenia.getPassword());
 		
-		if (contrasenia.equals("Panchito")) {
-			JOptionPane.showMessageDialog(null, "Entraste, mano", "Sistema", 0);
+		boolean logged = leerDatos(user, password);
+		
+		if (logged) {
+			JOptionPane.showMessageDialog(null, "Entraste, mano", "Sistema", 1);
+			dispose();
+			PreLoader preloader = new PreLoader();
+			preloader.setVisible(true);
 		}
 	}
 	
 	// Button Ingrsar
-	protected void actionPerformedBtnIngresar(ActionEvent e) {
-		String user = txtUsuario.getText();
-		String password = txtContrasenia.getText();
-		
-		Ingresar(user, password);
-		this.setVisible(false);
-		PreLoader preloader = new PreLoader();
-		preloader.setVisible(true);
+	protected void actionPerformedBtnIngresar(ActionEvent e) {	
+		Ingresar();
 	}
 	
-	// Event handler KeyTyped for Contrasenia
+	// Enter para campo contraseña
 	protected void keyTypedTxtContrasenia(KeyEvent e) {
 		if(e.getKeyChar() == e.VK_ENTER) {
-			String user = txtUsuario.getText();
-			String password = txtContrasenia.getText();
-			
-			Ingresar(user, password);
+			Ingresar();
 		}
 	}
 }

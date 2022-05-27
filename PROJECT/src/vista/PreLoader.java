@@ -7,8 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Hilos.Ingresar;
-
 import javax.swing.JSeparator;
 import javax.swing.JProgressBar;
 import javax.swing.JLabel;
@@ -16,9 +14,12 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.awt.Toolkit;
 
-import Hilos.Ingresar;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
+import Hilos.Ingresar;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class PreLoader extends JFrame {
 
@@ -27,6 +28,7 @@ public class PreLoader extends JFrame {
 	private JLabel lblNewLabel_1;
 
 	// Variables globales publicas
+	public static PreLoader frame;
 	public static JProgressBar pbCargando;
 	public static JLabel lblCargando;
 	public static JLabel lblPorcentaje;
@@ -51,6 +53,7 @@ public class PreLoader extends JFrame {
 	 * Create the frame.
 	 */
 	public PreLoader() {
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setTitle("Ty Hacking me");
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -60,7 +63,6 @@ public class PreLoader extends JFrame {
 		});
 		setIconImage(Toolkit.getDefaultToolkit().getImage(PreLoader.class.getResource("/images/shield.png")));
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 150);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -68,6 +70,11 @@ public class PreLoader extends JFrame {
 		contentPane.setLayout(null);
 		
 		pbCargando = new JProgressBar();
+		pbCargando.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				stateChangedPbCargando(e);
+			}
+		});
 		pbCargando.setBounds(10, 74, 416, 17);
 		contentPane.add(pbCargando);
 		
@@ -98,5 +105,12 @@ public class PreLoader extends JFrame {
 	// Setting the Timing Method as soon as it's run
 	protected void windowOpenedThis(WindowEvent e) {
 		timingIngresar();
+	}
+	
+	// State change event handel to close this windows
+	protected void stateChangedPbCargando(ChangeEvent e) {
+		if(pbCargando.getValue() == 100) {
+			dispose();
+		}
 	}
 }
