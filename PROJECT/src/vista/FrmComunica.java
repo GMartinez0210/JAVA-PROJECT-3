@@ -21,6 +21,7 @@ import javax.swing.JTextArea;
 import java.awt.TextArea;
 import java.awt.Button;
 import java.awt.event.ActionListener;
+import java.util.Properties;
 import java.awt.event.ActionEvent;
 
 public class FrmComunica extends JDialog implements ActionListener {
@@ -109,7 +110,7 @@ public class FrmComunica extends JDialog implements ActionListener {
 	}
 	protected void actionPerformedBtnEnviar(ActionEvent e) {
 		try {	
-			java.util.Properties props = new java.util.Properties();
+			Properties props = new Properties();
 			props.setProperty("mail.smtp.host", "smtp.gmail.com");
 			props.setProperty("mail.smtp.starttls.enable", "true");
 			props.setProperty("mail.smtp.ssl.protocols", "TLSv1.2");
