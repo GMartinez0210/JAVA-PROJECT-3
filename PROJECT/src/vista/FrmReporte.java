@@ -138,6 +138,7 @@ public class FrmReporte extends JFrame implements ActionListener, MouseListener 
 		scrollPane.setViewportView(table);
 		
 		rdbtnRegistrar = new JRadioButton("Registrar");
+		rdbtnRegistrar.setSelected(true);
 		rdbtnRegistrar.addMouseListener(this);
 		rdbtnRegistrar.setBackground(Color.LIGHT_GRAY);
 		rdbtnRegistrar.setBounds(460, 22, 109, 23);

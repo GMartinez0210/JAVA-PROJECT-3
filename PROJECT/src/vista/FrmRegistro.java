@@ -142,6 +142,7 @@ public class FrmRegistro extends JFrame implements MouseListener, ActionListener
 		scrollPane.setViewportView(table);
 		
 		rdbtnRegistrar = new JRadioButton("Registrar");
+		rdbtnRegistrar.setSelected(true);
 		rdbtnRegistrar.addMouseListener(this);
 		rdbtnRegistrar.setBackground(Color.LIGHT_GRAY);
 		rdbtnRegistrar.setBounds(460, 18, 109, 23);
