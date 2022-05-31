@@ -27,6 +27,7 @@ import javax.swing.JPasswordField;
 import vista.PreLoader;
 
 import entidad.Ingresar;
+import entidad.Usuario;
 import mantenimiento.GestionIngresarDAO;
 
 public class Login extends JFrame {
@@ -118,17 +119,15 @@ public class Login extends JFrame {
 		contentPane.add(txtContrasenia);
 	}
 	
-	boolean leerDatos(String user, String password) {
-		return gIngresar.login(user, password);
-	}
-	
 	void Ingresar() {
 		String user = txtUsuario.getText();
 		String password = new String(txtContrasenia.getPassword());
 		
-		boolean logged = leerDatos(user, password);
+		Usuario usuario = gIngresar.login(user, password);
 		
-		if (logged) {
+		if (usuario != null) {
+			PrincipalFuncional.codUsuario = usuario.getCodigo();
+			
 			JOptionPane.showMessageDialog(null, "Entraste, mano", "Sistema", 1);
 			dispose();
 			PreLoader preloader = new PreLoader();

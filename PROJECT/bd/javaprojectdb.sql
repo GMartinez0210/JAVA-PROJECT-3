@@ -66,6 +66,32 @@ INSERT INTO `anexos_2` VALUES (1,'Alto'),(2,'Medio'),(3,'Bajo');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `cargo`
+--
+
+DROP TABLE IF EXISTS `cargo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cargo` (
+  `idCargo` int NOT NULL AUTO_INCREMENT,
+  `desCargo` varchar(45) NOT NULL,
+  PRIMARY KEY (`idCargo`),
+  UNIQUE KEY `idCargo_UNIQUE` (`idCargo`),
+  UNIQUE KEY `desCargo_UNIQUE` (`desCargo`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cargo`
+--
+
+LOCK TABLES `cargo` WRITE;
+/*!40000 ALTER TABLE `cargo` DISABLE KEYS */;
+INSERT INTO `cargo` VALUES (2,'MESA DE SERVICIO'),(3,'OSI'),(1,'USUARIO');
+/*!40000 ALTER TABLE `cargo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tb_estado`
 --
 
@@ -169,6 +195,37 @@ LOCK TABLES `tb_usuario` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user` (
+  `idUser` int NOT NULL AUTO_INCREMENT,
+  `codUser` varchar(45) NOT NULL,
+  `passwordUser` varchar(45) NOT NULL,
+  `nameUser` varchar(45) NOT NULL,
+  `lastnameUser` varchar(45) NOT NULL,
+  `idCargo` int NOT NULL,
+  PRIMARY KEY (`idUser`),
+  UNIQUE KEY `codUser_UNIQUE` (`codUser`),
+  KEY `idCargo_idx` (`idCargo`),
+  CONSTRAINT `idCargo` FOREIGN KEY (`idCargo`) REFERENCES `cargo` (`idCargo`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'U0001','123','GENARO','MARTINEZ',1),(2,'U0002','456','FELIX','CRIOLLO',1),(3,'M0001','147','ADHEMAR','ROMERO',2),(4,'M0002','258','MIRELA','MORALES',2),(5,'S0001','159','LUIS','CALDERON',3),(6,'S0002','357','JOSE FELIX','HANDSOME',3);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Dumping events for database 'javaprojectdb'
 --
 
@@ -185,4 +242,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-21  0:25:42
+-- Dump completed on 2022-05-30 17:25:03

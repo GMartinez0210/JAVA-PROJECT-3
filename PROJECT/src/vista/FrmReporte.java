@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -15,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 
+import Hilos.MenuAnimacion;
 import entidad.Estado;
 import mantenimiento.GestionEstadoDAO;
 
@@ -30,8 +32,11 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.awt.event.MouseEvent;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
 
-public class FrmReporte extends JFrame implements ActionListener, MouseListener {
+public class FrmReporte extends JInternalFrame implements ActionListener, MouseListener {
 
 	private JPanel contentPane;
 	private JLabel lblCodigo;
@@ -54,6 +59,7 @@ public class FrmReporte extends JFrame implements ActionListener, MouseListener 
 	ButtonGroup group = new ButtonGroup();
 	
 	GestionEstadoDAO gEs = new GestionEstadoDAO();
+	private JButton btnCerrar;
 
 	/**
 	 * Launch the application.
@@ -75,12 +81,21 @@ public class FrmReporte extends JFrame implements ActionListener, MouseListener 
 	 * Create the frame.
 	 */
 	public FrmReporte() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmReporte.class.getResource("/images/shield-16.png")));
+		setBorder(null);
+		setClosable(true);
+		addInternalFrameListener(new InternalFrameAdapter() {
+			@Override
+			public void internalFrameOpened(InternalFrameEvent e) {
+				internalFrameOpenedThis(e);
+			}
+		});
+		setResizable(true);
+		setFrameIcon(new ImageIcon(FrmReporte.class.getResource("/images/shield-16.png")));
 		setTitle("Formulario | Reporte");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 595, 374);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 711, 553);
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.LIGHT_GRAY);
+		contentPane.setBackground(new Color(255, 250, 240));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -172,6 +187,15 @@ public class FrmReporte extends JFrame implements ActionListener, MouseListener 
 		group.add(rdbtnEliminar);
 		group.add(rdbtnRegistrar);
 		
+		btnCerrar = new JButton("Cerrar");
+		btnCerrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actionPerformedBtnCerrar(e);
+			}
+		});
+		btnCerrar.setBounds(365, 98, 85, 21);
+		contentPane.add(btnCerrar);
+		
 		cargarCombo();
 	}
 	public void actionPerformed(ActionEvent e) {
@@ -226,5 +250,16 @@ public class FrmReporte extends JFrame implements ActionListener, MouseListener 
 
 	private void mensajeError(String msj) {
 		JOptionPane.showMessageDialog(this, msj, "Error !!!", 0);
+	}
+	
+	// InternalFrame - Opened 
+	protected void internalFrameOpenedThis(InternalFrameEvent e) {
+		MenuAnimacion menuAnimacion = new MenuAnimacion();
+		menuAnimacion.start();
+	}
+	
+	// Button Cerrar
+	protected void actionPerformedBtnCerrar(ActionEvent e) {
+		dispose();
 	}
 }

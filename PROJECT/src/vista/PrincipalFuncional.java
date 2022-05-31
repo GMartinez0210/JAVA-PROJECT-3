@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JDesktopPane;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JMenu;
 import javax.swing.JLayeredPane;
 import javax.swing.JLabel;
@@ -33,7 +34,11 @@ import java.awt.event.WindowEvent;
 import Hilos.MenuAnimacion;
 import arrayList.IngresarList;
 import entidad.Ingresar;
+import entidad.Usuario;
 import mantenimiento.GestionIngresarDAO;
+import mantenimiento.GestionUsuariosDAO;
+import java.awt.GridLayout;
+import java.awt.CardLayout;
 
 public class PrincipalFuncional extends JFrame {
 
@@ -50,12 +55,15 @@ public class PrincipalFuncional extends JFrame {
 	private JButton btnSalir;
 
 	// Globales publicas estaticas
+	public static int codUsuario;
+	
 	public static JPanel panelMenu;
 	public static JLabel lblMenu;
 
 	// ArrayList 
 	IngresarList ingresarList = new IngresarList();
-	GestionIngresarDAO gIngresar = new GestionIngresarDAO();
+	GestionUsuariosDAO gUsuario = new GestionUsuariosDAO();
+	private JDesktopPane escritorio;
 	
 	/**
 	 * Launch the application.
@@ -82,10 +90,6 @@ public class PrincipalFuncional extends JFrame {
 			public void windowOpened(WindowEvent e) {
 				windowOpenedThis(e);
 			}
-			@Override
-			public void windowClosing(WindowEvent e) {
-				windowClosingThis(e);
-			}
 		});
 		setBackground(Color.WHITE);
 		setTitle("Try Hacking me");
@@ -109,6 +113,11 @@ public class PrincipalFuncional extends JFrame {
 		panelMenu.setLayout(null);
 		
 		NavForm1 = new JButton("New label");
+		NavForm1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actionPerformedNavForm1(e);
+			}
+		});
 		NavForm1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		NavForm1.setForeground(new Color(0, 128, 128));
 		NavForm1.setBackground(new Color(255, 250, 240));
@@ -199,14 +208,98 @@ public class PrincipalFuncional extends JFrame {
 				mouseClickedLblMenu(e);
 			}
 		});
-		lblMenu.setIcon(new ImageIcon(PrincipalFuncional.class.getResource("/images/nav-hamburger.png")));
+		lblMenu.setIcon(new ImageIcon(PrincipalFuncional.class.getResource("/images/nav-cancel.png")));
 		lblMenu.setBounds(10, 10, 45, 32);
 		desktopPane.add(lblMenu);
+		
+		escritorio = new JDesktopPane();
+		escritorio.setBackground(new Color(0, 128, 128));
+		escritorio.setBounds(65, 0, 711, 553);
+		desktopPane.add(escritorio);
+		escritorio.setLayout(new CardLayout(0, 0));
+	
+		ingresar();
+	}
+	
+	private void habilitandoForms(boolean bool) {
+		NavForm1.setVisible(bool);
+		NavForm2.setVisible(bool);
+		NavForm3.setVisible(bool);
+		NavForm4.setVisible(bool);
+		NavForm5.setVisible(bool);
+		NavForm6.setVisible(bool);
+	}
+	
+	private void ingresar() {
+		try {
+			Usuario usuario = gUsuario.leerUsuario(codUsuario);
+			
+			String nombre = usuario.getNombre();
+			
+			lblNombre.setText(nombre);
+					
+			int idCategoria = usuario.getIdCargo();
+			
+			switch (idCategoria) {
+				case 1: 
+					habilitandoForms(false);
+					
+					NavForm1.setVisible(true);
+					
+					NavForm1.setText("Reporte");
+						break;
+				case 2: 
+					habilitandoForms(true);
+					
+					NavForm5.setVisible(false);
+					NavForm6.setVisible(false);
+					
+					NavForm1.setText("Generar");
+					NavForm2.setText("Reporte");
+					NavForm3.setText("Comunica");
+					NavForm4.setText("Deriva");
+						break;
+				case 3: 
+					habilitandoForms(false);
+					
+					NavForm1.setVisible(true);
+					
+					NavForm1.setText("Reporte");
+						break;
+				case 4: 
+					habilitandoForms(true);
+					
+					NavForm5.setVisible(false);
+					NavForm6.setVisible(false);
+					
+					NavForm1.setText("Registro");
+					NavForm2.setText("Evalua");
+					NavForm3.setText("Comunica");
+					NavForm4.setText("Atencion");
+						break;
+				case 5: 
+					habilitandoForms(false);
+					NavForm1.setVisible(true);
+					NavForm1.setText("Reporte");
+						break;
+						
+			}
+			
+			
+		} 
+		catch (Exception e) {
+			System.out.println(">>> ERROR: " + e.getMessage());
+		}
+	
+	
 	}
 	
 	// Windows Opened event handler to set the values making this functional
 	protected void windowOpenedThis(WindowEvent e) {
-		
+		Usuario usuario = gUsuario.leerUsuario(codUsuario);
+		String nombreCompleto = usuario.getNombre() + " " + usuario.getApellido();
+		JOptionPane.showMessageDialog(this, "BIENVENIDO/A " + nombreCompleto, "Try hacking me", 1);
+
 	}
 	
 	// Click Event Handler on Menu
@@ -220,8 +313,17 @@ public class PrincipalFuncional extends JFrame {
 		System.exit(0);
 	}
 	
-	// Windows Closed event handler 
-	protected void windowClosingThis(WindowEvent e) {
-		System.out.println("Me cerraste");
+	// NavForm1 Button
+	protected void actionPerformedNavForm1(ActionEvent e) {
+		Usuario usuario = gUsuario.leerUsuario(codUsuario);
+		int idCargo = usuario.getIdCargo();
+		
+		switch (idCargo) {
+			case 1:
+				FrmReporte reporte = new FrmReporte();
+				escritorio.add(reporte);
+				reporte.setVisible(true);
+					break;
+		}
 	}
 }

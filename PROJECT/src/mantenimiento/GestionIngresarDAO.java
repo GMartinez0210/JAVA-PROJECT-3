@@ -8,15 +8,14 @@ import util.MySQLConexion8;
 
 import arrayList.IngresarList;
 import entidad.Ingresar;
+import entidad.Usuario;
 import interfaces.IngresarInterfaceDAO;
 
 public class GestionIngresarDAO implements  IngresarInterfaceDAO{
-	IngresarList ingresarList = new IngresarList();
-	Ingresar ingresar;
-	
-	public boolean login(String user, String password) {
-		boolean login = false;
-	
+	@Override
+	public Usuario login(String user, String password) {
+		Usuario usuario = null;
+		
 		Connection connection = null;
 		PreparedStatement pstm = null;
 		ResultSet result = null;
@@ -26,7 +25,7 @@ public class GestionIngresarDAO implements  IngresarInterfaceDAO{
 			connection = MySQLConexion8.getConexion();
 			
 			// Step 2: Query to search the user
-			String sql = "SELECT * FROM user WHERE codUser = ? AND passwordUser = ?;";
+			String sql = "SELECT * FROM javaprojectdb.tb_usuario WHERE usuario = ? AND clave = ?;";
 		
 			// Step 3: 
 			pstm = connection.prepareStatement(sql);
@@ -40,16 +39,14 @@ public class GestionIngresarDAO implements  IngresarInterfaceDAO{
 			
 			// Step 6: Loop through the info
 			while(result.next()) {
-				ingresar = new Ingresar();
+				usuario = new Usuario();
 				
-				ingresar.setIdUser(result.getInt(1));
-				ingresar.setCodUser(result.getString(2));
-				ingresar.setPasswordUser(result.getString(3));
-				ingresar.setNameUser(result.getString(4));
-				ingresar.setLastnameUser(result.getString(5));
-				ingresar.setIdCargo(result.getInt(6));
-				
-				ingresarList.add(ingresar);
+				usuario.setCodigo(result.getInt(1));
+				usuario.setUsuario(result.getString(2));
+				usuario.setClave(result.getString(3));
+				usuario.setNombre(result.getString(4));
+				usuario.setApellido(result.getString(5));
+				usuario.setIdCargo(result.getInt(6));
 			}
 			
 		}
@@ -65,30 +62,11 @@ public class GestionIngresarDAO implements  IngresarInterfaceDAO{
 				System.out.println(">>> ERROR al cerrar la BD: " + e2.getMessage());
 			}
 		}
-		if(ingresarList.size() == 1) {
-			login = true;
-		}
-		
-		return login;
+		return usuario;
 	}
-	
-	public IngresarList getIngresarList() {
-		return ingresarList;
-	}
-	
+
+	@Override
 	public void singout() {
-		Connection connection = null;
-		PreparedStatement pstm = null;
 		
-		try {
-			// Step 1: Making the connection
-			connection = MySQLConexion8.getConexion();
-		}
-		catch (Exception e) {
-			
-		}
-		finally {
-			
-		}
 	}
 }
