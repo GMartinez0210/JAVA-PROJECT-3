@@ -2,7 +2,7 @@ package entidad;
 
 public class Reporte {
 	private int codigo;
-	private String usuario;
+	private int usuario;
 	private String descripcion;
 	private String fecha;
 	private int estado;
@@ -11,7 +11,7 @@ public class Reporte {
 	
 	}
 
-	public Reporte(int codigo, String usuario, String descripcion, String fecha, int estado) {
+	public Reporte(int codigo, int usuario, String descripcion, String fecha, int estado) {
 		this.codigo = codigo;
 		this.usuario = usuario;
 		this.descripcion = descripcion;
@@ -27,11 +27,11 @@ public class Reporte {
 		this.codigo = codigo;
 	}
 
-	public String getUsuario() {
+	public int getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(String usuario) {
+	public void setUsuario(int usuario) {
 		this.usuario = usuario;
 	}
 

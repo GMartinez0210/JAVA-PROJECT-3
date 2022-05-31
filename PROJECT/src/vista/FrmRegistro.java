@@ -14,8 +14,10 @@ import com.toedter.calendar.JDateChooser;
 
 import entidad.Estado;
 import entidad.Reporte;
+import entidad.TipoUsuario;
 import mantenimiento.GestionEstadoDAO;
 import mantenimiento.GestionReporteDAO;
+import mantenimiento.GestionTipoUsuarioDAO;
 
 import javax.swing.JComboBox;
 import java.awt.Toolkit;
@@ -41,10 +43,10 @@ public class FrmRegistro extends JFrame implements MouseListener, ActionListener
 	private JPanel contentPane;
 	private JLabel lblCodigo;
 	private JTextField txtCodigo;
-	private JLabel lblReporte;
+	private JLabel lblAnexo;
 	private JLabel lblFecha;
 	private JLabel lblEstado;
-	private JTextField txtReporte;
+	private JTextField txtAnexo;
 	private JDateChooser dcFecha;
 	private JComboBox cboEstado;
 	private JTable table;
@@ -57,8 +59,12 @@ public class FrmRegistro extends JFrame implements MouseListener, ActionListener
 	
 	GestionEstadoDAO gEs = new GestionEstadoDAO();
 	GestionReporteDAO gRe = new GestionReporteDAO();
+	GestionTipoUsuarioDAO gTip = new GestionTipoUsuarioDAO();
 	private JLabel lblUsuario;
-	private JTextField txtUsuario;
+	private JComboBox cboUser;
+	private JLabel lblReporte;
+	private JTextField txtReporte;
+	private JButton btnAnexos;
 
 	/**
 	 * Launch the application.
@@ -83,7 +89,7 @@ public class FrmRegistro extends JFrame implements MouseListener, ActionListener
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmRegistro.class.getResource("/images/shield-16.png")));
 		setTitle("Formulario | Registro");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 595, 374);
+		setBounds(100, 100, 595, 397);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -102,33 +108,33 @@ public class FrmRegistro extends JFrame implements MouseListener, ActionListener
 		contentPane.add(txtCodigo);
 		txtCodigo.setColumns(10);
 		
-		lblReporte = new JLabel("Reporte");
-		lblReporte.setBounds(10, 71, 46, 14);
-		contentPane.add(lblReporte);
+		lblAnexo = new JLabel("Anexo");
+		lblAnexo.setBounds(10, 96, 46, 14);
+		contentPane.add(lblAnexo);
 		
 		lblFecha = new JLabel("Fecha");
-		lblFecha.setBounds(10, 96, 46, 14);
+		lblFecha.setBounds(10, 121, 46, 14);
 		contentPane.add(lblFecha);
 		
 		lblEstado = new JLabel("Estado");
-		lblEstado.setBounds(10, 121, 46, 14);
+		lblEstado.setBounds(10, 146, 46, 14);
 		contentPane.add(lblEstado);
 		
-		txtReporte = new JTextField();
-		txtReporte.setBounds(66, 68, 150, 20);
-		contentPane.add(txtReporte);
-		txtReporte.setColumns(10);
+		txtAnexo = new JTextField();
+		txtAnexo.setBounds(66, 93, 150, 20);
+		contentPane.add(txtAnexo);
+		txtAnexo.setColumns(10);
 		
 		dcFecha = new JDateChooser();
-		dcFecha.setBounds(66, 93, 150, 20);
+		dcFecha.setBounds(66, 118, 150, 20);
 		contentPane.add(dcFecha);
 		
 		cboEstado = new JComboBox();
-		cboEstado.setBounds(66, 117, 150, 22);
+		cboEstado.setBounds(66, 142, 150, 22);
 		contentPane.add(cboEstado);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 149, 559, 175);
+		scrollPane.setBounds(10, 171, 559, 175);
 		contentPane.add(scrollPane);
 		
 		DefaultTableModel modelo = new DefaultTableModel();
@@ -142,6 +148,7 @@ public class FrmRegistro extends JFrame implements MouseListener, ActionListener
 		scrollPane.setViewportView(table);
 		
 		rdbtnRegistrar = new JRadioButton("Registrar");
+		rdbtnRegistrar.setSelected(true);
 		rdbtnRegistrar.addMouseListener(this);
 		rdbtnRegistrar.setBackground(Color.LIGHT_GRAY);
 		rdbtnRegistrar.setBounds(460, 18, 109, 23);
@@ -154,7 +161,7 @@ public class FrmRegistro extends JFrame implements MouseListener, ActionListener
 		
 		rdbtnEliminar = new JRadioButton("Eliminar");
 		rdbtnEliminar.setBackground(Color.LIGHT_GRAY);
-		rdbtnEliminar.setBounds(460, 68, 109, 23);
+		rdbtnEliminar.setBounds(460, 69, 109, 23);
 		contentPane.add(rdbtnEliminar);
 		
 		btnAceptar = new JButton("Aceptar");
@@ -170,23 +177,49 @@ public class FrmRegistro extends JFrame implements MouseListener, ActionListener
 		lblUsuario.setBounds(10, 47, 46, 14);
 		contentPane.add(lblUsuario);
 		
-		txtUsuario = new JTextField();
-		txtUsuario.setBounds(66, 44, 150, 20);
-		contentPane.add(txtUsuario);
-		txtUsuario.setColumns(10);
+		cboUser = new JComboBox();
+		cboUser.setBounds(66, 43, 150, 22);
+		contentPane.add(cboUser);
 		
-		cargarCombo();
+		lblReporte = new JLabel("Reporte");
+		lblReporte.setBounds(10, 72, 46, 14);
+		contentPane.add(lblReporte);
+		
+		txtReporte = new JTextField();
+		txtReporte.setBounds(66, 69, 150, 20);
+		contentPane.add(txtReporte);
+		txtReporte.setColumns(10);
+		
+		btnAnexos = new JButton("...");
+		btnAnexos.setBounds(229, 92, 29, 23);
+		contentPane.add(btnAnexos);
+		
+		cargarComboEstado();
+		cargarComboUsuarios();
 	}
 	
-	private void cargarCombo() {
-		ArrayList<Estado> listaDistrito = gEs.listaEstado();
+	private void cargarComboEstado() {
+		ArrayList<Estado> listaEstado = gEs.listaEstado();
 		
-		if (listaDistrito.size() == 0) {
+		if (listaEstado.size() == 0) {
 			mensajeError("Lista Vacia");
 		}else {
-			cboEstado.addItem("Seleccione ...");
-			for(Estado distrito : listaDistrito) {
-				cboEstado.addItem(distrito.getCodigo() + " - " + distrito.getDescripcion());
+			cboEstado.addItem("Seleccione el estado");
+			for(Estado estado : listaEstado) {
+				cboEstado.addItem(estado.getCodigo() + " - " + estado.getDescripcion());
+			}
+		}
+	}
+	
+	private void cargarComboUsuarios() {
+		ArrayList<TipoUsuario> listaUsuario = gTip.listaTipoUsuarios();
+		
+		if (listaUsuario.size() == 0) {
+			mensajeError("Lista Vacia");
+		}else {
+			cboUser.addItem(" ");
+			for(TipoUsuario tipousuario : listaUsuario) {
+				cboUser.addItem(tipousuario.getCodigo() + " - " + tipousuario.getDescripcion());
 			}
 		}
 	}
@@ -214,16 +247,16 @@ public class FrmRegistro extends JFrame implements MouseListener, ActionListener
 	public void mouseReleased(MouseEvent e) {
 	}
 	protected void mouseClickedRdbtnRegistrar(MouseEvent e) {
-		limpiarCampos();
+//		limpiarCampos();
 	}
 
 	private void limpiarCampos() {
 		txtCodigo.setText("");
-		txtUsuario.setText("");
-		txtReporte.setText("");
+		cboUser.setSelectedIndex(0);
+		txtAnexo.setText("");
 		dcFecha.setDate(null);
 		cboEstado.setSelectedIndex(0);
-		txtUsuario.requestFocus();
+		cboUser.requestFocus();
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnAceptar) {
@@ -234,19 +267,20 @@ public class FrmRegistro extends JFrame implements MouseListener, ActionListener
 		//boton aceptar
 		if(rdbtnRegistrar.isSelected()){
 			registrarDatos();
+			limpiarCampos();
 		}
 	}
 	
 	private void registrarDatos() {
-		String user, report, fecha;
-		int estado;
+		String report, fecha;
+		int user, estado;
 		
 		user = getUsuario();
 		report = getReporte();
 		fecha = getFecha();
 		estado = getEstado();
 		
-		if(user == null || report == null || fecha == null || estado == 0){
+		if(user == 0 || report == null || fecha == null || estado == 0){
 			return;
 		}else {
 			Reporte r = new Reporte();
@@ -292,22 +326,22 @@ public class FrmRegistro extends JFrame implements MouseListener, ActionListener
 
 	private String getReporte() {
 		String reporte = null;
-		if(txtReporte.getText().trim().length() == 0){
+		if(txtAnexo.getText().trim().length() == 0){
 			mensajeError("Ingrese un reporte");
-			txtReporte.requestFocus();
+			txtAnexo.requestFocus();
 		}else {
-			reporte = txtReporte.getText().trim();
+			reporte = txtAnexo.getText().trim();
 		}
 		return reporte;
 	}
 
-	private String getUsuario() {
-		String user = null;
-		if(txtUsuario.getText().trim().length() == 0){
-			mensajeError("Ingrese un usuario");
-			txtUsuario.requestFocus();
+	private int getUsuario() {
+		int user = 0;
+		if(cboUser.getSelectedIndex() == 0){
+			mensajeError("Seleccione un usuario");
+			cboUser.requestFocus();
 		}else {
-			user = txtUsuario.getText().trim();
+			user = cboUser.getSelectedIndex();
 		}
 		return user;
 	}
