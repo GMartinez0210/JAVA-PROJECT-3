@@ -6,17 +6,21 @@ public class Reporte {
 	private String descripcion;
 	private String fecha;
 	private int estado;
+	private int codAnexo;
+	private String fechaEvaluacion;
 	
 	public Reporte() {
 	
 	}
 
-	public Reporte(int codigo, int usuario, String descripcion, String fecha, int estado) {
+	public Reporte(int codigo, int usuario, String descripcion, String fecha, int estado, int codAnexo, String fechaEvaluacion) {
 		this.codigo = codigo;
 		this.usuario = usuario;
 		this.descripcion = descripcion;
 		this.fecha = fecha;
 		this.estado = estado;
+		this.codAnexo = codAnexo;
+		this.fechaEvaluacion = fechaEvaluacion;
 	}
 
 	public int getCodigo() {
@@ -58,5 +62,22 @@ public class Reporte {
 	public void setEstado(int estado) {
 		this.estado = estado;
 	}
+	
+	public int getCodAnexo(){
+		return codAnexo;
+	}
+	
+	public void setCodAnexo(int codAnexo){
+		this.codAnexo = codAnexo;
+	}
+
+	public String getFechaEvaluacion() {
+		return fechaEvaluacion;
+	}
+
+	public void setFechaEvaluacion(String fechaEvaluacion) {
+		this.fechaEvaluacion = fechaEvaluacion;
+	}
+	
 	
 }

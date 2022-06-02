@@ -6,18 +6,22 @@ public class ReporteTabla {
 	private String descripcion;
 	private String fecha;
 	private String estado;
+	private int codAnexo;
+	private String fechaEvaluacion;
 	
 	
 	public ReporteTabla() {
 
 	}
 
-	public ReporteTabla(int cod, String usuario, String descripcion, String fecha, String estado) {
+	public ReporteTabla(int cod, String usuario, String descripcion, String fecha, String estado, int codAnexo, String fechaEvaluacion) {
 		this.cod = cod;
-		Usuario = usuario;
+		this.Usuario = usuario;
 		this.descripcion = descripcion;
 		this.fecha = fecha;
 		this.estado = estado;
+		this.codAnexo = codAnexo;
+		this.fechaEvaluacion = fechaEvaluacion;
 	}
 
 	public int getCod() {
@@ -60,7 +64,21 @@ public class ReporteTabla {
 		this.estado = estado;
 	}
 	
+	public int getCodAnexo(){
+		return codAnexo;
+	}
 	
+	public void setCodAnexo(int codAnexo){
+		this.codAnexo = codAnexo;
+	}
+
+	public String getFechaEvaluacion() {
+		return fechaEvaluacion;
+	}
+
+	public void setFechaEvaluacion(String fechaEvaluacion) {
+		this.fechaEvaluacion = fechaEvaluacion;
+	}
 	
 	
 }

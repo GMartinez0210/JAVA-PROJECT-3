@@ -51,10 +51,7 @@ public class FrmReporte extends JFrame implements ActionListener, MouseListener 
 	private JComboBox cboEstado;
 	private JTable table;
 	private JScrollPane scrollPane;
-	private JRadioButton rdbtnRegistrar;
-	private JRadioButton rdbtnActualizar;
-	private JRadioButton rdbtnEliminar;
-	private JButton btnAceptar;
+	private JButton btnReportar;
 	private JTextField txtReporte;
 	ButtonGroup group = new ButtonGroup();
 	DefaultTableModel model = new DefaultTableModel();
@@ -145,36 +142,15 @@ public class FrmReporte extends JFrame implements ActionListener, MouseListener 
 		table.setModel(model);
 		scrollPane.setViewportView(table);
 		
-		rdbtnRegistrar = new JRadioButton("Registrar");
-		rdbtnRegistrar.setSelected(true);
-		rdbtnRegistrar.addMouseListener(this);
-		rdbtnRegistrar.setBackground(Color.LIGHT_GRAY);
-		rdbtnRegistrar.setBounds(460, 22, 109, 23);
-		contentPane.add(rdbtnRegistrar);
-		
-		rdbtnActualizar = new JRadioButton("Actualizar");
-		rdbtnActualizar.setBackground(Color.LIGHT_GRAY);
-		rdbtnActualizar.setBounds(460, 47, 109, 23);
-		contentPane.add(rdbtnActualizar);
-		
-		rdbtnEliminar = new JRadioButton("Eliminar");
-		rdbtnEliminar.setBackground(Color.LIGHT_GRAY);
-		rdbtnEliminar.setBounds(460, 72, 109, 23);
-		contentPane.add(rdbtnEliminar);
-		
-		btnAceptar = new JButton("Aceptar");
-		btnAceptar.addActionListener(this);
-		btnAceptar.setBounds(460, 97, 89, 23);
-		contentPane.add(btnAceptar);
+		btnReportar = new JButton("Reportar");
+		btnReportar.addActionListener(this);
+		btnReportar.setBounds(456, 22, 89, 23);
+		contentPane.add(btnReportar);
 		
 		txtReporte = new JTextField();
 		txtReporte.setBounds(96, 72, 150, 20);
 		contentPane.add(txtReporte);
 		txtReporte.setColumns(10);
-		
-		group.add(rdbtnActualizar);
-		group.add(rdbtnEliminar);
-		group.add(rdbtnRegistrar);
 		
 		cboUsuario = new JComboBox();
 		cboUsuario.setEnabled(false);
@@ -187,14 +163,11 @@ public class FrmReporte extends JFrame implements ActionListener, MouseListener 
 		mostrarData();
 	}
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnAceptar) {
+		if (e.getSource() == btnReportar) {
 			actionPerformedBtnAceptar(e);
 		}
 	}
 	public void mouseClicked(MouseEvent e) {
-		if (e.getSource() == rdbtnRegistrar) {
-			mouseClickedRdbtnRegistrar(e);
-		}
 	}
 	public void mouseEntered(MouseEvent e) {
 	}
@@ -204,12 +177,9 @@ public class FrmReporte extends JFrame implements ActionListener, MouseListener 
 	}
 	public void mouseReleased(MouseEvent e) {
 	}
-	protected void mouseClickedRdbtnRegistrar(MouseEvent e) {
-		
-	}
 
-	private void limpiarcampos() {
-//		txtCodigo.setText("");
+	private void limpiarCampos() {
+
 		txtReporte.setText("");
 		dcFecha.setDate(null);
 		
@@ -330,16 +300,18 @@ public class FrmReporte extends JFrame implements ActionListener, MouseListener 
 	}
 	
 	protected void actionPerformedBtnAceptar(ActionEvent e) {
+		
 		registrarDatos();
-		limpiarcampos();
+		limpiarCampos();
 		mostrarData();
+		
 	}
 	
 	private void mostrarData(){
 		model.setRowCount(0);
 		
 		ArrayList<ReporteTabla> data = gRe.listarReportes();
-		
+//		System.out.println(data.size());
 		for(ReporteTabla rt : data) {
 			Object fila[] = {rt.getCod(),
 							 rt.getUsuario(),

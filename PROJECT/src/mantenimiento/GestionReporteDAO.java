@@ -22,7 +22,7 @@ public class GestionReporteDAO implements ReporteInterfacesDAO {
 		try {
 			con = MySQLConexion8.getConexion();
 			
-			String sql = "INSERT INTO tb_reportes values (null, ?, ?, ?, ?)";
+			String sql = "INSERT INTO tb_reportes values (null, ?, ?, ?, ?, null, null)";
 			
 			pstm = con.prepareStatement(sql);
 			
@@ -73,7 +73,9 @@ public class GestionReporteDAO implements ReporteInterfacesDAO {
 				rTa.setEstado(res.getString(5));
 				
 				lista.add(rTa);
+				
 			}
+//			System.out.println(lista.size());
 		} catch (Exception e) {
 			System.out.println(">>>>>>>>> Error en la Instruccion SQL - Consultar " + e.getMessage());
 		}
