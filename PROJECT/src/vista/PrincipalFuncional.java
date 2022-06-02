@@ -138,6 +138,11 @@ public class PrincipalFuncional extends JFrame {
 		panelMenu.add(NavForm2);
 		
 		NavForm3 = new JButton("New label");
+		NavForm3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actionPerformedNavForm3(e);
+			}
+		});
 		NavForm3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		NavForm3.setForeground(new Color(0, 128, 128));
 		NavForm3.setBackground(new Color(255, 250, 240));
@@ -315,15 +320,14 @@ public class PrincipalFuncional extends JFrame {
 	
 	// NavForm1 Button
 	protected void actionPerformedNavForm1(ActionEvent e) {
-		Usuario usuario = gUsuario.leerUsuario(codUsuario);
-		int idCargo = usuario.getIdCargo();
-		
-		switch (idCargo) {
-			case 1:
-				FrmReporte reporte = new FrmReporte();
-				escritorio.add(reporte);
-				reporte.setVisible(true);
-					break;
-		}
+		FrmReporte reporte = new FrmReporte();
+		escritorio.add(reporte);
+		reporte.setVisible(true);
+	}
+	// NavForm2 BOTOM
+	protected void actionPerformedNavForm3(ActionEvent e) {
+		FrmComunica comunica = new FrmComunica();
+		escritorio.add(comunica);
+		comunica.setVisible(true);
 	}
 }
