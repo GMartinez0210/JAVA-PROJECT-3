@@ -13,7 +13,7 @@ public class MySQLConexion8 {
 			e.printStackTrace();
 		}
 	}
-	public Connection getConexion() {
+	public static Connection getConexion() {
 		
 		Connection con = null;
 		try {

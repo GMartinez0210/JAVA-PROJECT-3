@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 
 import javax.swing.DefaultCellEditor;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -14,20 +15,35 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+
+import entidad.ReporteArray;
+import entidad.ReportePrioridad;
+import mantenimiento.GestionRegistroDAO;
+
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.HeadlessException;
+
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.awt.event.MouseEvent;
 import javax.swing.JPopupMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.SwingConstants;
+import java.awt.event.WindowListener;
+import java.awt.event.WindowEvent;
 
-public class Estimacion extends JDialog implements MouseListener, KeyListener {
+public class FrmEstimacion extends JDialog implements MouseListener, KeyListener, ActionListener, WindowListener {
 
 	/**
 	 * 
@@ -42,14 +58,19 @@ public class Estimacion extends JDialog implements MouseListener, KeyListener {
 	private JTextArea txtDescripcion;
 	private PpMenuFiltrar filtrar;
 	private JDialog dialog;
+	private JPanel panelSave;
+	private JLabel lblSave;
+	JComboBox<String> cboNivel;
+	GestionRegistroDAO gRegistro = new GestionRegistroDAO();
+	ReporteArray RN = new ReporteArray(gRegistro.listarReporteXPrioridad(0));
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			Estimacion dialog = new Estimacion();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			FrmEstimacion dialog = new FrmEstimacion();
+			dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -59,14 +80,13 @@ public class Estimacion extends JDialog implements MouseListener, KeyListener {
 	/**
 	 * Create the dialog.
 	 */
-	public Estimacion() {
+	public FrmEstimacion() {
+		addWindowListener(this);
 		initComponents();
 		//setBox(tablePrioridad, tablePrioridad.getColumnModel().getColumn(1));
 		
-		//Probando con datos
-		for(int i=0, cod = 10001; i<40; i++, cod++) {
-			addRow(String.valueOf(cod),"NO ASIGNADO");
-		}
+		
+		listarReportes(0);
 	}
 	
 	void initComponents() {
@@ -75,10 +95,15 @@ public class Estimacion extends JDialog implements MouseListener, KeyListener {
 		cpEstimacion.setLayout(null);
 		cpEstimacion.setBorder(new EmptyBorder(5, 5, 5, 5));
 		cpEstimacion.setBackground(new Color(255,255,255));
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		getContentPane().add(cpEstimacion, BorderLayout.CENTER);
 		
 		filtrar = new PpMenuFiltrar();
 		cpEstimacion.setComponentPopupMenu(filtrar);
+		filtrar.mntmFiltrarA.addActionListener(this);
+		filtrar.mntmFiltrarB.addActionListener(this);
+		filtrar.mntmFiltrarM.addActionListener(this);
+		filtrar.mntmFiltrarN.addActionListener(this);
 		
 		spPrioridad = new JScrollPane();
 		spPrioridad.setBounds(0, 59, 493, 443);
@@ -100,6 +125,7 @@ public class Estimacion extends JDialog implements MouseListener, KeyListener {
 		tablePrioridad.addMouseListener(this);
 		tablePrioridad.setFillsViewportHeight(true);
 		tablePrioridad.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
 		spPrioridad.setViewportView(tablePrioridad);
 		
 		modelo = new DefaultTableModel();
@@ -122,8 +148,22 @@ public class Estimacion extends JDialog implements MouseListener, KeyListener {
 		cpEstimacion.add(spDescripcion);
 		
 		txtDescripcion = new JTextArea();
+		txtDescripcion.setLineWrap(true);
 		txtDescripcion.setFont(new Font("Monospaced", Font.PLAIN, 16));
 		spDescripcion.setViewportView(txtDescripcion);	
+		
+		panelSave = new JPanel();
+		panelSave.setBackground(Color.WHITE);
+		panelSave.setBounds(652, 11, 50, 45);
+		cpEstimacion.add(panelSave);
+		panelSave.setLayout(null);
+		
+		lblSave = new JLabel("");
+		lblSave.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSave.setIcon(new ImageIcon(FrmEstimacion.class.getResource("/images/save.png")));
+		lblSave.addMouseListener(this);
+		lblSave.setBounds(0, 0, 50, 45);
+		panelSave.add(lblSave);
 		
 		dialog = new JDialog();
 		dialog.getContentPane().setLayout(new BorderLayout());
@@ -134,16 +174,16 @@ public class Estimacion extends JDialog implements MouseListener, KeyListener {
 		//dialog.setLocationRelativeTo(cpEstimacion);
 		
 		JLabel nivelImage = new JLabel();
-		nivelImage.setIcon(new ImageIcon(Estimacion.class.getResource("/images/Prioridad.png")));
+		nivelImage.setIcon(new ImageIcon(FrmEstimacion.class.getResource("/images/Prioridad.png")));
 		dialog.getContentPane().add(nivelImage);
 		
 	}
 	//Adding a JComboBox in the second column
 	void setBox(JTable table, TableColumn column) {
-		JComboBox<String> cboNivel = new JComboBox<String>();
+		cboNivel = new JComboBox<String>();
 		cboNivel.addItem("NO ASIGNADO");
 		cboNivel.addItem("ALTO");
-		cboNivel.addItem("MEDIANO");
+		cboNivel.addItem("MEDIO");
 		cboNivel.addItem("BAJO");
 		
 		cboNivel.setBackground(new Color(255,255,255));
@@ -151,6 +191,7 @@ public class Estimacion extends JDialog implements MouseListener, KeyListener {
 		column.setCellEditor(new DefaultCellEditor(cboNivel));
 		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 		column.setCellRenderer(renderer);
+		
 	}
 	/*
 	 * Column Width
@@ -163,15 +204,13 @@ public class Estimacion extends JDialog implements MouseListener, KeyListener {
 	int getPixelsWidth(int porcentaje) {
 		return porcentaje * spPrioridad.getWidth() / 100;
 	}
-	//Adding fake data
-	void addRow(String cod, String nivel) {
-		String[] fila = {cod, nivel};
-		modelo.addRow(fila);
-	}
 	/*
 	 * MouseListener
 	 */
 	public void mouseClicked(MouseEvent e) {
+		if (e.getSource() == lblSave) {
+			mouseClickedLblSave(e);
+		}
 		if (e.getSource() == tablePrioridad) {
 			mouseClickedTablePrioridad(e);
 		}
@@ -180,16 +219,34 @@ public class Estimacion extends JDialog implements MouseListener, KeyListener {
 		if (e.getSource() == lblInfoPrioridad) {
 			mouseEnteredLblInfoPrioridad(e);
 		}
+		if (e.getSource() == lblSave) {
+			mouseEnteredLblSave(e);
+		}
 	}
+	protected void mouseEnteredLblSave(MouseEvent e) {
+		lblSave.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		lblSave.setIcon(new ImageIcon(FrmEstimacion.class.getResource("/images/saveHover.png")));
+	}
+
 	public void mouseExited(MouseEvent e) {
 		if (e.getSource() == lblInfoPrioridad) {
 			mouseExitedLblInfoPrioridad(e);
 		}
+		if (e.getSource() == lblSave) {
+			mouseExitedLblSave(e);
+		}
 	}
+	private void mouseExitedLblSave(MouseEvent e) {
+		lblSave.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		lblSave.setIcon(new ImageIcon(FrmEstimacion.class.getResource("/images/save.png")));
+		panelSave.setBackground(Color.WHITE);
+	}
+
 	public void mousePressed(MouseEvent e) {
 	}
 	public void mouseReleased(MouseEvent e) {
 	}
+
 	protected void mouseEnteredLblInfoPrioridad(MouseEvent e) {
 		lblInfoPrioridad.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		dialog.setVisible(true);
@@ -203,9 +260,13 @@ public class Estimacion extends JDialog implements MouseListener, KeyListener {
 	//Show the data when its row is clicked and using a sql script
 	protected void mouseClickedTablePrioridad(MouseEvent e) {
 		if(tablePrioridad.getRowCount() >0) {
-			int row = tablePrioridad.getSelectedRow();
-			String cod = modelo.getValueAt(row, 0).toString();
-			buscar(cod);
+			try {
+				int row = tablePrioridad.getSelectedRow();
+				int cod = Integer.parseInt(modelo.getValueAt(row, 0).toString());
+				search(cod);
+			} catch (NumberFormatException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 	public void keyPressed(KeyEvent e) {
@@ -217,20 +278,216 @@ public class Estimacion extends JDialog implements MouseListener, KeyListener {
 	}
 	public void keyTyped(KeyEvent e) {
 	}
-	//Show the data when using a sql script
+	//Show the data using a key event
 	protected void keyReleasedTablePrioridad(KeyEvent e) {
 		if(tablePrioridad.getRowCount() >0) {
-			int row = tablePrioridad.getSelectedRow();
-			String cod = modelo.getValueAt(row, 0).toString();
-			buscar(cod);
+			try {
+				int row = tablePrioridad.getSelectedRow();
+				int cod = Integer.parseInt(modelo.getValueAt(row, 0).toString());
+				search(cod);
+			} catch (NumberFormatException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
-
-	void buscar(String cod) {
-		//Use a Select
-		//Show the data
-		txtDescripcion.setText("Codigo: " + cod + "\nDescripcion: " + "\n...");
+	//Save button
+	protected void mouseClickedLblSave(MouseEvent e) {
+		lblSave.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		lblSave.setIcon(new ImageIcon(FrmEstimacion.class.getResource("/images/saveHover.png")));
+		panelSave.setBackground(new Color(248, 248, 248));
+		saveData();
+		actualizarDataTotal();
 	}
+	/*
+	 * ActionListener
+	 */
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == filtrar.mntmFiltrarA) {
+			actionPreformedMntmFiltrarA(e);
+		}
+		if (e.getSource() == filtrar.mntmFiltrarM) {
+			actionPreformedMntmFiltrarM(e);
+		}
+		if (e.getSource() == filtrar.mntmFiltrarB) {
+			actionPreformedMntmFiltrarB(e);
+		}
+		if (e.getSource() == filtrar.mntmFiltrarN) {
+			actionPreformedMntmFiltrarN(e);
+		}
+	}
+	private void actionPreformedMntmFiltrarA(ActionEvent e) {
+		changeFilter(1);
+	}
+	private void actionPreformedMntmFiltrarM(ActionEvent e) {
+		changeFilter(2);
+	}
+	private void actionPreformedMntmFiltrarB(ActionEvent e) {
+		changeFilter(3);
+	}
+	private void actionPreformedMntmFiltrarN(ActionEvent e) {
+		changeFilter(0);
+	}
+	
+	/*
+	 * Window Listener
+	 */
+	public void windowActivated(WindowEvent e) {
+	}
+	public void windowClosed(WindowEvent e) {
+	}
+	public void windowClosing(WindowEvent e) {
+		if (e.getSource() == this) {
+			windowClosingThis(e);
+		}
+	}
+	public void windowDeactivated(WindowEvent e) {
+	}
+	public void windowDeiconified(WindowEvent e) {
+	}
+	public void windowIconified(WindowEvent e) {
+	}
+	public void windowOpened(WindowEvent e) {
+	}
+	
+	protected void windowClosingThis(WindowEvent e) {
+		int question = mensajeConfirm("¿Desea guardar los cambios?");
+		if(question == JOptionPane.YES_OPTION) {
+			// save the data
+			saveData();
+			// close Frame
+			dispose();
+		} else if(question == JOptionPane.NO_OPTION) {
+			dispose();
+		} else if(question == JOptionPane.CLOSED_OPTION) {
+		}
+	}
+	
+	/*
+	 * class voids
+	 */
+	
+	//search the description and show it
+	void search(int cod) {
+		if(RN.searchForCod(cod) == null) {
+			mensajeError("Pruebe seleccionando un codigo de la tabla o guarde y vuelva a entrar ");
+		} else {
+			//get the description using a void from ReporteArray
+			String des = RN.getDesForCod(cod);
+			//Show the data
+			txtDescripcion.setText("Codigo: " + cod + "\nDescripcion: " + "\n" + des);
+		}
+	}
+	
+	//Send the data from the table to javaprojectdb.tb_reportes
+	private void saveData() {
+		actualizarArrayTotal();
+		if(RN.size() > 0) {
+			int cont = 0;
+			for(int i = 0; i < RN.size();i++) {
+				int update = gRegistro.updatePrioridadXCod(RN.get(i).getCodigo(), RN.get(i).getCod_prio());
+				if(update == -1) {
+					mensajeError("No sé pudo actualizar el registro: " + RN.get(i).getCodigo());
+				} else {
+					cont++;
+				}
+			}
+			mensajeExitoso("Se realizaron " + cont + " registros exitosos");
+		} else {
+			mensajeError("Por ahora no hay registros con prioridad no asignada, sigue pendiente ya llegaran");
+		}
+	}
+	//Change the filter
+	void changeFilter(int cod_prio) {
+		// save the data
+		saveData();
+		ArrayList<ReportePrioridad> arrayValidacion = gRegistro.listarReporteXPrioridad(cod_prio);
+		if(arrayValidacion.size() > 0) {
+			//fill the RN array
+			RN = new ReporteArray(arrayValidacion);
+			//fill the tablePrioridad
+			listarReportes(cod_prio);
+		} else {
+			String prio = "NO ASIGNADO";
+			switch(cod_prio) {
+				case 1: prio = "ALTO"; break;
+				case 2: prio = "MEDIO"; break;
+				case 3: prio = "BAJO"; break;
+				default: prio = "NO ASIGNADO"; break;
+			}
+			mensajeError("No hay rerigstros con la propiedad: " + prio);
+		}
+	}
+	void actualizarArrayTotal() {
+		if(tablePrioridad.getRowCount() > 0) {
+			for(int i=0; i<tablePrioridad.getRowCount(); i++) {
+				int cod = Integer.parseInt(modelo.getValueAt(i, 0).toString());
+				String prio = modelo.getValueAt(i, 1).toString();
+				int cod_prio = 0;
+				if(prio.equals("ALTO")) {
+					cod_prio = 1;
+				} else if(prio.equals("MEDIO")){
+					cod_prio = 2;
+				} else if(prio.equals("BAJO")) {
+					cod_prio = 3;
+				} else {
+					cod_prio = 0;
+				}
+				RN.setPrioForCod(cod, cod_prio);
+			}			
+		}
+	}
+	void actualizarDataTotal() {
+		ArrayList<ReportePrioridad> arrayValidacion = gRegistro.listarReporteXPrioridad(0);
+		if(arrayValidacion.size() > 0) {
+			//fill the RN array
+			RN = new ReporteArray(arrayValidacion);
+			//fill the tablePrioridad
+			listarReportes(0);
+		}
+	}
+	
+	/*
+	 * SQL voids
+	 */
+	void listarReportes(int prioridad) {
+		ArrayList<ReportePrioridad> data = gRegistro.listarReporteXPrioridad(prioridad);
+		modelo.setRowCount(0);
+		if(data.size() > 0) {
+			for(ReportePrioridad rp : data) {
+				String prio = "NO ASIGNADO";
+				switch(rp.getCod_prio()) {
+					case 1: prio = "ALTO"; break;
+					case 2: prio = "MEDIO"; break;
+					case 3: prio = "BAJO"; break;
+					default: prio = "NO ASIGNADO"; break;
+				}
+				Object[] fila = {rp.getCodigo(), prio};
+				modelo.addRow(fila);
+			}
+		}
+	}
+	protected Icon getIcon(String path) {
+		Icon img = new ImageIcon(new ImageIcon(this.getClass().getResource(path)).getImage());
+		return img;
+	}
+	
+	/*
+	 * JOptionPanes as Messages
+	 */
+	private void mensajeError(String message) {
+		JOptionPane.showMessageDialog(this, message, "Error", 0);
+	}
+	
+	private void mensajeExitoso(String message) {
+		JOptionPane.showMessageDialog(this, message, "Excelente", 1);
+	}
+	private int mensajeConfirm(String message) {
+		return JOptionPane.showConfirmDialog(this, message, "Confirmar", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+	}
+	
+	
 }
 
 
@@ -248,7 +505,7 @@ class PpMenuFiltrar extends JPopupMenu implements MouseListener{
 	
 	void initPpMenuPrioridad() {
 		mntmFiltrarA = new JMenuItem("Filtrar por Alto");
-		mntmFiltrarM = new JMenuItem("Filtrar por Mediano");
+		mntmFiltrarM = new JMenuItem("Filtrar por Medio");
 		mntmFiltrarB = new JMenuItem("Filtrar por Bajo");
 		mntmFiltrarN = new JMenuItem("Filtrar por No Asignado");
 		
@@ -325,6 +582,7 @@ class PpMenuFiltrar extends JPopupMenu implements MouseListener{
 			mouseExitedMntmFiltrarN(e);
 		}
 	}
+
 	/*
 	 * mntmFiltrarA hover
 	 */
@@ -361,6 +619,7 @@ class PpMenuFiltrar extends JPopupMenu implements MouseListener{
 	protected void mouseExitedMntmFiltrarN(MouseEvent e) {
 		changeProperties(mntmFiltrarN, new Cursor(Cursor.HAND_CURSOR));				
 	}
+
 	
 }
 

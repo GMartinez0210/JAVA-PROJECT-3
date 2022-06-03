@@ -20,13 +20,12 @@ public class GestionAlertaDAO implements AlertaInterfaceDAO{
 		PreparedStatement pstm = null;
 		
 		try {
-			conn = new MySQLConexion8().getConexion();
-			String sql = "insert into tb_alerta values(null,?,?,?,null,?)";
+			conn = new MySQLConexion8().getConexion();   //here
+			String sql = "insert into tb_alerta values(null,1,?,?,null,?,null,null)"; //Cambiar el 1 a ?
 			pstm = conn.prepareStatement(sql);
-			pstm.setInt(1, alerta.getCodUsu());
-			pstm.setDate(2, alerta.getFec());
-			pstm.setString(3, alerta.getBreveDes());
-			pstm.setBoolean(4, alerta.getRelevancia());
+			pstm.setDate(1, alerta.getFec());
+			pstm.setString(2, alerta.getBreveDes());
+			pstm.setBoolean(3, alerta.getRelevancia());
 			
 			insert = pstm.executeUpdate();
 		} catch (Exception e) {
@@ -74,7 +73,7 @@ public class GestionAlertaDAO implements AlertaInterfaceDAO{
 	}
 
 	@Override
-	public ArrayList<Alerta> registrarAlerta() {
+	public ArrayList<Alerta> listarAlerta() {
 		ArrayList<Alerta> data = new ArrayList<Alerta>();
 		
 		Connection conn = null;
@@ -94,6 +93,8 @@ public class GestionAlertaDAO implements AlertaInterfaceDAO{
 				a.setBreveDes(rs.getString(4));
 				a.setDes(rs.getString(5));
 				a.setRelevancia(rs.getBoolean(6));
+				a.setDerivada(rs.getString(7));
+				a.setPlazoAtencion(rs.getDate(8));
 				data.add(a);
 			}
 		}  catch (Exception e) {

@@ -9,10 +9,12 @@ public class Alerta {
 	private String breveDes;
 	private String des;
 	private int codUsu;
+	private String derivada;
+	private java.sql.Date plazoAtencion;
 	public Alerta() {
 		super();
 	}
-	public Alerta(int cod, int codUsu, Date fec, String breveDes, String des ,boolean relevancia) {
+	public Alerta(int cod, int codUsu, Date fec, String breveDes, String des ,boolean relevancia, String derivada, Date plazoAtencion) {
 		super();
 		this.cod = cod;
 		this.fec = fec;
@@ -20,6 +22,8 @@ public class Alerta {
 		this.des = des;
 		this.breveDes = breveDes;
 		this.codUsu = codUsu;
+		this.derivada = derivada;
+		this.plazoAtencion = plazoAtencion;
 	}
 	public int getCod() {
 		return cod;
@@ -56,6 +60,18 @@ public class Alerta {
 	}
 	public void setBreveDes(String breveDes) {
 		this.breveDes = breveDes;
+	}
+	public String getDerivada() {
+		return derivada;
+	}
+	public void setDerivada(String derivada) {
+		this.derivada = derivada;
+	}
+	public java.sql.Date getPlazoAtencion() {
+		return plazoAtencion;
+	}
+	public void setPlazoAtencion(java.sql.Date plazoAtencion) {
+		this.plazoAtencion = plazoAtencion;
 	}
 	
 }

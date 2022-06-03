@@ -25,7 +25,7 @@ import java.awt.event.MouseListener;
 import java.util.Date;
 import java.awt.event.MouseEvent;
 
-public class IngresarAlerta extends JDialog implements MouseListener {
+public class FrmIngresarAlerta extends JDialog implements MouseListener {
 
 	/**
 	 * 
@@ -51,7 +51,7 @@ public class IngresarAlerta extends JDialog implements MouseListener {
 	 */
 	public static void main(String[] args) {
 		try {
-			IngresarAlerta dialog = new IngresarAlerta();
+			FrmIngresarAlerta dialog = new FrmIngresarAlerta();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -62,7 +62,7 @@ public class IngresarAlerta extends JDialog implements MouseListener {
 	/**
 	 * Create the dialog.
 	 */
-	public IngresarAlerta() {
+	public FrmIngresarAlerta() {
 		setBounds(100, 100, 758, 578);
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(new Color(255,255,255));
@@ -254,12 +254,12 @@ public class IngresarAlerta extends JDialog implements MouseListener {
 	}
 
 	private void mensajeError(String message) {
-		JOptionPane.showMessageDialog(this, message);
+		JOptionPane.showMessageDialog(this, message, "Error", 0);
 		
 	}
 	
 	private void mensajeExitoso(String message) {
-		JOptionPane.showMessageDialog(this, message);
+		JOptionPane.showMessageDialog(this, message, "Excelente", 1);
 		
 	}
 }
