@@ -370,13 +370,18 @@ public class FrmEstimacion extends JDialog implements MouseListener, KeyListener
 	
 	//search the description and show it
 	void search(int cod) {
-		if(RN.searchForCod(cod) == null) {
-			mensajeError("Pruebe seleccionando un codigo de la tabla o guarde y vuelva a entrar ");
-		} else {
-			//get the description using a void from ReporteArray
-			String des = RN.getDesForCod(cod);
-			//Show the data
-			txtDescripcion.setText("Codigo: " + cod + "\nDescripcion: " + "\n" + des);
+		try {
+			if(RN.searchForCod(cod) == null) {
+				mensajeError("Pruebe seleccionando un codigo de la tabla o guarde y vuelva a entrar ");
+			} else {
+				//get the description using a void from ReporteArray
+				String des = RN.getDesForCod(cod);
+				//Show the data
+				txtDescripcion.setText("Codigo: " + cod + "\nDescripcion: " + "\n" + des);
+			}
+		} 
+		catch (Exception e) {
+			System.out.println(">>> ERROR: " + e.getMessage());
 		}
 	}
 	

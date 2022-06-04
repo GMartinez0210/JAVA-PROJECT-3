@@ -110,7 +110,7 @@ public class FrmIngresarAlerta extends JDialog implements MouseListener {
 		
 		lblDescriAle = new JLabel("Descripcion");
 		lblDescriAle.setFont(new Font("Malgun Gothic", Font.PLAIN, 18));
-		lblDescriAle.setBounds(363, 102, 95, 25);
+		lblDescriAle.setBounds(363, 102, 144, 25);
 		getContentPane().add(lblDescriAle);
 		
 		scrollPane = new JScrollPane();
@@ -118,6 +118,7 @@ public class FrmIngresarAlerta extends JDialog implements MouseListener {
 		getContentPane().add(scrollPane);
 		
 		txtDescriAle = new JTextArea();
+		txtDescriAle.setLineWrap(true);
 		txtDescriAle.setFont(new Font("Malgun Gothic", Font.PLAIN, 16));
 		scrollPane.setViewportView(txtDescriAle);
 		
