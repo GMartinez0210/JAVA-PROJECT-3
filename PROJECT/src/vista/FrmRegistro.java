@@ -20,7 +20,7 @@ import entidad.TipoUsuario;
 import mantenimiento.GestionEstadoDAO;
 import mantenimiento.GestionReporteDAO;
 import mantenimiento.GestionTipoUsuarioDAO;
-import mantenimiento.GestioonRegistroDAO;
+import mantenimiento.GestionRegistroDAO;
 
 import javax.swing.JComboBox;
 import java.awt.Toolkit;
@@ -62,7 +62,7 @@ public class FrmRegistro extends JFrame implements MouseListener, ActionListener
 	GestionEstadoDAO gEs = new GestionEstadoDAO();
 	GestionReporteDAO gRe = new GestionReporteDAO();
 	GestionTipoUsuarioDAO gTip = new GestionTipoUsuarioDAO();
-	GestioonRegistroDAO gReg = new GestioonRegistroDAO();
+	GestionRegistroDAO gReg = new GestionRegistroDAO();
 	private JLabel lblUsuario;
 	private JComboBox cboUser;
 	private JLabel lblReporte;

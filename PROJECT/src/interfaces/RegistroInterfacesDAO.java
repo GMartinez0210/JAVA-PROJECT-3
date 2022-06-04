@@ -4,10 +4,7 @@ import java.util.ArrayList;
 
 import entidad.InfoReportes;
 import entidad.Reporte;
-<<<<<<< HEAD
-=======
 import entidad.ReportePrioridad;
->>>>>>> JoseFelixTheOne-Ghost
 import entidad.ReporteTabla;
 
 public interface RegistroInterfacesDAO {
@@ -22,13 +19,10 @@ public interface RegistroInterfacesDAO {
 	
 	//mostrar datos en la tabla
 	public ArrayList<ReporteTabla> listarReportesenTabla();
-<<<<<<< HEAD
-=======
 	
 	//listar reportes por prioridad
 	public ArrayList<ReportePrioridad> listarReporteXPrioridad(int cod_prio);
 	
 	//actualizar prioridad por codigo
 	public int updatePrioridadXCod(int cod, int cod_prio);
->>>>>>> JoseFelixTheOne-Ghost
 }

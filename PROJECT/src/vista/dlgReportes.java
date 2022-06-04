@@ -12,7 +12,7 @@ import javax.swing.table.TableColumnModel;
 
 import entidad.Anexos;
 import entidad.InfoReportes;
-import mantenimiento.GestioonRegistroDAO;
+import mantenimiento.GestionRegistroDAO;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -30,7 +30,7 @@ public class dlgReportes extends JDialog implements ActionListener {
 	private JScrollPane scrollPane;
 	DefaultTableModel model = new DefaultTableModel();
 	
-	GestioonRegistroDAO gRe = new GestioonRegistroDAO();
+	GestionRegistroDAO gRe = new GestionRegistroDAO();
 
 	/**
 	 * Launch the application.
