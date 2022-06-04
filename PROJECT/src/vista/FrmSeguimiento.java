@@ -22,6 +22,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 @SuppressWarnings("serial")
 public class FrmSeguimiento extends JInternalFrame {
@@ -115,6 +116,7 @@ public class FrmSeguimiento extends JInternalFrame {
 		tblAlertas.setModel(model);
 		{
 			lblRecargar = new JLabel("");
+			lblRecargar.setIcon(new ImageIcon(FrmSeguimiento.class.getResource("/images/icons8-actualizar-30.png")));
 			lblRecargar.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent e) {
