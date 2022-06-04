@@ -25,9 +25,9 @@ DROP TABLE IF EXISTS `anexos_1`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `anexos_1` (
-  `cod` int NOT NULL,
+  `cod_anexo_1` int NOT NULL,
   `descripcion` text,
-  PRIMARY KEY (`cod`)
+  PRIMARY KEY (`cod_anexo_1`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -49,9 +49,9 @@ DROP TABLE IF EXISTS `anexos_2`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `anexos_2` (
-  `codigo` int NOT NULL,
+  `cod_anexo_2` int NOT NULL,
   `nivel` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`codigo`)
+  PRIMARY KEY (`cod_anexo_2`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -99,9 +99,9 @@ DROP TABLE IF EXISTS `tb_estado`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tb_estado` (
-  `cod` int NOT NULL,
+  `cod_estado` int NOT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`cod`)
+  PRIMARY KEY (`cod_estado`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -111,7 +111,7 @@ CREATE TABLE `tb_estado` (
 
 LOCK TABLES `tb_estado` WRITE;
 /*!40000 ALTER TABLE `tb_estado` DISABLE KEYS */;
-INSERT INTO `tb_estado` VALUES (1,'recibido'),(2,'anulado'),(3,'en espera');
+INSERT INTO `tb_estado` VALUES (1,'registrado'),(2,'anulado'),(3,'en espera');
 /*!40000 ALTER TABLE `tb_estado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -123,13 +123,17 @@ DROP TABLE IF EXISTS `tb_reportes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tb_reportes` (
-  `codigo` int NOT NULL AUTO_INCREMENT,
-  `usuario` varchar(6) DEFAULT NULL,
+  `cod_reporte` int NOT NULL AUTO_INCREMENT,
+  `cod_tipo_user` int NOT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
   `fecha` date DEFAULT NULL,
-  `estado` int DEFAULT NULL,
-  PRIMARY KEY (`codigo`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `cod_estado` int DEFAULT NULL,
+  PRIMARY KEY (`cod_reporte`),
+  KEY `FKTipoUser_idx` (`cod_tipo_user`),
+  KEY `FKestado_idx` (`cod_estado`),
+  CONSTRAINT `FKestado` FOREIGN KEY (`cod_estado`) REFERENCES `tb_estado` (`cod_estado`),
+  CONSTRAINT `FKTipoUser` FOREIGN KEY (`cod_tipo_user`) REFERENCES `tb_tipo_usuario` (`cod_tipo_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -138,7 +142,7 @@ CREATE TABLE `tb_reportes` (
 
 LOCK TABLES `tb_reportes` WRITE;
 /*!40000 ALTER TABLE `tb_reportes` DISABLE KEYS */;
-INSERT INTO `tb_reportes` VALUES (1,'US0001','Alerta Interna','2022-04-12',2);
+INSERT INTO `tb_reportes` VALUES (2,1,'Fallos de Sistema','2022-05-30',1),(3,1,'Fallo de seguridad','2022-05-30',1);
 /*!40000 ALTER TABLE `tb_reportes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -150,9 +154,9 @@ DROP TABLE IF EXISTS `tb_tipo_usuario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tb_tipo_usuario` (
-  `codigo` int NOT NULL,
+  `cod_tipo_user` int NOT NULL,
   `descripcion` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`codigo`)
+  PRIMARY KEY (`cod_tipo_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -162,7 +166,7 @@ CREATE TABLE `tb_tipo_usuario` (
 
 LOCK TABLES `tb_tipo_usuario` WRITE;
 /*!40000 ALTER TABLE `tb_tipo_usuario` DISABLE KEYS */;
-INSERT INTO `tb_tipo_usuario` VALUES (1,'Usuario'),(2,'OSI'),(3,'Responsable de monitoreo'),(4,'Mesa de Servicio'),(5,'Responsable de la atencion del incidente');
+INSERT INTO `tb_tipo_usuario` VALUES (1,'Usuario'),(2,'OSI'),(3,'Responsable de monitoreo'),(4,'Mesa de Servicio'),(5,'Responsable de la atencion ');
 /*!40000 ALTER TABLE `tb_tipo_usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -174,14 +178,18 @@ DROP TABLE IF EXISTS `tb_usuario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tb_usuario` (
-  `codigo` int NOT NULL AUTO_INCREMENT,
-  `usuario` varchar(6) DEFAULT NULL,
+  `cod_user` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) DEFAULT NULL,
+  `apellido` varchar(45) DEFAULT NULL,
+  `cod_tipo_user` int DEFAULT NULL,
   `clave` varchar(10) DEFAULT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `apellido` varchar(45) DEFAULT NULL,
   `tipo` int DEFAULT NULL,
-  PRIMARY KEY (`codigo`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`cod_user`),
+  KEY `FKTipUser_idx` (`cod_tipo_user`),
+  CONSTRAINT `FKTipUser` FOREIGN KEY (`cod_tipo_user`) REFERENCES `tb_tipo_usuario` (`cod_tipo_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -232,6 +240,28 @@ UNLOCK TABLES;
 --
 -- Dumping routines for database 'javaprojectdb'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `proc_listarreportes` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `proc_listarreportes`()
+select r.cod_reporte, u.descripcion, r.descripcion, r.fecha, e.descripcion
+from tb_reportes r
+inner join tb_tipo_usuario u
+on r.cod_tipo_user = u.cod_tipo_user
+inner join tb_estado e
+on r.cod_estado = e.cod_estado ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -242,4 +272,8 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+
 -- Dump completed on 2022-06-01 18:29:02
+
+-- Dump completed on 2022-05-30 22:35:48
+

@@ -18,7 +18,12 @@ import com.toedter.calendar.JDateChooser;
 
 import Hilos.MenuAnimacion;
 import entidad.Estado;
+import entidad.Reporte;
+import entidad.ReporteTabla;
+import entidad.TipoUsuario;
 import mantenimiento.GestionEstadoDAO;
+import mantenimiento.GestionReporteDAO;
+import mantenimiento.GestionTipoUsuarioDAO;
 
 import javax.swing.JComboBox;
 import javax.swing.JTable;
@@ -29,12 +34,17 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.awt.event.MouseEvent;
 import javax.swing.DefaultComboBoxModel;
+//<<<<<<< HEAD
 import javax.swing.ImageIcon;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
+//=======
+import javax.swing.SwingConstants;
+//>>>>>>> d343d9873fe2929e369069f3fd07f13495de3523
 
 public class FrmReporte extends JInternalFrame implements ActionListener, MouseListener {
 
@@ -45,21 +55,21 @@ public class FrmReporte extends JInternalFrame implements ActionListener, MouseL
 	private JLabel lblFecha;
 	private JLabel lblEstado;
 	private JTextField txtCodigo;
-	private JTextField txtIdResponsable;
 	private JDateChooser dcFecha;
 	private JComboBox cboEstado;
 	private JTable table;
 	private JScrollPane scrollPane;
-	private JRadioButton rdbtnRegistrar;
-	private JRadioButton rdbtnActualizar;
-	private JRadioButton rdbtnEliminar;
-	private JButton btnAceptar;
-	private JTextField txtAnexo;
-	private JButton btnMostrar;
+	private JButton btnReportar;
+	private JTextField txtReporte;
 	ButtonGroup group = new ButtonGroup();
+	DefaultTableModel model = new DefaultTableModel();
 	
 	GestionEstadoDAO gEs = new GestionEstadoDAO();
-	private JButton btnCerrar;
+//=======
+	GestionReporteDAO gRe = new GestionReporteDAO();
+	GestionTipoUsuarioDAO gTip = new GestionTipoUsuarioDAO();
+	private JComboBox cboUsuario;
+//>>>>>>> d343d9873fe2929e369069f3fd07f13495de3523
 
 	/**
 	 * Launch the application.
@@ -83,12 +93,7 @@ public class FrmReporte extends JInternalFrame implements ActionListener, MouseL
 	public FrmReporte() {
 		setBorder(null);
 		setClosable(true);
-		addInternalFrameListener(new InternalFrameAdapter() {
-			@Override
-			public void internalFrameOpened(InternalFrameEvent e) {
-				internalFrameOpenedThis(e);
-			}
-		});
+		addInternalFrameListener(new InternalFrameAdapter() {});
 		setResizable(true);
 		setFrameIcon(new ImageIcon(FrmReporte.class.getResource("/images/shield-16.png")));
 		setTitle("Formulario | Reporte");
@@ -108,7 +113,7 @@ public class FrmReporte extends JInternalFrame implements ActionListener, MouseL
 		lblUsuario.setBounds(10, 51, 81, 14);
 		contentPane.add(lblUsuario);
 		
-		lblAnexo = new JLabel("Anexo");
+		lblAnexo = new JLabel("Descripci\u00F3n");
 		lblAnexo.setBounds(10, 76, 70, 14);
 		contentPane.add(lblAnexo);
 		
@@ -121,98 +126,62 @@ public class FrmReporte extends JInternalFrame implements ActionListener, MouseL
 		contentPane.add(lblEstado);
 		
 		txtCodigo = new JTextField();
+		txtCodigo.setEditable(false);
+		txtCodigo.setHorizontalAlignment(SwingConstants.CENTER);
+		txtCodigo.setText("Autogenerado");
 		txtCodigo.setColumns(10);
-		txtCodigo.setBounds(66, 22, 150, 20);
+		txtCodigo.setBounds(96, 22, 150, 20);
 		contentPane.add(txtCodigo);
 		
-		txtIdResponsable = new JTextField();
-		txtIdResponsable.setColumns(10);
-		txtIdResponsable.setBounds(66, 47, 150, 20);
-		contentPane.add(txtIdResponsable);
-		
 		dcFecha = new JDateChooser();
-		dcFecha.setBounds(66, 97, 150, 20);
+		dcFecha.setBounds(96, 97, 150, 20);
 		contentPane.add(dcFecha);
 		
 		cboEstado = new JComboBox();
-		cboEstado.setBounds(66, 121, 150, 20);
+		cboEstado.setEnabled(false);
+		cboEstado.setBounds(96, 121, 150, 20);
 		contentPane.add(cboEstado);
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 151, 559, 173);
 		contentPane.add(scrollPane);
 		
-		DefaultTableModel modelo = new DefaultTableModel();
-		modelo.addColumn("Código");
-		modelo.addColumn("Responsable");
-		modelo.addColumn("Descripción");
-		modelo.addColumn("Fecha");
-		modelo.addColumn("Estado");
+		
+		model.addColumn("Código");
+		model.addColumn("Responsable");
+		model.addColumn("Reporte");
+		model.addColumn("Fecha");
+		model.addColumn("Estado");
 		table = new JTable();
-		table.setModel(modelo);
+		table.setModel(model);
 		scrollPane.setViewportView(table);
 		
-		rdbtnRegistrar = new JRadioButton("Registrar");
-		rdbtnRegistrar.setSelected(true);
-		rdbtnRegistrar.addMouseListener(this);
-		rdbtnRegistrar.setBackground(Color.LIGHT_GRAY);
-		rdbtnRegistrar.setBounds(460, 22, 109, 23);
-		contentPane.add(rdbtnRegistrar);
+
+		btnReportar = new JButton("Reportar");
+		btnReportar.addActionListener(this);
+		btnReportar.setBounds(456, 22, 89, 23);
+		contentPane.add(btnReportar);
 		
-		rdbtnActualizar = new JRadioButton("Actualizar");
-		rdbtnActualizar.setBackground(Color.LIGHT_GRAY);
-		rdbtnActualizar.setBounds(460, 47, 109, 23);
-		contentPane.add(rdbtnActualizar);
+		txtReporte = new JTextField();
+		txtReporte.setBounds(96, 72, 150, 20);
+		contentPane.add(txtReporte);
+		txtReporte.setColumns(10);
 		
-		rdbtnEliminar = new JRadioButton("Eliminar");
-		rdbtnEliminar.setBackground(Color.LIGHT_GRAY);
-		rdbtnEliminar.setBounds(460, 72, 109, 23);
-		contentPane.add(rdbtnEliminar);
-		
-		btnAceptar = new JButton("Aceptar");
-		btnAceptar.setBounds(460, 97, 89, 23);
-		contentPane.add(btnAceptar);
-		
-		txtAnexo = new JTextField();
-		txtAnexo.setBounds(66, 72, 150, 20);
-		contentPane.add(txtAnexo);
-		txtAnexo.setColumns(10);
-		
-		btnMostrar = new JButton("...");
-		btnMostrar.addActionListener(this);
-		btnMostrar.setBounds(226, 71, 29, 23);
-		contentPane.add(btnMostrar);
-		
-		group.add(rdbtnActualizar);
-		group.add(rdbtnEliminar);
-		group.add(rdbtnRegistrar);
-		
-		btnCerrar = new JButton("Cerrar");
-		btnCerrar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				actionPerformedBtnCerrar(e);
-			}
-		});
-		btnCerrar.setBounds(365, 98, 85, 21);
-		contentPane.add(btnCerrar);
+		cboUsuario = new JComboBox();
+		cboUsuario.setEnabled(false);
+		cboUsuario.setBounds(96, 47, 150, 22);
+		contentPane.add(cboUsuario);
 		
 		cargarCombo();
+		cargarComboUsuarios();
+		mostrarData();
 	}
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnMostrar) {
-			actionPerformedBtnMostrar(e);
+		if (e.getSource() == btnReportar) {
+			actionPerformedBtnAceptar(e);
 		}
-	}
-	protected void actionPerformedBtnMostrar(ActionEvent e) {
-		Anexo ax = new Anexo();
-		ax.setLocationRelativeTo(this);
-		ax.setVisible(true);
-		
 	}
 	public void mouseClicked(MouseEvent e) {
-		if (e.getSource() == rdbtnRegistrar) {
-			mouseClickedRdbtnRegistrar(e);
-		}
 	}
 	public void mouseEntered(MouseEvent e) {
 	}
@@ -222,44 +191,150 @@ public class FrmReporte extends JInternalFrame implements ActionListener, MouseL
 	}
 	public void mouseReleased(MouseEvent e) {
 	}
-	protected void mouseClickedRdbtnRegistrar(MouseEvent e) {
-		limpiarcampos();
-	}
 
-	private void limpiarcampos() {
-		txtCodigo.setText("");
-		txtIdResponsable.setText("");
-		txtAnexo.setText("");
+	private void limpiarCampos() {
+
+		txtReporte.setText("");
 		dcFecha.setDate(null);
-		cboEstado.setSelectedIndex(0);
 		
 	}
 	
 	private void cargarCombo() {
-		ArrayList<Estado> listaDistrito = gEs.listaEstado();
+		ArrayList<Estado> listaEstado = gEs.listaEstado();
 		
-		if (listaDistrito.size() == 0) {
+		if (listaEstado.size() == 0) {
 			mensajeError("Lista Vacia");
 		}else {
-			cboEstado.addItem("Seleccione ...");
-			for(Estado distrito : listaDistrito) {
-				cboEstado.addItem(distrito.getCodigo() + " - " + distrito.getDescripcion());
+			cboEstado.addItem(" ");
+			for(Estado estado : listaEstado) {
+				cboEstado.addItem(estado.getCodigo() + " - " + estado.getDescripcion());
 			}
 		}
+		
+		cboEstado.setSelectedIndex(1);
+		
+	}
+	
+	private void cargarComboUsuarios() {
+		ArrayList<TipoUsuario> listaUsuario = gTip.listaTipoUsuarios();
+		
+		if (listaUsuario.size() == 0) {
+			mensajeError("Lista Vacia");
+		}else {
+			cboUsuario.addItem(" ");
+			for(TipoUsuario tipousuario : listaUsuario) {
+				cboUsuario.addItem(tipousuario.getCodigo() + " - " + tipousuario.getDescripcion());
+			}
+		}
+		
+		cboUsuario.setSelectedIndex(1);
 	}
 
 	private void mensajeError(String msj) {
 		JOptionPane.showMessageDialog(this, msj, "Error !!!", 0);
 	}
 	
-	// InternalFrame - Opened 
-	protected void internalFrameOpenedThis(InternalFrameEvent e) {
-		MenuAnimacion menuAnimacion = new MenuAnimacion();
-		menuAnimacion.start();
+	private void mensajeExito(String msj) {
+		JOptionPane.showMessageDialog(this, msj, "Exito !!!", 1);
 	}
 	
-	// Button Cerrar
-	protected void actionPerformedBtnCerrar(ActionEvent e) {
-		dispose();
+	private void registrarDatos() {
+		String report, fecha;
+		int user, estado;
+		
+		user = getUsuario();
+		report = getReporte();
+		fecha = getFecha();
+		estado = getEstado();
+		
+		if(user == 0 || report == null || fecha == null || estado == 0){
+			return;
+		}else {
+			Reporte r = new Reporte();
+			
+			r.setUsuario(user);
+			r.setDescripcion(report);
+			r.setFecha(fecha);
+			r.setEstado(estado);
+			
+			int res = gRe.registrar(r);
+			
+			if(res == 0){
+				mensajeError("Error en el registro");
+			}else {
+				mensajeExito("Registro exitoso");
+			}
+		}
+		
+	}
+	
+	private int getUsuario() {
+		int user = 0;
+		if(cboUsuario.getSelectedIndex() == 0){
+			mensajeError("Seleccione un usuario");
+			cboUsuario.requestFocus();
+		}else {
+			user = cboUsuario.getSelectedIndex();
+		}
+		return user;
+	}
+	
+	private String getReporte() {
+		String reporte = null;
+		if(txtReporte.getText().trim().length() == 0){
+			mensajeError("Ingrese un reporte");
+			txtReporte.requestFocus();
+		}else {
+			reporte = txtReporte.getText().trim();
+		}
+		return reporte;
+	}
+
+	
+	private String getFecha() {
+		String fecha = null;
+		if(dcFecha.getDate() == null){
+			mensajeError("Ingrese una fecha");
+			dcFecha.requestFocus();
+		}else {
+			fecha = new SimpleDateFormat("yyyy/MM/dd").format(dcFecha.getDate());
+		}
+		return fecha;
+	}
+	
+	private int getEstado() {
+		int estado = 0;
+		if(cboEstado.getSelectedIndex() == 0){
+			mensajeError("Seleccione un estado");
+			cboEstado.requestFocus();
+		}else {
+			estado = cboEstado.getSelectedIndex();
+		}
+		return estado;
+	}
+	
+	protected void actionPerformedBtnAceptar(ActionEvent e) {
+		
+		registrarDatos();
+		limpiarCampos();
+		mostrarData();
+		
+	}
+	
+	private void mostrarData(){
+		model.setRowCount(0);
+		
+		ArrayList<ReporteTabla> data = gRe.listarReportes();
+//		System.out.println(data.size());
+		for(ReporteTabla rt : data) {
+			Object fila[] = {rt.getCod(),
+							 rt.getUsuario(),
+							 rt.getDescripcion(),
+							 rt.getFecha(),
+							 rt.getEstado()
+			};
+			
+			model.addRow(fila);
+		}
 	}
 }

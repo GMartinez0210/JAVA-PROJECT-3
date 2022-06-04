@@ -1,21 +1,22 @@
 package entidad;
 
-public class Reporte {
-	private int codigo;
-	private int usuario;
+public class ReporteTabla {
+	private int cod;
+	private String Usuario;
 	private String descripcion;
 	private String fecha;
-	private int estado;
+	private String estado;
 	private int codAnexo;
 	private String fechaEvaluacion;
 	
-	public Reporte() {
 	
+	public ReporteTabla() {
+
 	}
 
-	public Reporte(int codigo, int usuario, String descripcion, String fecha, int estado, int codAnexo, String fechaEvaluacion) {
-		this.codigo = codigo;
-		this.usuario = usuario;
+	public ReporteTabla(int cod, String usuario, String descripcion, String fecha, String estado, int codAnexo, String fechaEvaluacion) {
+		this.cod = cod;
+		this.Usuario = usuario;
 		this.descripcion = descripcion;
 		this.fecha = fecha;
 		this.estado = estado;
@@ -23,20 +24,20 @@ public class Reporte {
 		this.fechaEvaluacion = fechaEvaluacion;
 	}
 
-	public int getCodigo() {
-		return codigo;
+	public int getCod() {
+		return cod;
 	}
 
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
+	public void setCod(int cod) {
+		this.cod = cod;
 	}
 
-	public int getUsuario() {
-		return usuario;
+	public String getUsuario() {
+		return Usuario;
 	}
 
-	public void setUsuario(int usuario) {
-		this.usuario = usuario;
+	public void setUsuario(String usuario) {
+		Usuario = usuario;
 	}
 
 	public String getDescripcion() {
@@ -55,11 +56,11 @@ public class Reporte {
 		this.fecha = fecha;
 	}
 
-	public int getEstado() {
+	public String getEstado() {
 		return estado;
 	}
 
-	public void setEstado(int estado) {
+	public void setEstado(String estado) {
 		this.estado = estado;
 	}
 	

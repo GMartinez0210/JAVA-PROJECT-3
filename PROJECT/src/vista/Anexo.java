@@ -21,8 +21,10 @@ import javax.swing.JScrollPane;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class Anexo extends JDialog {
+public class Anexo extends JDialog implements ActionListener {
 
 	private final JPanel contentPanel = new JPanel();
 	
@@ -65,15 +67,13 @@ public class Anexo extends JDialog {
 		
 		
 		txtS = new JTable();
-		
 		scrollPane.setViewportView(txtS);
-		
-//		DefaultTableModel modelo = new DefaultTableModel();
 		modelo.addColumn("N°");
 		modelo.addColumn("Descripción");
 		txtS.setModel(modelo);
 		
 		btnSeleccionar = new JButton("Selecionar");
+		btnSeleccionar.addActionListener(this);
 		btnSeleccionar.setBounds(228, 294, 107, 23);
 		contentPanel.add(btnSeleccionar);
 		
@@ -100,7 +100,26 @@ public class Anexo extends JDialog {
 				anexos.getDescripcion()
 			};
 			modelo.addRow(row);
-			
 		}
+	}
+	
+	private void enviarDatos(){
+		String cod;
+		int fila;
+		
+		fila = txtS.getSelectedRow();
+		cod = txtS.getValueAt(fila, 0).toString();
+		
+		FrmRegistro.txtAnexo.setText(cod);
+		
+		this.dispose();
+	}
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnSeleccionar) {
+			actionPerformedBtnSeleccionar(e);
+		}
+	}
+	protected void actionPerformedBtnSeleccionar(ActionEvent e) {
+		enviarDatos();
 	}
 }
