@@ -15,7 +15,6 @@ import javax.swing.JButton;
 import java.util.ArrayList;
 import java.awt.Color;
 import java.awt.Cursor;
-
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import java.awt.event.MouseAdapter;
@@ -207,9 +206,11 @@ public class FrmSeguimiento extends JInternalFrame {
 					break;
 		}
 	}
+	
 	protected void mouseEnteredLblRecargar(MouseEvent e) {
 		lblNewLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}
+	
 	protected void mouseClickedLblRecargar(MouseEvent e) {
 		mostrarTabla();
 		JOptionPane.showMessageDialog(this, "La tabla ha sido actualizada.");

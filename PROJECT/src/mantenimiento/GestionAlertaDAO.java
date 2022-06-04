@@ -127,7 +127,6 @@ public class GestionAlertaDAO implements AlertaInterfaceDAO{
 			cn = MySQLConexion8.getConexion();
 			String sql = "select * from tb_alerta where derivada is null";
 			pstm = cn.prepareStatement(sql);
-			
 			rs = pstm.executeQuery();
 			while(rs.next()){
 				a = new Alerta();
@@ -199,7 +198,6 @@ public class GestionAlertaDAO implements AlertaInterfaceDAO{
 			pstm = cn.prepareStatement(sql);
 			pstm.setString(1, alerta.getDeriv());
 			pstm.setInt(2, alerta.getCod());
-			
 			alert = pstm.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -289,7 +287,6 @@ public class GestionAlertaDAO implements AlertaInterfaceDAO{
 			cn = MySQLConexion8.getConexion();
 			String sql = "select * from tb_alerta where derivada is not null and plazoatencion is not null";
 			pstm = cn.prepareStatement(sql);
-			
 			rs = pstm.executeQuery();
 			while(rs.next()){
 				a = new Alerta();
@@ -316,8 +313,6 @@ public class GestionAlertaDAO implements AlertaInterfaceDAO{
 				System.out.println("Error al cerrar la base de datos " + e2.getMessage());
 			}
 		}
-		
-		
 		return lista;
 	}
 
@@ -332,7 +327,6 @@ public class GestionAlertaDAO implements AlertaInterfaceDAO{
 			pstm = cn.prepareStatement(sql);
 			pstm.setString(1, alerta.getEstado());
 			pstm.setInt(2, alerta.getCod());
-			
 			alert = pstm.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -346,5 +340,4 @@ public class GestionAlertaDAO implements AlertaInterfaceDAO{
 		}
 		return alert;
 	}
-
 }

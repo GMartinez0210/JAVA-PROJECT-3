@@ -12,9 +12,8 @@ public class Alerta {
 	private String deriv;
 	private String plazoatencion;
 	private String estado;
+	
 	public Alerta() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 	public Alerta(int cod, int codUsu, Date fec, String breveDes, String des, boolean relevancia, String deriv,
 			String plazoatencion, String estado) {
@@ -83,5 +82,4 @@ public class Alerta {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	
 }

@@ -22,8 +22,6 @@ import java.awt.event.MouseEvent;
 @SuppressWarnings("serial")
 public class FrmAtencion extends JInternalFrame{
 	public static JTable tblAlertas;
-	@SuppressWarnings("unused")
-	private DefaultTableModel modelo;
 	private JButton btnAsignarFecha;
 	private JLabel lblDerivarAlertas;
 	private JScrollPane scrollPane;

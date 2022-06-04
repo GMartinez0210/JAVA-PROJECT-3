@@ -5,14 +5,11 @@ import java.awt.EventQueue;
 import javax.swing.JInternalFrame;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
 import entidad.Alerta;
 import mantenimiento.GestionAlertaDAO;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import javax.swing.JScrollPane;
 import java.util.ArrayList;
@@ -75,7 +72,6 @@ public class FrmDerivacion extends JInternalFrame {
 				scrollpane.setViewportView(tblAlertas);
 			}
 		}
-
 		model.addColumn("Codigo");
 		model.addColumn("Cod. Usuario");
 		model.addColumn("Fecha");
@@ -111,8 +107,6 @@ public class FrmDerivacion extends JInternalFrame {
 		}
 		mostrarTabla();
 	}
-	
-	
 
 	private void mostrarTabla() {
 		model.setRowCount(0);
@@ -131,13 +125,16 @@ public class FrmDerivacion extends JInternalFrame {
 			System.out.print(e.getMessage());
 		}
 	}
+	
 	protected void mouseEnteredLblNewLabel(MouseEvent e) {
 		lblNewLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}
+	
 	protected void mouseClickedLblNewLabel(MouseEvent e) {
 		mostrarTabla();
 		JOptionPane.showMessageDialog(this, "La tabla ha sido actualizada.");
 	}
+	
 	protected void actionPerformedBtnAtender(ActionEvent e) {
 		try{
 			DlgDerivacion derivacion = new DlgDerivacion();
@@ -168,7 +165,6 @@ public class FrmDerivacion extends JInternalFrame {
 		} else {
 			DlgDerivacion.lblRelevante.setText("NO RELEVANTE");
 			DlgDerivacion.lblRelevante.setForeground(Color.BLACK);
-		}
-		
+		}	
 	}
 }

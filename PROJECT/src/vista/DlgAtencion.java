@@ -144,6 +144,7 @@ public class DlgAtencion extends JDialog {
 	private void mensajeExitoso(String msj) {
 		JOptionPane.showMessageDialog(this, msj, "Sistema", 1);
 	}
+	
 	protected void actionPerformedBtnGuardar(ActionEvent e) {
 		String fecha;
 		java.util.Date fec;

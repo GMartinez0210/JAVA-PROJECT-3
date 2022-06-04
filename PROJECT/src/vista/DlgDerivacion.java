@@ -4,10 +4,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import entidad.Alerta;
 import mantenimiento.GestionAlertaDAO;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import javax.swing.JTextField;
 import java.awt.Color;
@@ -169,6 +167,5 @@ public class DlgDerivacion extends JDialog {
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
 		}
-		
 	}
 }
