@@ -5,6 +5,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MySQLConexion8 {
+	static {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			System.out.println("Error >> Driver no Instalado: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
 	public static Connection getConexion() {
 		Connection connection = null;
 		try {

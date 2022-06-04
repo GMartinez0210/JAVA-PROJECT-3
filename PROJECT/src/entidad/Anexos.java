@@ -1,10 +1,5 @@
 package entidad;
 
-import javax.management.modelmbean.ModelMBean;
-import javax.swing.table.TableColumnModel;
-
-import org.w3c.dom.html.HTMLTableCaptionElement;
-
 public class Anexos {
 	private int cod;
 	private String descripcion;
