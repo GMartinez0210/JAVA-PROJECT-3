@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.InternalFrameAdapter;
 import javax.swing.table.DefaultTableModel;
 
 import java.awt.Toolkit;
@@ -38,13 +39,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.awt.event.MouseEvent;
 import javax.swing.DefaultComboBoxModel;
-//<<<<<<< HEAD
 import javax.swing.ImageIcon;
-import javax.swing.event.InternalFrameAdapter;
-import javax.swing.event.InternalFrameEvent;
-//=======
 import javax.swing.SwingConstants;
-//>>>>>>> d343d9873fe2929e369069f3fd07f13495de3523
 
 public class FrmReporte extends JInternalFrame implements ActionListener, MouseListener {
 
@@ -65,11 +61,10 @@ public class FrmReporte extends JInternalFrame implements ActionListener, MouseL
 	DefaultTableModel model = new DefaultTableModel();
 	
 	GestionEstadoDAO gEs = new GestionEstadoDAO();
-//=======
+
 	GestionReporteDAO gRe = new GestionReporteDAO();
 	GestionTipoUsuarioDAO gTip = new GestionTipoUsuarioDAO();
 	private JComboBox cboUsuario;
-//>>>>>>> d343d9873fe2929e369069f3fd07f13495de3523
 
 	/**
 	 * Launch the application.

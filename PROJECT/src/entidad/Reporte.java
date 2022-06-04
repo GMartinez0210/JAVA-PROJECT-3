@@ -8,12 +8,13 @@ public class Reporte {
 	private int estado;
 	private int codAnexo;
 	private String fechaEvaluacion;
+	private int cod_prio; //anexo_2 en la db
 	
 	public Reporte() {
 	
 	}
 
-	public Reporte(int codigo, int usuario, String descripcion, String fecha, int estado, int codAnexo, String fechaEvaluacion) {
+	public Reporte(int codigo, int usuario, String descripcion, String fecha, int estado, int codAnexo, String fechaEvaluacion, int cod_prio) {
 		this.codigo = codigo;
 		this.usuario = usuario;
 		this.descripcion = descripcion;
@@ -21,6 +22,7 @@ public class Reporte {
 		this.estado = estado;
 		this.codAnexo = codAnexo;
 		this.fechaEvaluacion = fechaEvaluacion;
+		this.setCod_prio(cod_prio);
 	}
 
 	public int getCodigo() {
@@ -31,6 +33,7 @@ public class Reporte {
 		this.codigo = codigo;
 	}
 
+	
 	public int getUsuario() {
 		return usuario;
 	}
@@ -78,6 +81,13 @@ public class Reporte {
 	public void setFechaEvaluacion(String fechaEvaluacion) {
 		this.fechaEvaluacion = fechaEvaluacion;
 	}
-	
-	
+
+
+	public int getCod_prio() {
+		return cod_prio;
+	}
+
+	public void setCod_prio(int cod_prio) {
+		this.cod_prio = cod_prio;
+	}
 }

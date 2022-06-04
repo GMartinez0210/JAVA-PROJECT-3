@@ -6,6 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import entidad.Reporte;
 import entidad.ReporteTabla;
 import interfaces.ReporteInterfacesDAO;
@@ -91,6 +95,4 @@ public class GestionReporteDAO implements ReporteInterfacesDAO {
 		return lista;
 		
 	}
-	
-	
 }
