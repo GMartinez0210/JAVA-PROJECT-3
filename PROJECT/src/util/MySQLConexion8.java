@@ -16,7 +16,7 @@ public class MySQLConexion8 {
 	public static Connection getConexion() {
 		Connection connection = null;
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			String url = "jdbc:mysql://localhost:3306/javaprojectdb?serverTimezone=UTC";
 			String user = "root";
 			String password = "root";

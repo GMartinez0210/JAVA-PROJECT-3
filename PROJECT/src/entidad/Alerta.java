@@ -1,29 +1,33 @@
 package entidad;
 
-import java.sql.Date;
+
+import java.sql.*;
 
 public class Alerta {
 	private int cod;
+	private int codUsu;
 	private java.sql.Date fec;
-	private boolean relevancia;
 	private String breveDes;
 	private String des;
-	private int codUsu;
-	private String derivada;
-	private java.sql.Date plazoAtencion;
+	private boolean relevancia;
+	private String deriv;
+	private String plazoatencion;
+	private String estado;
+	
 	public Alerta() {
-		super();
 	}
-	public Alerta(int cod, int codUsu, Date fec, String breveDes, String des ,boolean relevancia, String derivada, Date plazoAtencion) {
+	public Alerta(int cod, int codUsu, Date fec, String breveDes, String des, boolean relevancia, String deriv,
+			String plazoatencion, String estado) {
 		super();
 		this.cod = cod;
-		this.fec = fec;
-		this.relevancia = relevancia;
-		this.des = des;
-		this.breveDes = breveDes;
 		this.codUsu = codUsu;
-		this.derivada = derivada;
-		this.plazoAtencion = plazoAtencion;
+		this.fec = fec;
+		this.breveDes = breveDes;
+		this.des = des;
+		this.relevancia = relevancia;
+		this.deriv = deriv;
+		this.plazoatencion = plazoatencion;
+		this.estado = estado;
 	}
 	public int getCod() {
 		return cod;
@@ -31,29 +35,19 @@ public class Alerta {
 	public void setCod(int cod) {
 		this.cod = cod;
 	}
-	public java.sql.Date getFec() {
-		return fec;
-	}
-	public void setFec(java.sql.Date fec) {
-		this.fec = fec;
-	}
-	public boolean getRelevancia() {
-		return relevancia;
-	}
-	public void setRelevancia(boolean relevancia) {
-		this.relevancia = relevancia;
-	}
-	public String getDes() {
-		return des;
-	}
-	public void setDes(String des) {
-		this.des = des;
-	}
+
 	public int getCodUsu() {
 		return codUsu;
 	}
 	public void setCodUsu(int codUsu) {
 		this.codUsu = codUsu;
+	}
+	
+	public java.sql.Date getFec() {
+		return fec;
+	}
+	public void setFec(java.sql.Date fec) {
+		this.fec = fec;
 	}
 	public String getBreveDes() {
 		return breveDes;
@@ -61,17 +55,35 @@ public class Alerta {
 	public void setBreveDes(String breveDes) {
 		this.breveDes = breveDes;
 	}
-	public String getDerivada() {
-		return derivada;
+
+	public String getDes() {
+		return des;
 	}
-	public void setDerivada(String derivada) {
-		this.derivada = derivada;
+	public void setDes(String des) {
+		this.des = des;
 	}
-	public java.sql.Date getPlazoAtencion() {
-		return plazoAtencion;
+	public boolean getRelevancia() {
+		return relevancia;
 	}
-	public void setPlazoAtencion(java.sql.Date plazoAtencion) {
-		this.plazoAtencion = plazoAtencion;
+	public void setRelevancia(boolean relevancia) {
+		this.relevancia = relevancia;
 	}
-	
+	public String getDeriv() {
+		return deriv;
+	}
+	public void setDeriv(String deriv) {
+		this.deriv = deriv;
+	}
+	public String getPlazoatencion() {
+		return plazoatencion;
+	}
+	public void setPlazoatencion(String plazoatencion) {
+		this.plazoatencion = plazoatencion;
+	}
+	public String getEstado() {
+		return estado;
+	}
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
 }
