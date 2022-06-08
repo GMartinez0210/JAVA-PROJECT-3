@@ -128,6 +128,11 @@ public class PrincipalFuncional extends JFrame {
 		panelMenu.add(NavForm1);
 		
 		NavForm2 = new JButton("New label");
+		NavForm2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actionPerformedNavForm2(e);
+			}
+		});
 		NavForm2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		NavForm2.setForeground(new Color(0, 128, 128));
 		NavForm2.setBackground(new Color(255, 250, 240));
@@ -153,6 +158,11 @@ public class PrincipalFuncional extends JFrame {
 		panelMenu.add(NavForm3);
 		
 		NavForm4 = new JButton("New label");
+		NavForm4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actionPerformedNavForm4(e);
+			}
+		});
 		NavForm4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		NavForm4.setForeground(new Color(0, 128, 128));
 		NavForm4.setBackground(new Color(255, 250, 240));
@@ -163,6 +173,11 @@ public class PrincipalFuncional extends JFrame {
 		panelMenu.add(NavForm4);
 		
 		NavForm5 = new JButton("New label");
+		NavForm5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actionPerformedNavForm5(e);
+			}
+		});
 		NavForm5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		NavForm5.setForeground(new Color(0, 128, 128));
 		NavForm5.setBackground(new Color(255, 250, 240));
@@ -173,6 +188,11 @@ public class PrincipalFuncional extends JFrame {
 		panelMenu.add(NavForm5);
 		
 		NavForm6 = new JButton("New label");
+		NavForm6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actionPerformedNavForm6(e);
+			}
+		});
 		NavForm6.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		NavForm6.setForeground(new Color(0, 128, 128));
 		NavForm6.setBackground(new Color(255, 250, 240));
@@ -256,13 +276,13 @@ public class PrincipalFuncional extends JFrame {
 				case 2: 
 					habilitandoForms(true);
 					
+					NavForm4.setVisible(false);
 					NavForm5.setVisible(false);
 					NavForm6.setVisible(false);
 					
-					NavForm1.setText("Generar");
-					NavForm2.setText("Reporte");
-					NavForm3.setText("Comunica");
-					NavForm4.setText("Deriva");
+					NavForm1.setText("Reporte");
+					NavForm2.setText("Comunica");
+					NavForm3.setText("Deriva");
 						break;
 				case 3: 
 					habilitandoForms(false);
@@ -320,14 +340,121 @@ public class PrincipalFuncional extends JFrame {
 	
 	// NavForm1 Button
 	protected void actionPerformedNavForm1(ActionEvent e) {
-		FrmReporte reporte = new FrmReporte();
-		escritorio.add(reporte);
-		reporte.setVisible(true);
+		Usuario usuario = gUsuario.leerUsuario(codUsuario);
+		int idCategoria = usuario.getIdCargo();
+		
+		switch(idCategoria) {
+			case 3: 
+				FrmRegistro registro = new FrmRegistro();
+				escritorio.add(registro);
+				registro.setVisible(true);
+					break;
+			default: 
+				FrmReporte reporte = new FrmReporte();
+				escritorio.add(reporte);
+				reporte.setVisible(true);
+					break;
+		}
 	}
-	// NavForm2 BOTOM
+	// NavForm2 Button	
+	protected void actionPerformedNavForm2(ActionEvent e) {
+		Usuario usuario = gUsuario.leerUsuario(codUsuario);
+		int idCategoria = usuario.getIdCargo();
+		
+		switch(idCategoria) {
+			case 2: 
+				FrmComunica comunica = new FrmComunica();
+				escritorio.add(comunica);
+				comunica.setVisible(true);
+					break;
+			case 4: 
+				FrmIngresarAlerta ingresarAlerta = new FrmIngresarAlerta();
+				escritorio.add(ingresarAlerta);
+				ingresarAlerta.setVisible(true);
+					break;
+		}
+	}
+	
+	// NavForm3 Button
 	protected void actionPerformedNavForm3(ActionEvent e) {
-		FrmComunica comunica = new FrmComunica();
-		escritorio.add(comunica);
-		comunica.setVisible(true);
+		Usuario usuario = gUsuario.leerUsuario(codUsuario);
+		int idCategoria = usuario.getIdCargo();
+		
+		switch(idCategoria) {
+			case 2: 
+				FrmDerivacion deriva = new FrmDerivacion();
+				escritorio.add(deriva);
+				deriva.setVisible(true);
+					break;
+			case 4: 
+				FrmComunica comunica = new FrmComunica();
+				escritorio.add(comunica);
+				comunica.setVisible(true);
+					break;
+		}
 	}
+
+	// NavForm4 Button
+	protected void actionPerformedNavForm4(ActionEvent e) {
+		FrmAtencion atencion = new FrmAtencion();
+		escritorio.add(atencion);
+		atencion.setVisible(true);
+	}
+	
+	// NavForm5 Button
+	protected void actionPerformedNavForm5(ActionEvent e) {
+	}
+	
+	// NavForm6 Button
+	protected void actionPerformedNavForm6(ActionEvent e) {
+	}
+	
+	/*
+	
+	 switch (idCategoria) {
+				case 1: 
+					habilitandoForms(false);
+					
+					NavForm1.setVisible(true);
+					
+					NavForm1.setText("Reporte");
+						break;
+				case 2: 
+					habilitandoForms(true);
+					
+					NavForm4.setVisible(false);
+					NavForm5.setVisible(false);
+					NavForm6.setVisible(false);
+					
+					NavForm1.setText("Reporte");
+					NavForm2.setText("Comunica");
+					NavForm3.setText("Deriva");
+						break;
+				case 3: 
+					habilitandoForms(false);
+					
+					NavForm1.setVisible(true);
+					
+					NavForm1.setText("Reporte");
+						break;
+				case 4: 
+					habilitandoForms(true);
+					
+					NavForm5.setVisible(false);
+					NavForm6.setVisible(false);
+					
+					NavForm1.setText("Registro");
+					NavForm2.setText("Evalua");
+					NavForm3.setText("Comunica");
+					NavForm4.setText("Atencion");
+						break;
+				case 5: 
+					habilitandoForms(false);
+					NavForm1.setVisible(true);
+					NavForm1.setText("Reporte");
+						break;
+						
+			}
+	 
+	*/
 }

@@ -12,6 +12,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
@@ -24,7 +25,7 @@ import java.awt.event.ActionListener;
 import java.util.Properties;
 import java.awt.event.ActionEvent;
 
-public class FrmComunica extends JDialog implements ActionListener {
+public class FrmComunica extends JInternalFrame implements ActionListener {
 
 	private final JPanel contentPanel = new JPanel();
 	private JLabel lblNewLabel;
@@ -53,6 +54,7 @@ public class FrmComunica extends JDialog implements ActionListener {
 	 * Create the dialog.
 	 */
 	public FrmComunica() {
+		setClosable(true);
 		setBounds(100, 100, 626, 367);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

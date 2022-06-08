@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -41,7 +42,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
-public class FrmRegistro extends JFrame implements MouseListener, ActionListener {
+public class FrmRegistro extends JInternalFrame implements MouseListener, ActionListener {
 
 	private JPanel contentPane;
 	private JLabel lblCodigo;
@@ -93,7 +94,6 @@ public class FrmRegistro extends JFrame implements MouseListener, ActionListener
 	 * Create the frame.
 	 */
 	public FrmRegistro() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmRegistro.class.getResource("/images/shield-16.png")));
 		setTitle("Formulario | Registro");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 692, 453);

@@ -17,7 +17,7 @@ public class MySQLConexion8 {
 		Connection connection = null;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			String url = "jdbc:mysql://localhost:3306/javaprojectdb?serverTimezone=UTC";
+			String url = "jdbc:mysql://localhost:3306/projectdb?serverTimezone=UTC";
 			String user = "root";
 			String password = "root";
 			connection = DriverManager.getConnection(url, user, password);

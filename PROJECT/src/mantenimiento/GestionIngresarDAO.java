@@ -25,7 +25,7 @@ public class GestionIngresarDAO implements  IngresarInterfaceDAO{
 			connection = MySQLConexion8.getConexion();
 			
 			// Step 2: Query to search the user
-			String sql = "SELECT * FROM javaprojectdb.tb_usuario WHERE usuario = ? AND clave = ?;";
+			String sql = "SELECT * FROM usuario WHERE dniUsuario = ? AND claveUsuario = ?;";
 		
 			// Step 3: 
 			pstm = connection.prepareStatement(sql);

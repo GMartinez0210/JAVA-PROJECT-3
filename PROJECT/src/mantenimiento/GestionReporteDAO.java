@@ -26,7 +26,7 @@ public class GestionReporteDAO implements ReporteInterfacesDAO {
 		try {
 			con = MySQLConexion8.getConexion();
 			
-			String sql = "INSERT INTO tb_reportes values (null, ?, ?, ?, ?, null, null)";
+			String sql = "INSERT INTO reportes values (null, ?, ?, ?, ?, null, null)";
 			
 			pstm = con.prepareStatement(sql);
 			

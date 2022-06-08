@@ -21,16 +21,16 @@ public class GestionAlertaDAO implements AlertaInterfaceDAO{
 		
 		try {
 			con = MySQLConexion8.getConexion();
-			String sql = "insert into tb_alerta values(null,?,?,?,null,?)";
+			String sql = "insert into alerta(codUsuario, descripBreveAlerta, relevanciaAlerta, fechaAlerta) values(?,?,?,?)";
 			pstm = con.prepareStatement(sql);
 			pstm.setInt(1, alerta.getCodUsu());
-			pstm.setDate(2, alerta.getFec());
-			pstm.setString(3, alerta.getBreveDes());
-			pstm.setBoolean(4, alerta.getRelevancia());
+			pstm.setString(2, alerta.getBreveDes());
+			pstm.setBoolean(3, alerta.getRelevancia());
+			pstm.setDate(4, alerta.getFec());
 			
 			insert = pstm.executeUpdate();
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("ERROR: " + e.getMessage());
 		} finally {
 			try {
 				if(pstm != null) pstm.close();
@@ -53,7 +53,7 @@ public class GestionAlertaDAO implements AlertaInterfaceDAO{
 		
 		try {
 			conn = MySQLConexion8.getConexion();
-			String sql = "update tb_alerta set descripbreve = ?, descrip=?, relevancia=? where codigo=?";
+			String sql = "update alerta set descripBreveAlerta = ?, descripcionAlerta = ?, relevanciaAlerta = ? where codAlerta = ?";
 			pstm = conn.prepareStatement(sql);
 			pstm.setString(1, alerta.getBreveDes());
 			pstm.setString(2, alerta.getDes());
@@ -83,7 +83,7 @@ public class GestionAlertaDAO implements AlertaInterfaceDAO{
 		ResultSet rs = null;
 		try {
 			con = MySQLConexion8.getConexion();
-			String sql = "select * from tb_alerta";
+			String sql = "select * from alerta";
 			pstm = con.prepareStatement(sql);
 			rs = pstm.executeQuery();
 			Alerta a = null;
@@ -91,10 +91,10 @@ public class GestionAlertaDAO implements AlertaInterfaceDAO{
 				a = new Alerta();
 				a.setCod(rs.getInt(1));
 				a.setCodUsu(rs.getInt(2));
-				a.setFec(rs.getDate(3));
-				a.setBreveDes(rs.getString(4));
-				a.setDes(rs.getString(5));
-				a.setRelevancia(rs.getBoolean(6));
+				a.setBreveDes(rs.getString(3));
+				a.setDes(rs.getString(4));
+				a.setRelevancia(rs.getBoolean(5));
+				a.setFec(rs.getDate(7));
 
 				data.add(a);
 			}
@@ -129,18 +129,18 @@ public class GestionAlertaDAO implements AlertaInterfaceDAO{
 		ResultSet rs= null;
 		try {
 			cn = MySQLConexion8.getConexion();
-			String sql = "select * from tb_alerta where derivada is null";
+			String sql = "select * from alerta where derivadaAlerta is null";
 			pstm = cn.prepareStatement(sql);
 			rs = pstm.executeQuery();
 			while(rs.next()){
 				a = new Alerta();
 				a.setCod(rs.getInt(1));
 				a.setCodUsu(rs.getInt(2));
-				a.setFec(rs.getDate(3));
-				a.setBreveDes(rs.getString(4));
-				a.setDes(rs.getString(5));
-				a.setRelevancia(rs.getBoolean(6));
-				a.setDeriv(rs.getString(7));
+				a.setBreveDes(rs.getString(3));				
+				a.setDes(rs.getString(4));
+				a.setRelevancia(rs.getBoolean(5));
+				a.setDeriv(rs.getString(6));
+				a.setFec(rs.getDate(7));
 				a.setPlazoatencion(rs.getString(8));
 				lista.add(a);
 			}
@@ -168,7 +168,7 @@ public class GestionAlertaDAO implements AlertaInterfaceDAO{
 		ResultSet rs = null;
 		try {
 			cn = MySQLConexion8.getConexion();
-			String sql = "SELECT tb_alerta.codigo FROM javaprojectdb.tb_alerta";
+			String sql = "SELECT codAlerta FROM alerta";
 			pstm = cn.prepareStatement(sql);
 			rs = pstm.executeQuery();
 			while(rs.next()){
@@ -198,7 +198,7 @@ public class GestionAlertaDAO implements AlertaInterfaceDAO{
 		PreparedStatement pstm = null;
 		try {
 			cn = MySQLConexion8.getConexion();
-			String sql = "update tb_alerta set derivada=? where codigo=?";
+			String sql = "update alerta set derivadaAlerta = ? where codAlerta = ?";
 			pstm = cn.prepareStatement(sql);
 			pstm.setString(1, alerta.getDeriv());
 			pstm.setInt(2, alerta.getCod());
@@ -225,7 +225,7 @@ public class GestionAlertaDAO implements AlertaInterfaceDAO{
 		ResultSet rs= null;
 		try {
 			cn = MySQLConexion8.getConexion();
-			String sql = "select * from tb_alerta where derivada is not null and plazoatencion is null";
+			String sql = "select * from alerta where derivadaAlerta is not null and plazoAlerta is null";
 			pstm = cn.prepareStatement(sql);
 			rs = pstm.executeQuery();
 			while(rs.next()){
@@ -262,7 +262,7 @@ public class GestionAlertaDAO implements AlertaInterfaceDAO{
 		PreparedStatement pstm = null;
 		try {
 			cn = MySQLConexion8.getConexion();
-			String sql = "update tb_alerta set plazoatencion = ? where codigo= ? ";
+			String sql = "update alerta set plazoAlerta = ? where codAlerta = ?";
 			pstm = cn.prepareStatement(sql);
 			pstm.setString(1, alerta.getPlazoatencion());
 			pstm.setInt(2, alerta.getCod());
@@ -289,7 +289,7 @@ public class GestionAlertaDAO implements AlertaInterfaceDAO{
 		ResultSet rs= null;
 		try {
 			cn = MySQLConexion8.getConexion();
-			String sql = "select * from tb_alerta where derivada is not null and plazoatencion is not null";
+			String sql = "select * from alerta where derivadaAlerta is not null and plazoAlerta is not null";
 			pstm = cn.prepareStatement(sql);
 			rs = pstm.executeQuery();
 			while(rs.next()){
@@ -327,7 +327,7 @@ public class GestionAlertaDAO implements AlertaInterfaceDAO{
 		PreparedStatement pstm = null;
 		try {
 			cn = MySQLConexion8.getConexion();
-			String sql = "update tb_alerta set estado=? where codigo=?";
+			String sql = "update alerta set estadoAlerta = ? where codAlerta = ?";
 			pstm = cn.prepareStatement(sql);
 			pstm.setString(1, alerta.getEstado());
 			pstm.setInt(2, alerta.getCod());

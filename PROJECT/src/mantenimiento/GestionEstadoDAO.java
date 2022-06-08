@@ -23,7 +23,7 @@ public class GestionEstadoDAO implements EstadoInterfacesDAO{
 			//paso 1
 			con = MySQLConexion8.getConexion();
 			//paso 2
-			String sql = "select * from tb_estado";
+			String sql = "select * from estado";
 			//paso 3
 			pstm = con.prepareStatement(sql);
 			//paso 4 --> no hay

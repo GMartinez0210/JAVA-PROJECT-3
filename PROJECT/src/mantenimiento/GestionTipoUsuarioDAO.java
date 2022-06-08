@@ -25,7 +25,7 @@ public class GestionTipoUsuarioDAO implements TipoUsuarioInterfacesDAO{
 			//paso 1
 			con = MySQLConexion8.getConexion();
 			//paso 2
-			String sql = "SELECT * FROM tb_tipo_usuario";
+			String sql = "SELECT * FROM tipo_usuario";
 			//paso 3
 			pstm = con.prepareStatement(sql);
 			//paso 4 --> no hay

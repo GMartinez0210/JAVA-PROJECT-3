@@ -120,6 +120,10 @@ public class Anexo extends JDialog implements ActionListener {
 		}
 	}
 	protected void actionPerformedBtnSeleccionar(ActionEvent e) {
-		enviarDatos();
+		try {
+			enviarDatos();
+		} catch (Exception e2) {
+			System.out.println("ERROR: " + e2.getMessage());
+		}
 	}
 }
