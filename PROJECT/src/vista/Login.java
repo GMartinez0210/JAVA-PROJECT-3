@@ -27,6 +27,7 @@ import javax.swing.border.EmptyBorder;
 import entidad.Ingresar;
 import entidad.Usuario;
 import mantenimiento.GestionIngresarDAO;
+import java.awt.Color;
 
 public class Login extends JFrame {
 
@@ -66,27 +67,30 @@ public class Login extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 250);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(240, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		lblNewLabel = new JLabel("Usuario");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel = new JLabel("DNI");
+		lblNewLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		lblNewLabel.setBounds(32, 112, 88, 13);
 		contentPane.add(lblNewLabel);
 		
 		lblContrasea = new JLabel("Contrase\u00F1a");
-		lblContrasea.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblContrasea.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		lblContrasea.setBounds(32, 141, 88, 13);
 		contentPane.add(lblContrasea);
 		
 		txtUsuario = new JTextField();
+		txtUsuario.setBackground(new Color(255, 255, 255));
 		txtUsuario.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		txtUsuario.setColumns(10);
 		txtUsuario.setBounds(130, 112, 131, 19);
 		contentPane.add(txtUsuario);
 		
 		btnIngresar = new JButton("Ingresar");
+		btnIngresar.setBackground(new Color(255, 255, 255));
 		btnIngresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				actionPerformedBtnIngresar(e);
@@ -107,6 +111,7 @@ public class Login extends JFrame {
 		contentPane.add(lblNewLabel_2);
 		
 		txtContrasenia = new JPasswordField();
+		txtContrasenia.setBackground(new Color(255, 255, 255));
 		txtContrasenia.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
