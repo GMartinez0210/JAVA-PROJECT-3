@@ -49,9 +49,7 @@ public class PrincipalFuncional extends JFrame {
 	private JButton NavForm2;
 	private JButton NavForm3;
 	private JButton NavForm4;
-	private JButton NavForm6;
 	private JLabel lblNombre;
-	private JButton NavForm5;
 	private JButton btnSalir;
 
 	// Globales publicas estaticas
@@ -91,7 +89,7 @@ public class PrincipalFuncional extends JFrame {
 				windowOpenedThis(e);
 			}
 		});
-		setBackground(Color.WHITE);
+		setBackground(new Color(123,155,189));
 		setTitle("Try Hacking me");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(PrincipalFuncional.class.getResource("/images/shield.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -103,11 +101,12 @@ public class PrincipalFuncional extends JFrame {
 		setContentPane(contentPane);
 		
 		desktopPane = new JDesktopPane();
-		desktopPane.setBackground(new Color(0, 128, 128));
+		desktopPane.setBackground(new Color(123,155,189));
 		contentPane.add(desktopPane, BorderLayout.CENTER);
 		
 		panelMenu = new JPanel();
-		panelMenu.setBackground(new Color(255, 250, 240));
+		panelMenu.setBorder(new LineBorder(new Color(255, 255, 255), 1, true));
+		panelMenu.setBackground(new Color(126,173,189));
 		panelMenu.setBounds(10, 52, 170, 491);
 		desktopPane.add(panelMenu);
 		panelMenu.setLayout(null);
@@ -119,8 +118,8 @@ public class PrincipalFuncional extends JFrame {
 			}
 		});
 		NavForm1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		NavForm1.setForeground(new Color(0, 128, 128));
-		NavForm1.setBackground(new Color(255, 250, 240));
+		NavForm1.setForeground(new Color(0, 0, 0));
+		NavForm1.setBackground(new Color(255, 255, 255));
 		NavForm1.setHorizontalAlignment(SwingConstants.LEFT);
 		NavForm1.setOpaque(true);
 		NavForm1.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -128,9 +127,14 @@ public class PrincipalFuncional extends JFrame {
 		panelMenu.add(NavForm1);
 		
 		NavForm2 = new JButton("New label");
+		NavForm2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actionPerformedNavForm2(e);
+			}
+		});
 		NavForm2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		NavForm2.setForeground(new Color(0, 128, 128));
-		NavForm2.setBackground(new Color(255, 250, 240));
+		NavForm2.setForeground(new Color(0, 0, 0));
+		NavForm2.setBackground(new Color(255, 255, 255));
 		NavForm2.setHorizontalAlignment(SwingConstants.LEFT);
 		NavForm2.setOpaque(true);
 		NavForm2.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -144,8 +148,8 @@ public class PrincipalFuncional extends JFrame {
 			}
 		});
 		NavForm3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		NavForm3.setForeground(new Color(0, 128, 128));
-		NavForm3.setBackground(new Color(255, 250, 240));
+		NavForm3.setForeground(new Color(0, 0, 0));
+		NavForm3.setBackground(new Color(255, 255, 255));
 		NavForm3.setHorizontalAlignment(SwingConstants.LEFT);
 		NavForm3.setOpaque(true);
 		NavForm3.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -153,37 +157,22 @@ public class PrincipalFuncional extends JFrame {
 		panelMenu.add(NavForm3);
 		
 		NavForm4 = new JButton("New label");
+		NavForm4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actionPerformedNavForm4(e);
+			}
+		});
 		NavForm4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		NavForm4.setForeground(new Color(0, 128, 128));
-		NavForm4.setBackground(new Color(255, 250, 240));
+		NavForm4.setForeground(new Color(0, 0, 0));
+		NavForm4.setBackground(new Color(255, 255, 255));
 		NavForm4.setHorizontalAlignment(SwingConstants.LEFT);
 		NavForm4.setOpaque(true);
 		NavForm4.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		NavForm4.setBounds(10, 240, 150, 30);
 		panelMenu.add(NavForm4);
 		
-		NavForm5 = new JButton("New label");
-		NavForm5.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		NavForm5.setForeground(new Color(0, 128, 128));
-		NavForm5.setBackground(new Color(255, 250, 240));
-		NavForm5.setHorizontalAlignment(SwingConstants.LEFT);
-		NavForm5.setOpaque(true);
-		NavForm5.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		NavForm5.setBounds(10, 290, 150, 30);
-		panelMenu.add(NavForm5);
-		
-		NavForm6 = new JButton("New label");
-		NavForm6.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		NavForm6.setForeground(new Color(0, 128, 128));
-		NavForm6.setBackground(new Color(255, 250, 240));
-		NavForm6.setHorizontalAlignment(SwingConstants.LEFT);
-		NavForm6.setOpaque(true);
-		NavForm6.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		NavForm6.setBounds(10, 340, 150, 30);
-		panelMenu.add(NavForm6);
-		
 		lblNombre = new JLabel("Nombre Apellido");
-		lblNombre.setBackground(new Color(255, 250, 240));
+		lblNombre.setBackground(new Color(255, 255, 255));
 		lblNombre.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNombre.setOpaque(true);
 		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -199,7 +188,7 @@ public class PrincipalFuncional extends JFrame {
 		});
 		btnSalir.setForeground(Color.WHITE);
 		btnSalir.setOpaque(true);
-		btnSalir.setBackground(Color.RED);
+		btnSalir.setBackground(new Color(220, 20, 60));
 		btnSalir.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnSalir.setBounds(10, 435, 150, 30);
 		
@@ -218,7 +207,7 @@ public class PrincipalFuncional extends JFrame {
 		desktopPane.add(lblMenu);
 		
 		escritorio = new JDesktopPane();
-		escritorio.setBackground(new Color(0, 128, 128));
+		escritorio.setBackground(new Color(123,155,189));
 		escritorio.setBounds(65, 0, 711, 553);
 		desktopPane.add(escritorio);
 		escritorio.setLayout(new CardLayout(0, 0));
@@ -231,8 +220,6 @@ public class PrincipalFuncional extends JFrame {
 		NavForm2.setVisible(bool);
 		NavForm3.setVisible(bool);
 		NavForm4.setVisible(bool);
-		NavForm5.setVisible(bool);
-		NavForm6.setVisible(bool);
 	}
 	
 	private void ingresar() {
@@ -256,13 +243,11 @@ public class PrincipalFuncional extends JFrame {
 				case 2: 
 					habilitandoForms(true);
 					
-					NavForm5.setVisible(false);
-					NavForm6.setVisible(false);
+					NavForm4.setVisible(false);
 					
-					NavForm1.setText("Generar");
-					NavForm2.setText("Reporte");
-					NavForm3.setText("Comunica");
-					NavForm4.setText("Deriva");
+					NavForm1.setText("Reporte");
+					NavForm2.setText("Comunica");
+					NavForm3.setText("Deriva");
 						break;
 				case 3: 
 					habilitandoForms(false);
@@ -273,9 +258,6 @@ public class PrincipalFuncional extends JFrame {
 						break;
 				case 4: 
 					habilitandoForms(true);
-					
-					NavForm5.setVisible(false);
-					NavForm6.setVisible(false);
 					
 					NavForm1.setText("Registro");
 					NavForm2.setText("Evalua");
@@ -295,8 +277,6 @@ public class PrincipalFuncional extends JFrame {
 		catch (Exception e) {
 			System.out.println(">>> ERROR: " + e.getMessage());
 		}
-	
-	
 	}
 	
 	// Windows Opened event handler to set the values making this functional
@@ -320,14 +300,76 @@ public class PrincipalFuncional extends JFrame {
 	
 	// NavForm1 Button
 	protected void actionPerformedNavForm1(ActionEvent e) {
-		FrmReporte reporte = new FrmReporte();
-		escritorio.add(reporte);
-		reporte.setVisible(true);
+		Usuario usuario = gUsuario.leerUsuario(codUsuario);
+		int idCategoria = usuario.getIdCargo();
+		
+		switch(idCategoria) {
+			case 3: 
+				FrmRegistro registro = new FrmRegistro();
+				escritorio.add(registro);
+				registro.setVisible(true);
+					break;
+			default: 
+				FrmReporte reporte = new FrmReporte();
+				escritorio.add(reporte);
+				reporte.setVisible(true);
+					break;
+		}
+		
+		MenuAnimacion menuAnimacion = new MenuAnimacion();
+		menuAnimacion.start();
 	}
-	// NavForm2 BOTOM
+	// NavForm2 Button	
+	protected void actionPerformedNavForm2(ActionEvent e) {
+		Usuario usuario = gUsuario.leerUsuario(codUsuario);
+		int idCategoria = usuario.getIdCargo();
+		
+		switch(idCategoria) {
+			case 2: 
+				FrmComunica comunica = new FrmComunica();
+				escritorio.add(comunica);
+				comunica.setVisible(true);
+					break;
+			case 4: 
+				FrmIngresarAlerta ingresarAlerta = new FrmIngresarAlerta();
+				escritorio.add(ingresarAlerta);
+				ingresarAlerta.setVisible(true);
+					break;
+		}
+		
+		MenuAnimacion menuAnimacion = new MenuAnimacion();
+		menuAnimacion.start();
+	}
+	
+	// NavForm3 Button
 	protected void actionPerformedNavForm3(ActionEvent e) {
-		FrmComunica comunica = new FrmComunica();
-		escritorio.add(comunica);
-		comunica.setVisible(true);
+		Usuario usuario = gUsuario.leerUsuario(codUsuario);
+		int idCategoria = usuario.getIdCargo();
+		
+		switch(idCategoria) {
+			case 2: 
+				FrmDerivacion deriva = new FrmDerivacion();
+				escritorio.add(deriva);
+				deriva.setVisible(true);
+					break;
+			case 4: 
+				FrmComunica comunica = new FrmComunica();
+				escritorio.add(comunica);
+				comunica.setVisible(true);
+					break;
+		}
+		
+		MenuAnimacion menuAnimacion = new MenuAnimacion();
+		menuAnimacion.start();
+	}
+
+	// NavForm4 Button
+	protected void actionPerformedNavForm4(ActionEvent e) {
+		FrmAtencion atencion = new FrmAtencion();
+		escritorio.add(atencion);
+		atencion.setVisible(true);
+		
+		MenuAnimacion menuAnimacion = new MenuAnimacion();
+		menuAnimacion.start();
 	}
 }

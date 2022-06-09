@@ -17,9 +17,9 @@ public class MySQLConexion8 {
 		Connection connection = null;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			String url = "jdbc:mysql://localhost:3306/javaprojectdb?serverTimezone=UTC";
+			String url = "jdbc:mysql://localhost:3310/projectdb?serverTimezone=UTC";
 			String user = "root";
-			String password = "root";
+			String password = "admin";
 			connection = DriverManager.getConnection(url, user, password);
 		} catch (ClassNotFoundException e) {
 			System.out.println("Error >> Driver no Instalado!!" + e.getMessage());

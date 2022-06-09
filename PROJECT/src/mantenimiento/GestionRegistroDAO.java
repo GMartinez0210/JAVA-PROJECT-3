@@ -26,7 +26,7 @@ public class GestionRegistroDAO implements RegistroInterfacesDAO{
 			//paso 1
 			con = MySQLConexion8.getConexion();
 			//paso 2
-			String sql = "select r.cod_reporte, r.descripcion, r.fecha from tb_reportes r where r.cod_estado = 1";
+			String sql = "select codReporte, descripcionReporte, fechaReporte from reportes where codEstado = 1";
 			//paso 3
 			pstm = con.prepareStatement(sql);
 			//paso 4 --> no hay
@@ -152,7 +152,7 @@ public class GestionRegistroDAO implements RegistroInterfacesDAO{
 			con = MySQLConexion8.getConexion();
 			//paso 2: Poder determinar la intruccion SQL --> Eliminar
 			//
-			String sql = "delete from tb_reportes where cod_reporte = ?";
+			String sql = "delete from reportes where codReporte = ?";
 			// paso 3
 			pstm = con.prepareStatement(sql);
 			//paso 4

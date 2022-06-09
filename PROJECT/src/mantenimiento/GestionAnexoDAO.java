@@ -23,7 +23,7 @@ public class GestionAnexoDAO implements AnexoInterfacesDAO {
 			//paso 1
 			con = MySQLConexion8.getConexion();
 			//paso 2
-			String sql = "select * from anexos_1";
+			String sql = "select * from anexo_1";
 			//paso 3
 			pstm = con.prepareStatement(sql);
 			//paso 4 --> no hay

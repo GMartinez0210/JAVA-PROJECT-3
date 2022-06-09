@@ -26,14 +26,14 @@ public class GestionReporteDAO implements ReporteInterfacesDAO {
 		try {
 			con = MySQLConexion8.getConexion();
 			
-			String sql = "INSERT INTO tb_reportes values (null, ?, ?, ?, ?, null, null)";
+			String sql = "INSERT INTO reportes(descripcionReporte, codTipoUsuario, estadoReporte, fechaReporte) values (?, ?, ?, ?)";
 			
 			pstm = con.prepareStatement(sql);
 			
-			pstm.setInt(1, r.getUsuario());
-			pstm.setString(2, r.getDescripcion());
-			pstm.setString(3, r.getFecha());
+			pstm.setString(1, r.getDescripcion());
+			pstm.setInt(2, r.getUsuario());
 			pstm.setInt(4, r.getEstado());
+			pstm.setString(3, r.getFecha());
 			
 			res = pstm.executeUpdate();
 			
@@ -79,7 +79,7 @@ public class GestionReporteDAO implements ReporteInterfacesDAO {
 				lista.add(rTa);
 				
 			}
-//			System.out.println(lista.size());
+
 		} catch (Exception e) {
 			System.out.println(">>>>>>>>> Error en la Instruccion SQL - Consultar " + e.getMessage());
 		}

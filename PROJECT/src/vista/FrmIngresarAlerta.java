@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 
 import javax.swing.JDialog;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -25,7 +26,7 @@ import java.awt.event.MouseListener;
 import java.util.Date;
 import java.awt.event.MouseEvent;
 
-public class FrmIngresarAlerta extends JDialog implements MouseListener {
+public class FrmIngresarAlerta extends JInternalFrame implements MouseListener {
 
 	/**
 	 * 

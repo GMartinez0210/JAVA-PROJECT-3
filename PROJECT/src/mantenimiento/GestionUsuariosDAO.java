@@ -48,7 +48,7 @@ public class GestionUsuariosDAO implements UsuarioInterfaceDAO {
 			connection = MySQLConexion8.getConexion();
 			
 			// Step 2: Query to search the user
-			String sql = "SELECT * FROM javaprojectdb.tb_usuario WHERE cod_user = ?;";
+			String sql = "SELECT * FROM usuario WHERE codUsuario = ?;";
 		
 			// Step 3: 
 			pstm = connection.prepareStatement(sql);
