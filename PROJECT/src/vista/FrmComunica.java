@@ -8,8 +8,10 @@ import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import entidad.Mensaje;
 import entidad.Usuario;
 import mantenimiento.GestionUsuariosDAO;
+import mantenimiento.GestiosMensajeDAO;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -34,6 +36,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import javax.swing.JTextArea;
+import javax.swing.ImageIcon;
 
 public class FrmComunica extends JInternalFrame {
 
@@ -45,6 +49,8 @@ public class FrmComunica extends JInternalFrame {
 	GestionUsuariosDAO gUsuario = new GestionUsuariosDAO();
 	Usuario usuario = gUsuario.leerUsuario(usuarioActual);
 	int cargoUsuario = usuario.getIdCargo();
+	
+	GestiosMensajeDAO gMsj = new GestiosMensajeDAO();
 
 	private JPanel contentPane;
 	private JLabel lblNewLabel;
@@ -53,10 +59,11 @@ public class FrmComunica extends JInternalFrame {
 	private JLabel lblNewLabel_2;
 	private JTextField txtReceptor;
 	private JTextField txtAsunto;
-	private TextArea txtMensaje;
 	private JButton btnEnviar;
 	private JButton btnLimpiarMjs;
 	private JButton btnLimpiarTodo;
+	private JTextArea txtMensaje;
+	private JButton btnListar;
 
 	/**
 	 * Launch the application.
@@ -118,10 +125,6 @@ public class FrmComunica extends JInternalFrame {
 		contentPane.add(txtAsunto);
 		txtAsunto.setColumns(10);
 
-		txtMensaje = new TextArea();
-		txtMensaje.setBounds(206, 168, 343, 248);
-		contentPane.add(txtMensaje);
-
 		btnEnviar = new JButton("Enviar");
 		btnEnviar.setBackground(new Color(0, 255, 0));
 		btnEnviar.addActionListener(new ActionListener() {
@@ -154,18 +157,63 @@ public class FrmComunica extends JInternalFrame {
 		btnLimpiarTodo.setFont(new Font("SansSerif", Font.BOLD, 13));
 		btnLimpiarTodo.setBounds(106, 443, 132, 29);
 		contentPane.add(btnLimpiarTodo);
+		
+		txtMensaje = new JTextArea();
+		txtMensaje.setWrapStyleWord(true);
+		txtMensaje.setBounds(206, 166, 343, 229);
+		contentPane.add(txtMensaje);
+		
+		btnListar = new JButton("");
+		btnListar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actionPerformedBtnListar(e);
+			}
+		});
+		btnListar.setIcon(new ImageIcon(FrmComunica.class.getResource("/images/to-do-list.png")));
+		btnListar.setBounds(106, 356, 48, 39);
+		contentPane.add(btnListar);
+		btnListar.setVisible(false);
 
 		if (cargoUsuario == 2) {
 			lblTitulo.setText("Enviar Mensaje a Personal de Servicio");
 			txtReceptor.setEditable(false);
 			txtReceptor.setText("psJimmy@MesaServico.net");
+		} else if (cargoUsuario == 4) {
+			btnListar.setVisible(true);			
 		} else {
 			lblTitulo.setText("Enviar Mensaje");
 			txtReceptor.setEditable(true);
 			txtReceptor.setText("");
 		}
 	}
+	protected void actionPerformedBtnLimpiarTodo(ActionEvent e) {
+		if(cargoUsuario != 2) 
+			txtReceptor.setText("");
+
+		txtMensaje.setText("");
+		txtAsunto.setText("");
+	}
+	
+	protected void actionPerformedBtnLimpiarMjs(ActionEvent e) {
+		txtMensaje.setText("");
+		System.out.println(usuarioActual);
+	}
+	
 	protected void actionPerformedBtnEnviar(ActionEvent e) {
+		enviarMensaje();
+	}
+	
+	protected void actionPerformedBtnListar(ActionEvent e) {
+		abrirDlgListarMensajes();
+	}
+	
+	private void abrirDlgListarMensajes() {
+		DlgListarMensajes lM = new DlgListarMensajes();
+		lM.setVisible(true);
+		lM.setLocationRelativeTo(this);
+	}
+
+	private void enviarMensaje() {
 		if(validarReceptor()) {
 			try {	
 				Properties props = new Properties();
@@ -178,7 +226,7 @@ public class FrmComunica extends JInternalFrame {
 				Session session = Session.getDefaultInstance(props);
 
 				String correoRemitente = "fualanodetal1@gmail.com";
-				String contraRemitente = "gjK^xmJ9WMqQG;-:S-*L";
+				String contraRemitente = "jxuehwywxcxnpbhd";
 				String correoReceptor = txtReceptor.getText();
 				String asunto = txtAsunto.getText();
 				String mensaje = txtMensaje.getText();
@@ -195,6 +243,7 @@ public class FrmComunica extends JInternalFrame {
 				t.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
 				t.close();
 
+				registrarMensaje(correoReceptor, asunto, mensaje, usuarioActual); // registra el mensaje en la base de datos
 				JOptionPane.showMessageDialog(null, "enviado...");
 			} catch(AddressException e1) {
 				System.out.println("error "+ e1);
@@ -206,9 +255,23 @@ public class FrmComunica extends JInternalFrame {
 			txtReceptor.requestFocus();
 			mensajeError("Usuario no valido");
 		}
-
-
 	}
+
+	private void registrarMensaje(String correoReceptor, String asunto, String mensaje, int usuActual) {
+		Mensaje msj = new Mensaje();
+		
+		msj.setCorreo(correoReceptor);
+		msj.setAsunto(asunto);
+		msj.setMensaje(mensaje);
+		msj.setCodUser(usuActual);
+		
+		int res = gMsj.registrar(msj);
+		
+		if(res == 0) {
+			mensajeError("Error en el registro");
+		}
+	}
+
 	private void mensajeError(String msj) {
 		JOptionPane.showMessageDialog(this, msj, "ERROR!!!!!", 0);
 	}
@@ -220,17 +283,5 @@ public class FrmComunica extends JInternalFrame {
         Matcher matcher = pattern.matcher(receptor); 
 
 		return matcher.matches();
-	}
-
-	protected void actionPerformedBtnLimpiarTodo(ActionEvent e) {
-		if(cargoUsuario != 2) 
-			txtReceptor.setText("");
-
-		txtMensaje.setText("");
-		txtAsunto.setText("");
-	}
-	protected void actionPerformedBtnLimpiarMjs(ActionEvent e) {
-		txtMensaje.setText("");
-		System.out.println(usuarioActual);
 	}
 }
