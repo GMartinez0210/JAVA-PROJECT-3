@@ -89,7 +89,7 @@ public class PrincipalFuncional extends JFrame {
 				windowOpenedThis(e);
 			}
 		});
-		setBackground(Color.WHITE);
+		setBackground(new Color(123,155,189));
 		setTitle("Try Hacking me");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(PrincipalFuncional.class.getResource("/images/shield.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -101,11 +101,12 @@ public class PrincipalFuncional extends JFrame {
 		setContentPane(contentPane);
 		
 		desktopPane = new JDesktopPane();
-		desktopPane.setBackground(new Color(240, 255, 255));
+		desktopPane.setBackground(new Color(123,155,189));
 		contentPane.add(desktopPane, BorderLayout.CENTER);
 		
 		panelMenu = new JPanel();
-		panelMenu.setBackground(new Color(95, 208, 104));
+		panelMenu.setBorder(new LineBorder(new Color(255, 255, 255), 1, true));
+		panelMenu.setBackground(new Color(126,173,189));
 		panelMenu.setBounds(10, 52, 170, 491);
 		desktopPane.add(panelMenu);
 		panelMenu.setLayout(null);
@@ -187,7 +188,7 @@ public class PrincipalFuncional extends JFrame {
 		});
 		btnSalir.setForeground(Color.WHITE);
 		btnSalir.setOpaque(true);
-		btnSalir.setBackground(Color.RED);
+		btnSalir.setBackground(new Color(220, 20, 60));
 		btnSalir.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnSalir.setBounds(10, 435, 150, 30);
 		
@@ -206,7 +207,7 @@ public class PrincipalFuncional extends JFrame {
 		desktopPane.add(lblMenu);
 		
 		escritorio = new JDesktopPane();
-		escritorio.setBackground(new Color(240, 255, 255));
+		escritorio.setBackground(new Color(123,155,189));
 		escritorio.setBounds(65, 0, 711, 553);
 		desktopPane.add(escritorio);
 		escritorio.setLayout(new CardLayout(0, 0));
