@@ -125,6 +125,7 @@ public class FrmEstimacion extends JDialog implements MouseListener, KeyListener
 		tablePrioridad.addMouseListener(this);
 		tablePrioridad.setFillsViewportHeight(true);
 		tablePrioridad.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tablePrioridad.setGridColor(new Color(123, 155, 189));
 		
 		spPrioridad.setViewportView(tablePrioridad);
 		
@@ -139,7 +140,7 @@ public class FrmEstimacion extends JDialog implements MouseListener, KeyListener
 		lblInfoPrioridad = new JLabel("See more about Prioridad ...");
 		lblInfoPrioridad.addMouseListener(this);
 		lblInfoPrioridad.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblInfoPrioridad.setForeground(Color.BLUE);
+		lblInfoPrioridad.setForeground(Color.blue);
 		lblInfoPrioridad.setBounds(322, 513, 168, 14);
 		cpEstimacion.add(lblInfoPrioridad);
 		
@@ -150,6 +151,7 @@ public class FrmEstimacion extends JDialog implements MouseListener, KeyListener
 		txtDescripcion = new JTextArea();
 		txtDescripcion.setLineWrap(true);
 		txtDescripcion.setFont(new Font("Monospaced", Font.PLAIN, 16));
+		txtDescripcion.setForeground(new Color(220, 20, 60));
 		spDescripcion.setViewportView(txtDescripcion);	
 		
 		panelSave = new JPanel();
