@@ -165,14 +165,16 @@ public class FrmIngresarAlerta extends JInternalFrame implements MouseListener {
 	}
 	//Ingresar Button Hover
 	protected void mouseEnteredLblIngresar(MouseEvent e) {
-		panelIngresar.setBackground(new Color(65, 105, 225));
+		panelIngresar.setBackground(new Color(126, 173, 189));
 		lblIngresar.setForeground(Color.WHITE);
 		lblIngresar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		panelIngresar.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(126, 173, 189), new Color(126, 173, 189), new Color(126, 173, 189), new Color(126, 173, 189)));
 	}
 	//Ingresar Button Not Hover
 	protected void mouseExitedLblIngresar(MouseEvent e) {
 		panelIngresar.setBackground(Color.WHITE);
 		lblIngresar.setForeground(new Color(33, 85, 205));
+		panelIngresar.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(65, 105, 225), new Color(65, 105, 225), new Color(65, 105, 225), new Color(65, 105, 225)));
 	}
 	// Click Ingresar-Button
 	protected void mouseClickedLblIngresar(MouseEvent e) {
