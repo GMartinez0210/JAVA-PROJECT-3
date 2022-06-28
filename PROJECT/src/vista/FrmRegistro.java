@@ -42,7 +42,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
-public class FrmRegistro extends JInternalFrame implements MouseListener, ActionListener {
+public class FrmRegistro extends JInternalFrame {
 
 	private JPanel contentPane;
 	private JLabel lblCodigo;
@@ -94,8 +94,8 @@ public class FrmRegistro extends JInternalFrame implements MouseListener, Action
 	 * Create the frame.
 	 */
 	public FrmRegistro() {
+		setClosable(true);
 		setTitle("Formulario | Registro");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 692, 453);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.LIGHT_GRAY);
@@ -156,19 +156,21 @@ public class FrmRegistro extends JInternalFrame implements MouseListener, Action
 		
 		rdbtnEvaluar = new JRadioButton("Evaluar");
 		rdbtnEvaluar.setSelected(true);
-		rdbtnEvaluar.addMouseListener(this);
 		rdbtnEvaluar.setBackground(Color.LIGHT_GRAY);
 		rdbtnEvaluar.setBounds(557, 22, 109, 23);
 		contentPane.add(rdbtnEvaluar);
 		
 		rdbtnEliminar = new JRadioButton("Eliminar");
-		rdbtnEliminar.addMouseListener(this);
 		rdbtnEliminar.setBackground(Color.LIGHT_GRAY);
 		rdbtnEliminar.setBounds(557, 48, 109, 23);
 		contentPane.add(rdbtnEliminar);
 		
 		btnAceptar = new JButton("Aceptar");
-		btnAceptar.addActionListener(this);
+		btnAceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actionPerformedBtnAceptar(e);
+			}
+		});
 		btnAceptar.setBounds(557, 116, 89, 23);
 		contentPane.add(btnAceptar);
 		group.add(rdbtnEliminar);
@@ -193,12 +195,20 @@ public class FrmRegistro extends JInternalFrame implements MouseListener, Action
 		txtReporte.setColumns(10);
 		
 		btnAnexos = new JButton("...");
-		btnAnexos.addActionListener(this);
+		btnAnexos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actionPerformedBtnAnexos(e);
+			}
+		});
 		btnAnexos.setBounds(229, 120, 29, 23);
 		contentPane.add(btnAnexos);
 		
 		btnReportes = new JButton("...");
-		btnReportes.addActionListener(this);
+		btnReportes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actionPerformedBtnReportes(e);
+			}
+		});
 		btnReportes.setBounds(354, 46, 29, 23);
 		contentPane.add(btnReportes);
 		
@@ -250,24 +260,7 @@ public class FrmRegistro extends JInternalFrame implements MouseListener, Action
 	private void mensajeExito(String msj) {
 		JOptionPane.showMessageDialog(this, msj, "Exito !!!", 1);
 	}
-	
-	
-	public void mouseClicked(MouseEvent e) {
-		if (e.getSource() == rdbtnEliminar) {
-			mouseClickedRdbtnEliminar(e);
-		}
-		if (e.getSource() == rdbtnEvaluar) {
-			mouseClickedRdbtnRegistrar(e);
-		}
-	}
-	public void mouseEntered(MouseEvent e) {
-	}
-	public void mouseExited(MouseEvent e) {
-	}
-	public void mousePressed(MouseEvent e) {
-	}
-	public void mouseReleased(MouseEvent e) {
-	}
+
 	protected void mouseClickedRdbtnRegistrar(MouseEvent e) {
 		txtCodigo.setEditable(false);
 	}
@@ -282,17 +275,7 @@ public class FrmRegistro extends JInternalFrame implements MouseListener, Action
 		cboEstado.setSelectedIndex(0);
 		cboUser.requestFocus();
 	}
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnReportes) {
-			actionPerformedBtnReportes(e);
-		}
-		if (e.getSource() == btnAnexos) {
-			actionPerformedBtnAnexos(e);
-		}
-		if (e.getSource() == btnAceptar) {
-			actionPerformedBtnAceptar(e);
-		}
-	}
+
 	protected void actionPerformedBtnAceptar(ActionEvent e) {
 		//boton aceptar
 		if(rdbtnEvaluar.isSelected()){

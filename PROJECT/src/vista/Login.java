@@ -13,6 +13,9 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import javax.swing.JPasswordField;
 
 import javax.swing.JButton;
@@ -36,7 +39,7 @@ public class Login extends JFrame {
 	private JLabel lblContrasea;
 	private JButton btnIngresar;
 	private JLabel lblNewLabel_1;
-	private JTextField txtUsuario;
+	private JTextField txtDNI;
 	private JPasswordField txtContrasenia;
 	
 	GestionIngresarDAO gIngresar = new GestionIngresarDAO();
@@ -82,12 +85,12 @@ public class Login extends JFrame {
 		lblContrasea.setBounds(32, 141, 88, 13);
 		contentPane.add(lblContrasea);
 		
-		txtUsuario = new JTextField();
-		txtUsuario.setBackground(new Color(255, 255, 255));
-		txtUsuario.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		txtUsuario.setColumns(10);
-		txtUsuario.setBounds(130, 112, 131, 19);
-		contentPane.add(txtUsuario);
+		txtDNI = new JTextField();
+		txtDNI.setBackground(new Color(255, 255, 255));
+		txtDNI.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtDNI.setColumns(10);
+		txtDNI.setBounds(130, 112, 131, 19);
+		contentPane.add(txtDNI);
 		
 		btnIngresar = new JButton("Ingresar");
 		btnIngresar.setBackground(new Color(255, 255, 255));
@@ -123,19 +126,43 @@ public class Login extends JFrame {
 	}
 	
 	void Ingresar() {
-		String user = txtUsuario.getText();
+		String dni = txtDNI.getText();
 		String password = new String(txtContrasenia.getPassword());
+		String fecha = String.valueOf(LocalDate.now());
+		String hora =  String.valueOf(LocalTime.now().getHour());
+		String minutos = String.valueOf(LocalTime.now().getMinute());
+		String segundos = String.valueOf(LocalTime.now().getSecond());
+		String fullHora = String.valueOf(hora + ":" + minutos + ":" + segundos);
 		
-		Usuario usuario = gIngresar.login(user, password);
-		
-		if (usuario != null) {
-			PrincipalFuncional.codUsuario = usuario.getCodigo();
-			
-			JOptionPane.showMessageDialog(null, "Entraste, mano", "Sistema", 1);
-			dispose();
-			PreLoader preloader = new PreLoader();
-			preloader.setVisible(true);
+		if (dni.length() == 0) {
+			JOptionPane.showMessageDialog(null, "Ingrese DNI", "ERROR", 0);
+			return;
 		}
+		
+		if (password.length() == 0) {
+			JOptionPane.showMessageDialog(null, "Ingrese clave", "ERROR", 0);
+			return;
+		}
+		
+		Ingresar ingresar = new Ingresar();
+		ingresar.setDniUsuario(dni);
+		ingresar.setPasswordUsuario(password);
+		ingresar.setFecha(fecha);
+		ingresar.setHora(fullHora);
+		
+		Usuario usuario = gIngresar.login(ingresar);
+		
+		if (usuario == null) {
+			JOptionPane.showMessageDialog(null, "Usuario nulo", "ERROR", 0);
+			return;
+		}
+		
+		PrincipalFuncional.codUsuario = usuario.getCodigo();
+		
+		JOptionPane.showMessageDialog(null, "Ingresaste satisfactoriamente", "Sistema", 1);
+		dispose();
+		PreLoader preloader = new PreLoader();
+		preloader.setVisible(true);
 	}
 	
 	// Button Ingrsar

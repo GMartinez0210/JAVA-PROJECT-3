@@ -102,16 +102,6 @@ public class FrmSeguimiento extends JInternalFrame {
 			rdbtnInactivo.setBounds(334, 299, 109, 23);
 			getContentPane().add(rdbtnInactivo);
 		}
-		//Grupo de radious buttons
-		ButtonGroup rd = new ButtonGroup();
-		rd.add(rdbtnInactivo);
-		rd.add(rdbtnActivo);
-		//Modelo de tabla
-		model.addColumn("Código");
-		model.addColumn("Cod. Usuario");
-		model.addColumn("Descripción");
-		model.addColumn("Plazo");
-		model.addColumn("Estado");
 		tblAlertas.setModel(model);
 		{
 			lblRecargar = new JLabel("");
@@ -129,6 +119,17 @@ public class FrmSeguimiento extends JInternalFrame {
 			lblRecargar.setBounds(527, 11, 30, 29);
 			getContentPane().add(lblRecargar);
 		}
+
+		//Grupo de radious buttons
+		ButtonGroup rd = new ButtonGroup();
+		rd.add(rdbtnInactivo);
+		rd.add(rdbtnActivo);
+		//Modelo de tabla
+		model.addColumn("Código");
+		model.addColumn("Cod. Usuario");
+		model.addColumn("Descripción");
+		model.addColumn("Plazo");
+		model.addColumn("Estado");
 		mostrarTabla();
 	}
 	
@@ -143,10 +144,9 @@ public class FrmSeguimiento extends JInternalFrame {
 						 		  a.getPlazoatencion(),
 						 		  a.getEstado()};
 			model.addRow(fila);
-			
 			}
-			
-		}catch (Exception e) {
+		}
+		catch (Exception e) {
 			System.out.print(e.getMessage());
 		}
 		for(int i = 0; i < alerta.size(); i++) {

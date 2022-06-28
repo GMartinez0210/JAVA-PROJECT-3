@@ -2,23 +2,18 @@ package entidad;
 
 public class Ingresar {
 	// Variables
-	private int idUser;
-	private String codUser;
-	private String passwordUser;
-	private String nameUser;
-	private String lastnameUser;
-	private int idCargo;
+	private int codUsuario;
+	private String dniUsuario;
+	private String passwordUsuario;
+	private String hora;
+	private String fecha;
 	
 		// Constructor
 	// First Constructor
-	public Ingresar(int idUser, String codUser, String passwordUser, String nameUser, String lastnameUser,
-			int idCargo) {
-		this.idUser = idUser;
-		this.codUser = codUser;
-		this.passwordUser = passwordUser;
-		this.nameUser = nameUser;
-		this.lastnameUser = lastnameUser;
-		this.idCargo = idCargo;
+	public Ingresar(int codUsuario, String dniUsuario, String passwordUsuario) {
+		this.codUsuario = codUsuario;
+		this.dniUsuario = dniUsuario;
+		this.passwordUsuario = passwordUsuario;
 	}
 
 	// Second Constructor
@@ -26,51 +21,43 @@ public class Ingresar {
 	}
 	
 	// Getters and Setters
-	public int getIdUser() {
-		return idUser;
+	public int getCodUsuario() {
+		return codUsuario;
 	}
 
-	public void setIdUser(int idUser) {
-		this.idUser = idUser;
+	public void setCodUsuario(int codUsuario) {
+		this.codUsuario = codUsuario;
 	}
 
-	public String getCodUser() {
-		return codUser;
+	public String getDniUsuario() {
+		return dniUsuario;
 	}
 
-	public void setCodUser(String codUser) {
-		this.codUser = codUser;
+	public void setDniUsuario(String dniUsuario) {
+		this.dniUsuario = dniUsuario;
 	}
 
-	public String getPasswordUser() {
-		return passwordUser;
+	public String getPasswordUsuario() {
+		return passwordUsuario;
 	}
 
-	public void setPasswordUser(String passwordUser) {
-		this.passwordUser = passwordUser;
+	public void setPasswordUsuario(String passwordUsuario) {
+		this.passwordUsuario = passwordUsuario;
 	}
 
-	public String getNameUser() {
-		return nameUser;
+	public String getHora() {
+		return hora;
 	}
 
-	public void setNameUser(String nameUser) {
-		this.nameUser = nameUser;
+	public void setHora(String hora) {
+		this.hora = hora;
 	}
 
-	public String getLastnameUser() {
-		return lastnameUser;
+	public String getFecha() {
+		return fecha;
 	}
 
-	public void setLastnameUser(String lastnameUser) {
-		this.lastnameUser = lastnameUser;
-	}
-
-	public int getIdCargo() {
-		return idCargo;
-	}
-
-	public void setIdCargo(int idCargo) {
-		this.idCargo = idCargo;
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
 	}
 }

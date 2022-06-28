@@ -47,8 +47,6 @@ public class FrmAtencion extends JInternalFrame{
 	 * Create the frame.
 	 */
 	public FrmAtencion() {
-		setMaximizable(true);
-		setIconifiable(true);
 		setClosable(true);
 		setBounds(100, 100, 595, 374);
 		getContentPane().setLayout(null);

@@ -26,14 +26,14 @@ public class GestionReporteDAO implements ReporteInterfacesDAO {
 		try {
 			con = MySQLConexion8.getConexion();
 			
-			String sql = "INSERT INTO reportes(descripcionReporte, codTipoUsuario, estadoReporte, fechaReporte) values (?, ?, ?, ?)";
+			String sql = "INSERT INTO reportes(descripcionReporte, codTipoUsuario, codEstado, fechaReporte) values (?, ?, ?, ?)";
 			
 			pstm = con.prepareStatement(sql);
 			
 			pstm.setString(1, r.getDescripcion());
 			pstm.setInt(2, r.getUsuario());
-			pstm.setInt(4, r.getEstado());
-			pstm.setString(3, r.getFecha());
+			pstm.setInt(3, r.getEstado());
+			pstm.setString(4, r.getFecha());
 			
 			res = pstm.executeUpdate();
 			

@@ -5,8 +5,5 @@ import entidad.Usuario;
 
 public interface IngresarInterfaceDAO {
 	// login
-	public Usuario login(String user, String password);
-		
-	// sign out
-	public void singout();
+	public Usuario login(Ingresar ingresar);
 }

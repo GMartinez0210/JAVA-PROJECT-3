@@ -22,7 +22,7 @@ public class Reporte {
 		this.estado = estado;
 		this.codAnexo = codAnexo;
 		this.fechaEvaluacion = fechaEvaluacion;
-		this.setCod_prio(cod_prio);
+		this.cod_prio = cod_prio;
 	}
 
 	public int getCodigo() {

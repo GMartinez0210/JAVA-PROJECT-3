@@ -85,8 +85,8 @@ public class FrmComunica extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public FrmComunica() {
+		setClosable(true);
 		setBorder(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 711, 553);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(135, 206, 235));
@@ -136,7 +136,7 @@ public class FrmComunica extends JInternalFrame {
 		btnEnviar.setBounds(281, 443, 108, 29);
 		contentPane.add(btnEnviar);
 
-		btnLimpiarMjs = new JButton("Limpiar Mjs");
+		btnLimpiarMjs = new JButton("Limpiar Mensaje");
 		btnLimpiarMjs.setBackground(new Color(0, 255, 127));
 		btnLimpiarMjs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -144,7 +144,7 @@ public class FrmComunica extends JInternalFrame {
 			}
 		});
 		btnLimpiarMjs.setFont(new Font("SansSerif", Font.BOLD, 13));
-		btnLimpiarMjs.setBounds(432, 443, 117, 29);
+		btnLimpiarMjs.setBounds(432, 443, 131, 29);
 		contentPane.add(btnLimpiarMjs);
 
 		btnLimpiarTodo = new JButton("Limpiar Todo");
@@ -196,7 +196,6 @@ public class FrmComunica extends JInternalFrame {
 	
 	protected void actionPerformedBtnLimpiarMjs(ActionEvent e) {
 		txtMensaje.setText("");
-		System.out.println(usuarioActual);
 	}
 	
 	protected void actionPerformedBtnEnviar(ActionEvent e) {

@@ -9,6 +9,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -23,8 +24,6 @@ import mantenimiento.GestionRegistroDAO;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import java.awt.Font;
-import java.awt.HeadlessException;
-
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
@@ -35,15 +34,17 @@ import javax.swing.JPopupMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.SwingConstants;
-import java.awt.event.WindowListener;
-import java.awt.event.WindowEvent;
+import java.beans.PropertyVetoException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.KeyAdapter;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
 
-public class FrmEstimacion extends JDialog implements MouseListener, KeyListener, ActionListener, WindowListener {
+public class FrmEstimacion extends JInternalFrame {
 
 	/**
 	 * 
@@ -78,10 +79,21 @@ public class FrmEstimacion extends JDialog implements MouseListener, KeyListener
 	}
 
 	/**
-	 * Create the dialog.
+	 * Create the InternalFrame.
 	 */
 	public FrmEstimacion() {
-		addWindowListener(this);
+		try {
+			setMaximum(true);
+		} catch (PropertyVetoException e) {
+			e.printStackTrace();
+ 	 }
+		addInternalFrameListener(new InternalFrameAdapter() {
+			@Override
+			public void internalFrameClosing(InternalFrameEvent e) {
+				internalFrameClosingThis(e);
+			}
+		});
+		setClosable(true);
 		initComponents();
 		//setBox(tablePrioridad, tablePrioridad.getColumnModel().getColumn(1));
 		
@@ -90,7 +102,7 @@ public class FrmEstimacion extends JDialog implements MouseListener, KeyListener
 	}
 	
 	void initComponents() {
-		setBounds(100, 100, 758, 578);
+		setBounds(100, 100, 758, 515);
 		getContentPane().setLayout(new BorderLayout());
 		cpEstimacion.setLayout(null);
 		cpEstimacion.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -99,14 +111,34 @@ public class FrmEstimacion extends JDialog implements MouseListener, KeyListener
 		getContentPane().add(cpEstimacion, BorderLayout.CENTER);
 		
 		filtrar = new PpMenuFiltrar();
+		filtrar.mntmFiltrarA.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				actionPreformedMntmFiltrarA(e);
+			}
+		});
+		filtrar.mntmFiltrarM.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				actionPreformedMntmFiltrarM(e);
+			}
+		});
+		filtrar.mntmFiltrarB.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				actionPreformedMntmFiltrarB(e);
+			}
+		});
+		filtrar.mntmFiltrarN.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				actionPreformedMntmFiltrarN(e);
+			}
+		});
 		cpEstimacion.setComponentPopupMenu(filtrar);
-		filtrar.mntmFiltrarA.addActionListener(this);
-		filtrar.mntmFiltrarB.addActionListener(this);
-		filtrar.mntmFiltrarM.addActionListener(this);
-		filtrar.mntmFiltrarN.addActionListener(this);
 		
 		spPrioridad = new JScrollPane();
-		spPrioridad.setBounds(0, 59, 493, 443);
+		spPrioridad.setBounds(0, 59, 493, 379);
 		cpEstimacion.add(spPrioridad);
 		
 		
@@ -121,10 +153,21 @@ public class FrmEstimacion extends JDialog implements MouseListener, KeyListener
 				return true;
 			}
 		};
-		tablePrioridad.addKeyListener(this);
-		tablePrioridad.addMouseListener(this);
+		tablePrioridad.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				keyReleasedTablePrioridad(e);
+			}
+		});
+		tablePrioridad.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				mouseClickedTablePrioridad(e);
+			}
+		});
 		tablePrioridad.setFillsViewportHeight(true);
 		tablePrioridad.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tablePrioridad.setGridColor(new Color(123, 155, 189));
 		
 		spPrioridad.setViewportView(tablePrioridad);
 		
@@ -137,19 +180,29 @@ public class FrmEstimacion extends JDialog implements MouseListener, KeyListener
 
 		
 		lblInfoPrioridad = new JLabel("See more about Prioridad ...");
-		lblInfoPrioridad.addMouseListener(this);
+		lblInfoPrioridad.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				mouseEnteredLblInfoPrioridad(e);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				mouseExitedLblInfoPrioridad(e);
+			}
+		});
 		lblInfoPrioridad.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblInfoPrioridad.setForeground(Color.BLUE);
-		lblInfoPrioridad.setBounds(322, 513, 168, 14);
+		lblInfoPrioridad.setForeground(Color.blue);
+		lblInfoPrioridad.setBounds(325, 448, 168, 14);
 		cpEstimacion.add(lblInfoPrioridad);
 		
 		spDescripcion = new JScrollPane();
-		spDescripcion.setBounds(491, 59, 251, 443);
+		spDescripcion.setBounds(491, 59, 251, 379);
 		cpEstimacion.add(spDescripcion);
 		
 		txtDescripcion = new JTextArea();
 		txtDescripcion.setLineWrap(true);
 		txtDescripcion.setFont(new Font("Monospaced", Font.PLAIN, 16));
+		txtDescripcion.setForeground(new Color(220, 20, 60));
 		spDescripcion.setViewportView(txtDescripcion);	
 		
 		panelSave = new JPanel();
@@ -159,9 +212,22 @@ public class FrmEstimacion extends JDialog implements MouseListener, KeyListener
 		panelSave.setLayout(null);
 		
 		lblSave = new JLabel("");
+		lblSave.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				mouseEnteredLblSave(e);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				mouseExitedLblSave(e);
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				mouseClickedLblSave(e);
+			}
+		});
 		lblSave.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSave.setIcon(new ImageIcon(FrmEstimacion.class.getResource("/images/save.png")));
-		lblSave.addMouseListener(this);
 		lblSave.setBounds(0, 0, 50, 45);
 		panelSave.add(lblSave);
 		
@@ -242,11 +308,6 @@ public class FrmEstimacion extends JDialog implements MouseListener, KeyListener
 		panelSave.setBackground(Color.WHITE);
 	}
 
-	public void mousePressed(MouseEvent e) {
-	}
-	public void mouseReleased(MouseEvent e) {
-	}
-
 	protected void mouseEnteredLblInfoPrioridad(MouseEvent e) {
 		lblInfoPrioridad.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		dialog.setVisible(true);
@@ -259,14 +320,14 @@ public class FrmEstimacion extends JDialog implements MouseListener, KeyListener
 	}
 	//Show the data when its row is clicked and using a sql script
 	protected void mouseClickedTablePrioridad(MouseEvent e) {
-		if(tablePrioridad.getRowCount() >0) {
-			try {
+		try {
+			if(tablePrioridad.getRowCount() >0) {
 				int row = tablePrioridad.getSelectedRow();
 				int cod = Integer.parseInt(modelo.getValueAt(row, 0).toString());
 				search(cod);
-			} catch (NumberFormatException e1) {
-				e1.printStackTrace();
 			}
+		} catch (NumberFormatException e1) {
+			e1.printStackTrace();
 		}
 	}
 	public void keyPressed(KeyEvent e) {
@@ -302,7 +363,6 @@ public class FrmEstimacion extends JDialog implements MouseListener, KeyListener
 	 * ActionListener
 	 */
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == filtrar.mntmFiltrarA) {
 			actionPreformedMntmFiltrarA(e);
@@ -331,27 +391,9 @@ public class FrmEstimacion extends JDialog implements MouseListener, KeyListener
 	}
 	
 	/*
-	 * Window Listener
+	 * InternalFrame Listener
 	 */
-	public void windowActivated(WindowEvent e) {
-	}
-	public void windowClosed(WindowEvent e) {
-	}
-	public void windowClosing(WindowEvent e) {
-		if (e.getSource() == this) {
-			windowClosingThis(e);
-		}
-	}
-	public void windowDeactivated(WindowEvent e) {
-	}
-	public void windowDeiconified(WindowEvent e) {
-	}
-	public void windowIconified(WindowEvent e) {
-	}
-	public void windowOpened(WindowEvent e) {
-	}
-	
-	protected void windowClosingThis(WindowEvent e) {
+	protected void internalFrameClosingThis(InternalFrameEvent e) {
 		int question = mensajeConfirm("¿Desea guardar los cambios?");
 		if(question == JOptionPane.YES_OPTION) {
 			// save the data
@@ -491,7 +533,6 @@ public class FrmEstimacion extends JDialog implements MouseListener, KeyListener
 	private int mensajeConfirm(String message) {
 		return JOptionPane.showConfirmDialog(this, message, "Confirmar", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 	}
-	
 	
 }
 

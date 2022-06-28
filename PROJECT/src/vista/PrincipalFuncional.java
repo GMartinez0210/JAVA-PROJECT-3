@@ -51,6 +51,7 @@ public class PrincipalFuncional extends JFrame {
 	private JButton NavForm4;
 	private JLabel lblNombre;
 	private JButton btnSalir;
+	private JDesktopPane escritorio;
 
 	// Globales publicas estaticas
 	public static int codUsuario;
@@ -61,7 +62,12 @@ public class PrincipalFuncional extends JFrame {
 	// ArrayList 
 	IngresarList ingresarList = new IngresarList();
 	GestionUsuariosDAO gUsuario = new GestionUsuariosDAO();
-	private JDesktopPane escritorio;
+	
+	public Usuario usuario = gUsuario.leerUsuario(codUsuario);
+	public String nombre = usuario.getNombre();
+	private JButton btnCambiar;
+	
+
 	
 	/**
 	 * Launch the application.
@@ -171,14 +177,6 @@ public class PrincipalFuncional extends JFrame {
 		NavForm4.setBounds(10, 240, 150, 30);
 		panelMenu.add(NavForm4);
 		
-		lblNombre = new JLabel("Nombre Apellido");
-		lblNombre.setBackground(new Color(255, 255, 255));
-		lblNombre.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNombre.setOpaque(true);
-		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNombre.setBounds(10, 20, 150, 30);
-		panelMenu.add(lblNombre);
-		
 		btnSalir = new JButton("Salir");
 		btnSalir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnSalir.addActionListener(new ActionListener() {
@@ -193,6 +191,27 @@ public class PrincipalFuncional extends JFrame {
 		btnSalir.setBounds(10, 435, 150, 30);
 		
 		panelMenu.add(btnSalir);
+		
+		lblNombre = new JLabel("Nombre Apellido");
+		lblNombre.setBackground(new Color(255, 255, 255));
+		lblNombre.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNombre.setOpaque(true);
+		lblNombre.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNombre.setBounds(10, 20, 150, 30);
+		panelMenu.add(lblNombre);
+		
+		btnCambiar = new JButton("Cambiar Usuario");
+		btnCambiar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actionPerformedBtnCambiar(e);
+			}
+		});
+		btnCambiar.setOpaque(true);
+		btnCambiar.setForeground(Color.WHITE);
+		btnCambiar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnCambiar.setBackground(new Color(220, 20, 60));
+		btnCambiar.setBounds(10, 395, 150, 30);
+		panelMenu.add(btnCambiar);
 		
 		lblMenu = new JLabel("\r\n");
 		lblMenu.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -224,9 +243,6 @@ public class PrincipalFuncional extends JFrame {
 	
 	private void ingresar() {
 		try {
-			Usuario usuario = gUsuario.leerUsuario(codUsuario);
-			
-			String nombre = usuario.getNombre();
 			
 			lblNombre.setText(nombre);
 					
@@ -243,36 +259,20 @@ public class PrincipalFuncional extends JFrame {
 				case 2: 
 					habilitandoForms(true);
 					
-					NavForm4.setVisible(false);
-					
-					NavForm1.setText("Reporte");
-					NavForm2.setText("Comunica");
-					NavForm3.setText("Deriva");
+					NavForm1.setText("Comunica");
+					NavForm2.setText("Deriva");
+					NavForm3.setText("Seguimiento");
+					NavForm4.setText("Alerta");
 						break;
 				case 3: 
-					habilitandoForms(false);
-					
-					NavForm1.setVisible(true);
-					
-					NavForm1.setText("Reporte");
-						break;
-				case 4: 
 					habilitandoForms(true);
 					
 					NavForm1.setText("Registro");
-					NavForm2.setText("Evalua");
+					NavForm2.setText("Estimacion");
 					NavForm3.setText("Comunica");
 					NavForm4.setText("Atencion");
 						break;
-				case 5: 
-					habilitandoForms(false);
-					NavForm1.setVisible(true);
-					NavForm1.setText("Reporte");
-						break;
-						
 			}
-			
-			
 		} 
 		catch (Exception e) {
 			System.out.println(">>> ERROR: " + e.getMessage());
@@ -298,22 +298,35 @@ public class PrincipalFuncional extends JFrame {
 		System.exit(0);
 	}
 	
+	// Button Cambiar Uusario
+	protected void actionPerformedBtnCambiar(ActionEvent e) {
+		Login login = new Login();
+		login.setVisible(true);
+		dispose();
+	}
+	
 	// NavForm1 Button
 	protected void actionPerformedNavForm1(ActionEvent e) {
 		Usuario usuario = gUsuario.leerUsuario(codUsuario);
 		int idCategoria = usuario.getIdCargo();
 		
 		switch(idCategoria) {
+			case 1: 
+				FrmReporte reporte = new FrmReporte();
+				escritorio.add(reporte);
+				reporte.setVisible(true);
+					break;
+			case 2: 
+				FrmComunica comunica = new FrmComunica();
+				escritorio.add(comunica);
+				comunica.setVisible(true);
+					break;
 			case 3: 
 				FrmRegistro registro = new FrmRegistro();
 				escritorio.add(registro);
 				registro.setVisible(true);
 					break;
-			default: 
-				FrmReporte reporte = new FrmReporte();
-				escritorio.add(reporte);
-				reporte.setVisible(true);
-					break;
+
 		}
 		
 		MenuAnimacion menuAnimacion = new MenuAnimacion();
@@ -326,14 +339,14 @@ public class PrincipalFuncional extends JFrame {
 		
 		switch(idCategoria) {
 			case 2: 
-				FrmComunica comunica = new FrmComunica();
-				escritorio.add(comunica);
-				comunica.setVisible(true);
+				FrmDerivacion deriva = new FrmDerivacion();
+				escritorio.add(deriva);
+				deriva.setVisible(true);
 					break;
-			case 4: 
-				FrmIngresarAlerta ingresarAlerta = new FrmIngresarAlerta();
-				escritorio.add(ingresarAlerta);
-				ingresarAlerta.setVisible(true);
+			case 3: 
+				FrmEstimacion estimacion = new FrmEstimacion();
+				escritorio.add(estimacion);
+				estimacion.setVisible(true);
 					break;
 		}
 		
@@ -348,11 +361,11 @@ public class PrincipalFuncional extends JFrame {
 		
 		switch(idCategoria) {
 			case 2: 
-				FrmDerivacion deriva = new FrmDerivacion();
-				escritorio.add(deriva);
-				deriva.setVisible(true);
+				FrmSeguimiento seguimiento = new FrmSeguimiento();
+				escritorio.add(seguimiento);
+				seguimiento.setVisible(true);
 					break;
-			case 4: 
+			case 3: 
 				FrmComunica comunica = new FrmComunica();
 				escritorio.add(comunica);
 				comunica.setVisible(true);
@@ -365,9 +378,21 @@ public class PrincipalFuncional extends JFrame {
 
 	// NavForm4 Button
 	protected void actionPerformedNavForm4(ActionEvent e) {
-		FrmAtencion atencion = new FrmAtencion();
-		escritorio.add(atencion);
-		atencion.setVisible(true);
+		Usuario usuario = gUsuario.leerUsuario(codUsuario);
+		int idCategoria = usuario.getIdCargo();
+		
+		switch(idCategoria) {
+			case 2: 
+				FrmIngresarAlerta alerta = new FrmIngresarAlerta();
+				escritorio.add(alerta);
+				alerta.setVisible(true);
+					break;
+			case 3: 
+				FrmAtencion atencion = new FrmAtencion();
+				escritorio.add(atencion);
+				atencion.setVisible(true);
+					break;
+		}
 		
 		MenuAnimacion menuAnimacion = new MenuAnimacion();
 		menuAnimacion.start();

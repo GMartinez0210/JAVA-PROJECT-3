@@ -22,11 +22,11 @@ import javax.swing.JTextArea;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
-import java.awt.event.MouseListener;
 import java.util.Date;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 
-public class FrmIngresarAlerta extends JInternalFrame implements MouseListener {
+public class FrmIngresarAlerta extends JInternalFrame {
 
 	/**
 	 * 
@@ -64,12 +64,13 @@ public class FrmIngresarAlerta extends JInternalFrame implements MouseListener {
 	 * Create the dialog.
 	 */
 	public FrmIngresarAlerta() {
+		setClosable(true);
 		setBounds(100, 100, 758, 578);
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(new Color(255,255,255));
 		
 		lblTitle = new JLabel("Ingresar Alerta de Seguridad");
-		lblTitle.setBounds(165, 11, 399, 41);
+		lblTitle.setBounds(165, 11, 437, 41);
 		getContentPane().add(lblTitle);
 		lblTitle.setForeground(new Color(33, 85, 205));
 		lblTitle.setFont(new Font("Malgun Gothic Semilight", Font.BOLD, 30));
@@ -115,7 +116,7 @@ public class FrmIngresarAlerta extends JInternalFrame implements MouseListener {
 		getContentPane().add(lblDescriAle);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(363, 148, 353, 178);
+		scrollPane.setBounds(363, 148, 305, 178);
 		getContentPane().add(scrollPane);
 		
 		txtDescriAle = new JTextArea();
@@ -136,7 +137,20 @@ public class FrmIngresarAlerta extends JInternalFrame implements MouseListener {
 		panelIngresar.setLayout(null);
 		
 		lblIngresar = new JLabel("Ingresar");
-		lblIngresar.addMouseListener(this);
+		lblIngresar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				mouseClickedLblIngresar(e);
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				mouseEnteredLblIngresar(e);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				mouseExitedLblIngresar(e);
+			}
+		});
 		lblIngresar.setHorizontalAlignment(SwingConstants.CENTER);
 		lblIngresar.setFont(new Font("Malgun Gothic", Font.PLAIN, 22));
 		lblIngresar.setForeground(new Color(33, 85, 205));
@@ -165,14 +179,16 @@ public class FrmIngresarAlerta extends JInternalFrame implements MouseListener {
 	}
 	//Ingresar Button Hover
 	protected void mouseEnteredLblIngresar(MouseEvent e) {
-		panelIngresar.setBackground(new Color(65, 105, 225));
+		panelIngresar.setBackground(new Color(126, 173, 189));
 		lblIngresar.setForeground(Color.WHITE);
 		lblIngresar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		panelIngresar.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(126, 173, 189), new Color(126, 173, 189), new Color(126, 173, 189), new Color(126, 173, 189)));
 	}
 	//Ingresar Button Not Hover
 	protected void mouseExitedLblIngresar(MouseEvent e) {
 		panelIngresar.setBackground(Color.WHITE);
 		lblIngresar.setForeground(new Color(33, 85, 205));
+		panelIngresar.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(65, 105, 225), new Color(65, 105, 225), new Color(65, 105, 225), new Color(65, 105, 225)));
 	}
 	// Click Ingresar-Button
 	protected void mouseClickedLblIngresar(MouseEvent e) {
@@ -241,6 +257,7 @@ public class FrmIngresarAlerta extends JInternalFrame implements MouseListener {
 		else {
 			try {
 				Alerta a = new Alerta();
+				a.setCodUsu(PrincipalFuncional.codUsuario);
 				a.setFec(date);
 				a.setRelevancia(rel);
 				a.setBreveDes(des);

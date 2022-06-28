@@ -12,9 +12,20 @@ import javax.swing.table.DefaultTableModel;
 
 import java.awt.Toolkit;
 import java.awt.Color;
+import java.awt.Desktop;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.toedter.calendar.JDateChooser;
 
 import Hilos.MenuAnimacion;
@@ -22,6 +33,7 @@ import entidad.Estado;
 import entidad.Reporte;
 import entidad.ReporteTabla;
 import entidad.TipoUsuario;
+import entidad.Usuario;
 import mantenimiento.GestionEstadoDAO;
 import mantenimiento.GestionReporteDAO;
 import mantenimiento.GestionTipoUsuarioDAO;
@@ -35,14 +47,17 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.awt.event.MouseEvent;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 
-public class FrmReporte extends JInternalFrame implements ActionListener, MouseListener {
+public class FrmReporte extends JInternalFrame{
 
 	private JPanel contentPane;
 	private JLabel lblCodigo;
@@ -65,6 +80,7 @@ public class FrmReporte extends JInternalFrame implements ActionListener, MouseL
 	GestionReporteDAO gRe = new GestionReporteDAO();
 	GestionTipoUsuarioDAO gTip = new GestionTipoUsuarioDAO();
 	private JComboBox cboUsuario;
+	private JButton btnPDF;
 
 	/**
 	 * Launch the application.
@@ -92,7 +108,6 @@ public class FrmReporte extends JInternalFrame implements ActionListener, MouseL
 		setResizable(true);
 		setFrameIcon(new ImageIcon(FrmReporte.class.getResource("/images/shield-16.png")));
 		setTitle("Formulario | Reporte");
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 711, 553);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 250, 240));
@@ -101,23 +116,23 @@ public class FrmReporte extends JInternalFrame implements ActionListener, MouseL
 		contentPane.setLayout(null);
 		
 		lblCodigo = new JLabel("C\u00F3digo");
-		lblCodigo.setBounds(10, 26, 46, 14);
+		lblCodigo.setBounds(77, 78, 46, 14);
 		contentPane.add(lblCodigo);
 		
 		lblUsuario = new JLabel("Usuario");
-		lblUsuario.setBounds(10, 51, 81, 14);
+		lblUsuario.setBounds(77, 103, 81, 14);
 		contentPane.add(lblUsuario);
 		
 		lblAnexo = new JLabel("Descripci\u00F3n");
-		lblAnexo.setBounds(10, 76, 70, 14);
+		lblAnexo.setBounds(77, 128, 70, 14);
 		contentPane.add(lblAnexo);
 		
 		lblFecha = new JLabel("Fecha");
-		lblFecha.setBounds(10, 101, 46, 14);
+		lblFecha.setBounds(77, 153, 46, 14);
 		contentPane.add(lblFecha);
 		
 		lblEstado = new JLabel("Estado");
-		lblEstado.setBounds(10, 126, 46, 14);
+		lblEstado.setBounds(77, 178, 46, 14);
 		contentPane.add(lblEstado);
 		
 		txtCodigo = new JTextField();
@@ -125,20 +140,20 @@ public class FrmReporte extends JInternalFrame implements ActionListener, MouseL
 		txtCodigo.setHorizontalAlignment(SwingConstants.CENTER);
 		txtCodigo.setText("Autogenerado");
 		txtCodigo.setColumns(10);
-		txtCodigo.setBounds(96, 22, 150, 20);
+		txtCodigo.setBounds(187, 73, 150, 20);
 		contentPane.add(txtCodigo);
 		
 		dcFecha = new JDateChooser();
-		dcFecha.setBounds(96, 97, 150, 20);
+		dcFecha.setBounds(187, 148, 150, 20);
 		contentPane.add(dcFecha);
 		
 		cboEstado = new JComboBox();
 		cboEstado.setEnabled(false);
-		cboEstado.setBounds(96, 121, 150, 20);
+		cboEstado.setBounds(187, 172, 150, 20);
 		contentPane.add(cboEstado);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 151, 559, 173);
+		scrollPane.setBounds(77, 208, 559, 258);
 		contentPane.add(scrollPane);
 		
 		
@@ -153,40 +168,37 @@ public class FrmReporte extends JInternalFrame implements ActionListener, MouseL
 		
 
 		btnReportar = new JButton("Reportar");
-		btnReportar.addActionListener(this);
-		btnReportar.setBounds(456, 22, 89, 23);
+		btnReportar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actionPerformedBtnReportar(e);
+			}
+		});
+		btnReportar.setBounds(547, 73, 89, 23);
 		contentPane.add(btnReportar);
 		
 		txtReporte = new JTextField();
-		txtReporte.setBounds(96, 72, 150, 20);
+		txtReporte.setBounds(187, 123, 150, 20);
 		contentPane.add(txtReporte);
 		txtReporte.setColumns(10);
 		
 		cboUsuario = new JComboBox();
 		cboUsuario.setEnabled(false);
-		cboUsuario.setBounds(96, 47, 150, 22);
+		cboUsuario.setBounds(187, 98, 150, 22);
 		contentPane.add(cboUsuario);
+		
+		btnPDF = new JButton("PDF");
+		btnPDF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actionPerformedBtnPDF(e);
+			}
+		});
+		btnPDF.setBounds(547, 100, 89, 23);
+		contentPane.add(btnPDF);
 		
 		cargarCombo();
 		cargarComboUsuarios();
 		mostrarData();
 	}
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnReportar) {
-			actionPerformedBtnAceptar(e);
-		}
-	}
-	public void mouseClicked(MouseEvent e) {
-	}
-	public void mouseEntered(MouseEvent e) {
-	}
-	public void mouseExited(MouseEvent e) {
-	}
-	public void mousePressed(MouseEvent e) {
-	}
-	public void mouseReleased(MouseEvent e) {
-	}
-
 	private void limpiarCampos() {
 
 		txtReporte.setText("");
@@ -242,9 +254,13 @@ public class FrmReporte extends JInternalFrame implements ActionListener, MouseL
 		fecha = getFecha();
 		estado = getEstado();
 		
-		if(user == 0 || report == null || fecha == null || estado == 0){
+		if(user == 0 
+			|| report == null 
+			|| fecha == null 
+			|| estado == 0){
 			return;
-		}else {
+		}
+		else {
 			Reporte r = new Reporte();
 			
 			r.setUsuario(user);
@@ -307,20 +323,11 @@ public class FrmReporte extends JInternalFrame implements ActionListener, MouseL
 		}
 		return estado;
 	}
-	
-	protected void actionPerformedBtnAceptar(ActionEvent e) {
-		
-		registrarDatos();
-		limpiarCampos();
-		mostrarData();
-		
-	}
-	
+
 	private void mostrarData(){
 		model.setRowCount(0);
 		
 		ArrayList<ReporteTabla> data = gRe.listarReportes();
-//		System.out.println(data.size());
 		for(ReporteTabla rt : data) {
 			Object fila[] = {rt.getCod(),
 							 rt.getUsuario(),
@@ -331,5 +338,99 @@ public class FrmReporte extends JInternalFrame implements ActionListener, MouseL
 			
 			model.addRow(fila);
 		}
+	}
+	
+	protected void actionPerformedBtnReportar(ActionEvent e) {
+		registrarDatos();
+		limpiarCampos();
+		mostrarData();
+	}
+	
+	void imprimePDF() {
+		String nombreArchivo = "reportes/Listado de Reporte.pdf";
+		
+		try {
+			Document documento = new Document();
+			
+			FileOutputStream fos = new FileOutputStream(nombreArchivo);
+			
+			PdfWriter pdfWriter = PdfWriter.getInstance(documento, fos);;
+			
+			
+			documento.open();
+			
+			/*
+			Image image = Image.getInstance("src/img/logociberfarma.png");
+			image.scaleToFit(100,100);
+			image.setAlignment(Chunk.ALIGN_LEFT);
+			documento.add(image);
+			*/
+			
+			Paragraph paragraph = new Paragraph("Listado Reportes", FontFactory.getFont("arial", 22, Font.BOLD));
+			paragraph.setAlignment(Chunk.ALIGN_CENTER);
+			documento.add(paragraph);
+			
+			String fecha = LocalDate.now().toString();
+			paragraph = new Paragraph(fecha);
+			paragraph.setAlignment(Chunk.ALIGN_RIGHT);
+			documento.add(paragraph);
+			
+			paragraph = new Paragraph("\n\n");
+			documento.add(paragraph);
+			
+			ArrayList<ReporteTabla> reportes = gRe.listarReportes();
+			
+			if (reportes.size() == 0) {
+				paragraph = new Paragraph("Lista Vacia", FontFactory.getFont("arial", 14, Font.BOLD));
+				documento.add(paragraph);
+				return;
+			}
+			
+			PdfPTable tabla = new PdfPTable(5);
+			tabla.addCell("Codigo");
+			tabla.addCell("Usuario");
+			tabla.addCell("Descripcion");
+			tabla.addCell("Estado");
+			tabla.addCell("Fecha");
+			
+			for(ReporteTabla reporte : reportes) {
+				tabla.addCell(reporte.getCod() + "");
+				tabla.addCell(reporte.getUsuario());
+				tabla.addCell(reporte.getDescripcion());
+				tabla.addCell(reporte.getEstado());
+				tabla.addCell(reporte.getFecha());
+			}
+			documento.add(tabla);
+			
+			paragraph = new Paragraph("\n\n\n\n");
+			documento.add(paragraph);
+			
+			
+			Image image = Image.getInstance("src/images/firma-gerente.png");
+			image.scaleToFit(120,100);
+			image.setAlignment(Chunk.ALIGN_RIGHT);
+			documento.add(image);
+			
+			paragraph = new Paragraph("_______________________");
+			paragraph.setAlignment(Chunk.ALIGN_RIGHT);
+			documento.add(paragraph);
+			
+			paragraph = new Paragraph("Firma del Representante\n de Mesa de Servicio");
+			paragraph.setAlignment(Chunk.ALIGN_RIGHT);
+			documento.add(paragraph);
+			
+			
+			documento.close();
+			
+			Desktop.getDesktop().open(new File(nombreArchivo));
+		} 
+		catch (Exception e) {
+			System.out.println(">>> Error: " + e.getMessage());
+		}
+	}
+	
+	// 
+	protected void actionPerformedBtnPDF(ActionEvent e) {
+		imprimePDF();	
 	}
 }
